@@ -286,6 +286,8 @@ let imageFiles = {}; // idx -> { dataUrl, filename }
 // ── GITHUB ───────────────────────────────────────
 function ghRepo() { return localStorage.getItem('gh_repo') || ''; }
 function ghToken() { return localStorage.getItem('gh_token') || ''; }
+// Files live inside borneo/ subfolder of the repo
+function repoPath(p) { return 'borneo/' + p; }
 
 async function ghGet(path) {
   const r = await fetch(`https://api.github.com/repos/${ghRepo()}/contents/${path}`, {
@@ -363,7 +365,7 @@ document.getElementById('btn-save-setup').addEventListener('click', async () => 
 // ── LOAD CONTENT FROM GITHUB ──────────────────────
 async function loadEditorContent() {
   try {
-    const file = await ghGet('content.json');
+    const file = await ghGet(repoPath('content.json'));
     const json = JSON.parse(atob(file.content.replace(/\n/g,'')));
     content = json;
     renderSidebar();
@@ -396,7 +398,7 @@ function renderSidebar() {
   if (logoFile) {
     logoArea.innerHTML = `<img src="${logoFile.dataUrl}" alt="logo">`;
   } else if (content.logo) {
-    const imgSrc = `https://raw.githubusercontent.com/${ghRepo()}/main/${content.logo}?v=${Date.now()}`;
+    const imgSrc = `https://raw.githubusercontent.com/${ghRepo()}/main/borneo/${content.logo}?v=${Date.now()}`;
     logoArea.innerHTML = `<img src="${imgSrc}" alt="logo" onerror="this.parentElement.innerHTML='<span>Carica logo</span>'">`;
   } else {
     logoArea.innerHTML = `<span>Carica logo</span>`;
@@ -425,7 +427,7 @@ function selectProject(idx) {
     area.insertBefore(img, area.firstChild);
   } else if (p.image) {
     const img = document.createElement('img');
-    img.src = `https://raw.githubusercontent.com/${ghRepo()}/main/${p.image}?v=${Date.now()}`;
+    img.src = `https://raw.githubusercontent.com/${ghRepo()}/main/borneo/${p.image}?v=${Date.now()}`;
     img.onerror = () => img.remove();
     area.insertBefore(img, area.firstChild);
   }
@@ -467,13 +469,13 @@ document.getElementById('file-input').addEventListener('change', e => {
     const dataUrl = ev.target.result;
     if (fileTarget === 'logo') {
       const ext = file.name.split('.').pop();
-      logoFile = { dataUrl, filename: `images/logo.${ext}`, file };
+      logoFile = { dataUrl, filename: `images/logo.${ext}`, repoFilename: repoPath(`images/logo.${ext}`), file };
       content.logo = `images/logo.${ext}`;
       renderSidebar();
     } else if (fileTarget === 'project' && selectedIdx !== null) {
       const ext = file.name.split('.').pop();
       const fname = `images/project_${Date.now()}.${ext}`;
-      imageFiles[selectedIdx] = { dataUrl, filename: fname };
+      imageFiles[selectedIdx] = { dataUrl, filename: fname, repoFilename: repoPath(fname) };
       content.projects[selectedIdx].image = fname;
       selectProject(selectedIdx);
     }
@@ -512,8 +514,8 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     // 1. Upload logo if new
     if (logoFile) {
       status.textContent = 'Logo in upload…';
-      const sha = await getSha(logoFile.filename);
-      await ghPut(logoFile.filename, dataUrlToB64(logoFile.dataUrl), sha, 'Update logo');
+      const sha = await getSha(logoFile.repoFilename);
+      await ghPut(logoFile.repoFilename, dataUrlToB64(logoFile.dataUrl), sha, 'Update logo');
       logoFile = null;
     }
 
@@ -522,15 +524,15 @@ document.getElementById('btn-publish').addEventListener('click', async () => {
     for (let i = 0; i < imgEntries.length; i++) {
       const [, imgData] = imgEntries[i];
       status.textContent = `Immagini: ${i+1}/${imgEntries.length}…`;
-      const sha = await getSha(imgData.filename);
-      await ghPut(imgData.filename, dataUrlToB64(imgData.dataUrl), sha, `Update image ${imgData.filename}`);
+      const sha = await getSha(imgData.repoFilename);
+      await ghPut(imgData.repoFilename, dataUrlToB64(imgData.dataUrl), sha, `Update image ${imgData.filename}`);
     }
     imageFiles = {};
 
     // 3. Update content.json
     status.textContent = 'Aggiornamento contenuti…';
-    const sha = await getSha('content.json');
-    await ghPut('content.json', toB64(JSON.stringify(content, null, 2)), sha, 'Update content via editor');
+    const sha = await getSha(repoPath('content.json'));
+    await ghPut(repoPath('content.json'), toB64(JSON.stringify(content, null, 2)), sha, 'Update content via editor');
 
     status.className = 'publish-status ok';
     status.textContent = '✓ Pubblicato — live in ~30s';
