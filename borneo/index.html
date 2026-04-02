@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #fafaf8; --black: #0d0d0b; --grey: #9e9b96;
+    --thin: #d4d1cc; --speed: 0.72s; --ease: cubic-bezier(0.76,0,0.24,1);
+  }
+  html, body { width:100%; height:100%; overflow:hidden; background:var(--white); color:var(--black); font-family:'Jost',sans-serif; cursor:none; }
+
+  #cursor { position:fixed; z-index:9999; width:8px; height:8px; background:var(--black); border-radius:50%; pointer-events:none; transform:translate(-50%,-50%); transition:width .2s var(--ease),height .2s var(--ease); }
+  #cursor.expand { width:56px; height:56px; background:transparent; border:1px solid var(--black); }
+
+  header { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:flex-start; justify-content:space-between; padding:36px 48px 0; animation:fade-up .8s var(--ease) .1s both; }
+  .logo-img { height:32px; width:auto; display:block; mix-blend-mode:multiply; }
+
+  nav { display:flex; gap:36px; font-size:9px; font-weight:300; letter-spacing:.18em; text-transform:uppercase; }
+  nav a { color:var(--black); text-decoration:none; opacity:.45; transition:opacity .3s; }
+  nav a:hover { opacity:1; }
+
+  footer { position:fixed; bottom:0; left:0; right:0; z-index:100; display:flex; align-items:flex-end; justify-content:space-between; padding:0 48px 32px; pointer-events:none; animation:fade-up .8s var(--ease) .3s both; }
+  .project-meta { display:flex; flex-direction:column; gap:4px; transition:opacity var(--speed) var(--ease); }
+  .project-index { font-size:9px; font-weight:200; letter-spacing:.22em; text-transform:uppercase; color:var(--grey); }
+  .project-name { font-family:'Cormorant',serif; font-size:22px; font-weight:300; letter-spacing:.02em; line-height:1; }
+  .project-tag { font-size:9px; font-weight:200; letter-spacing:.18em; text-transform:uppercase; color:var(--grey); margin-top:2px; }
+  .progress-wrap { display:flex; align-items:center; gap:20px; }
+  .progress-bar { width:120px; height:1px; background:var(--thin); position:relative; overflow:hidden; }
+  .progress-fill { position:absolute; top:0; left:0; height:100%; background:var(--black); transition:width var(--speed) var(--ease); }
+  .progress-count { font-size:9px; font-weight:200; letter-spacing:.15em; color:var(--grey); white-space:nowrap; }
+
+  #stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  .slide { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0; clip-path:inset(0 0 100% 0); transition:opacity var(--speed) var(--ease),clip-path var(--speed) var(--ease); }
+  .slide.active { pointer-events:auto; z-index:10; opacity:1; clip-path:inset(0 0 0% 0); }
+  .slide.exiting-up { opacity:0; clip-path:inset(100% 0 0% 0); }
+  .slide.exiting-down { opacity:0; clip-path:inset(0 0 100% 0); }
+  .slide-inner { position:relative; max-width:640px; max-height:70vh; width:100%; height:100%; display:flex; align-items:center; justify-content:center; cursor:none; }
+  .slide-inner img { max-width:100%; max-height:70vh; object-fit:contain; display:block; filter:drop-shadow(0 20px 60px rgba(0,0,0,.08)); transition:transform .4s var(--ease),filter .4s; user-select:none; -webkit-user-drag:none; }
+  .slide-inner:hover img { transform:scale(1.012); filter:drop-shadow(0 28px 80px rgba(0,0,0,.13)); }
+
+  #overlay { position:fixed; inset:0; z-index:500; background:var(--white); display:flex; flex-direction:column; opacity:0; pointer-events:none; transition:opacity .55s var(--ease); overflow-y:auto; }
+  #overlay.open { opacity:1; pointer-events:auto; }
+  .overlay-header { display:flex; justify-content:space-between; align-items:flex-start; padding:36px 48px 0; position:sticky; top:0; background:var(--white); z-index:10; }
+  .overlay-close { font-size:9px; font-weight:300; letter-spacing:.22em; text-transform:uppercase; background:none; border:none; color:var(--black); cursor:none; opacity:.45; transition:opacity .3s; padding:4px 0; }
+  .overlay-close:hover { opacity:1; }
+  .overlay-body { flex:1; padding:60px 48px 80px; display:grid; grid-template-columns:1fr 1fr; gap:60px 80px; align-items:start; }
+  .overlay-image-wrap img { width:100%; object-fit:contain; filter:drop-shadow(0 12px 40px rgba(0,0,0,.07)); }
+  .overlay-info { display:flex; flex-direction:column; gap:32px; }
+  .overlay-title { font-family:'Cormorant',serif; font-size:clamp(32px,5vw,56px); font-weight:300; line-height:1.05; letter-spacing:-.01em; }
+  .overlay-title em { font-style:italic; font-weight:400; }
+  .overlay-details { display:grid; grid-template-columns:auto 1fr; gap:10px 24px; font-size:10px; font-weight:300; letter-spacing:.15em; text-transform:uppercase; }
+  .overlay-details dt { color:var(--grey); }
+  .overlay-desc { font-family:'Cormorant',serif; font-size:16px; font-weight:300; line-height:1.75; color:#4a4845; max-width:38ch; }
+
+  #scroll-hint { position:fixed; right:48px; top:50%; transform:translateY(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; z-index:50; opacity:.28; animation:hint-fade 3s ease 2s forwards; }
+  @keyframes hint-fade { to { opacity:0; pointer-events:none; } }
+  #scroll-hint span { width:1px; height:48px; background:var(--black); display:block; animation:hint-line 1.6s ease-in-out infinite; }
+  @keyframes hint-line { 0%,100%{transform:scaleY(1);transform-origin:top} 50%{transform:scaleY(.3);transform-origin:top} }
+  #scroll-hint p { font-size:8px; letter-spacing:.2em; text-transform:uppercase; writing-mode:vertical-rl; }
+
+  @keyframes fade-up { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+  @media(max-width:700px) { header,footer{padding-left:24px;padding-right:24px} .overlay-body{grid-template-columns:1fr;padding:40px 24px 60px;gap:40px} .slide-inner{max-width:90vw} nav{gap:20px} }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<header>
+  <img class="logo-img" src="" alt="Borneo" id="site-logo">
+  <nav>
+    <a href="#">Progetti</a>
+    <a href="#">Studio</a>
+    <a href="#">Contatti</a>
+  </nav>
+</header>
+<div id="stage"></div>
+<div id="scroll-hint"><span></span><p>Scorri</p></div>
+<footer>
+  <div class="project-meta">
+    <div class="project-index" id="f-index"></div>
+    <div class="project-name" id="f-name"></div>
+    <div class="project-tag" id="f-tag"></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-count" id="progress-count"></div>
+  </div>
+</footer>
+<div id="overlay">
+  <div class="overlay-header">
+    <img class="logo-img" src="" alt="Borneo" id="overlay-logo">
+    <button class="overlay-close" id="overlay-close">← Tutti i progetti</button>
+  </div>
+  <div class="overlay-body">
+    <div class="overlay-image-wrap"><img id="overlay-img" src="" alt=""></div>
+    <div class="overlay-info">
+      <h1 class="overlay-title" id="overlay-title"></h1>
+      <dl class="overlay-details" id="overlay-details"></dl>
+      <p class="overlay-desc" id="overlay-desc"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+let projects = [];
+let current = 0, isAnimating = false, overlayOpen = false;
+
+// ── LOAD CONTENT ─────────────────────────────────
+async function loadContent() {
+  try {
+    const r = await fetch('content.json?v=' + Date.now());
+    const data = await r.json();
+    document.getElementById('site-logo').src = data.logo;
+    document.getElementById('overlay-logo').src = data.logo;
+    projects = data.projects;
+    buildSlides();
+    updateFooter(0);
+  } catch(e) {
+    console.error('Errore caricamento contenuti', e);
+  }
+}
+
+// ── BUILD SLIDES ──────────────────────────────────
+function buildSlides() {
+  const stage = document.getElementById('stage');
+  stage.innerHTML = '';
+  projects.forEach((p, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    slide.dataset.index = i;
+    const inner = document.createElement('div');
+    inner.className = 'slide-inner';
+    const img = document.createElement('img');
+    img.src = p.image; img.alt = p.title; img.draggable = false;
+    inner.appendChild(img);
+    inner.addEventListener('click', () => openProject(i));
+    slide.appendChild(inner);
+    stage.appendChild(slide);
+  });
+  document.querySelectorAll('.slide-inner').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+}
+
+// ── FOOTER ────────────────────────────────────────
+function updateFooter(idx) {
+  const p = projects[idx], n = projects.length;
+  const num = String(idx+1).padStart(2,'0'), tot = String(n).padStart(2,'0');
+  document.getElementById('f-index').textContent = `${num} / ${tot}`;
+  document.getElementById('f-name').textContent = p.title;
+  document.getElementById('f-tag').textContent = `${p.type} — ${p.year}`;
+  document.getElementById('progress-fill').style.width = `${((idx+1)/n)*100}%`;
+  document.getElementById('progress-count').textContent = `${num} / ${tot}`;
+}
+
+// ── NAVIGATE ──────────────────────────────────────
+function navigate(dir) {
+  if (isAnimating || overlayOpen || projects.length < 2) return;
+  const slides = document.querySelectorAll('.slide');
+  const next = (current + dir + projects.length) % projects.length;
+  isAnimating = true;
+  slides[current].classList.remove('active');
+  slides[current].classList.add(dir > 0 ? 'exiting-up' : 'exiting-down');
+  slides[next].classList.add('active');
+  current = next;
+  updateFooter(current);
+  setTimeout(() => {
+    document.querySelectorAll('.slide.exiting-up,.slide.exiting-down').forEach(s => s.classList.remove('exiting-up','exiting-down'));
+    isAnimating = false;
+  }, 760);
+}
+
+// ── OVERLAY ───────────────────────────────────────
+function openProject(idx) {
+  const p = projects[idx];
+  document.getElementById('overlay-img').src = p.image;
+  document.getElementById('overlay-title').innerHTML = p.title.split(' ').map((w,i) => i%2===0?w:`<em>${w}</em>`).join(' ');
+  document.getElementById('overlay-desc').textContent = p.description;
+  document.getElementById('overlay-details').innerHTML = `<dt>Tipologia</dt><dd>${p.type}</dd><dt>Anno</dt><dd>${p.year}</dd><dt>Luogo</dt><dd>${p.location}</dd><dt>Stato</dt><dd>${p.status}</dd>`;
+  document.getElementById('overlay').classList.add('open');
+  overlayOpen = true;
+}
+document.getElementById('overlay-close').addEventListener('click', () => { document.getElementById('overlay').classList.remove('open'); overlayOpen = false; document.getElementById('overlay').scrollTop = 0; });
+
+// ── EVENTS ────────────────────────────────────────
+let lastScroll = 0;
+document.addEventListener('wheel', e => { if(overlayOpen)return; e.preventDefault(); const now=Date.now(); if(now-lastScroll<120)return; lastScroll=now; navigate(e.deltaY>0?1:-1); },{passive:false});
+let touchY = 0;
+document.addEventListener('touchstart', e=>{touchY=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend', e=>{if(overlayOpen)return; const dy=touchY-e.changedTouches[0].clientY; if(Math.abs(dy)>40)navigate(dy>0?1:-1);},{passive:true});
+document.addEventListener('keydown', e=>{ if(e.key==='ArrowDown'||e.key==='ArrowRight')navigate(1); if(e.key==='ArrowUp'||e.key==='ArrowLeft')navigate(-1); if(e.key==='Escape'&&overlayOpen){document.getElementById('overlay').classList.remove('open');overlayOpen=false;} });
+
+// ── CURSOR ────────────────────────────────────────
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e=>{ cursor.style.left=e.clientX+'px'; cursor.style.top=e.clientY+'px'; });
+document.querySelectorAll('.overlay-close,nav a').forEach(el=>{ el.addEventListener('mouseenter',()=>cursor.classList.add('expand')); el.addEventListener('mouseleave',()=>cursor.classList.remove('expand')); });
+
+loadContent();
+</script>
+</body>
+</html>

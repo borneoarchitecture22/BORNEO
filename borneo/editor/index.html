@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo — Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --white: #fafaf8; --black: #0d0d0b; --grey: #9e9b96;
+  --border: #e2dfd9; --hover: #f0ede8; --red: #c0392b;
+  --green: #27ae60;
+}
+body { font-family:'Jost',sans-serif; background:var(--white); color:var(--black); min-height:100vh; }
+
+/* ── SCREENS ─────────────────────────────── */
+.screen { display:none; min-height:100vh; }
+.screen.active { display:flex; }
+
+/* ── LOGIN ───────────────────────────────── */
+#screen-login {
+  align-items:center; justify-content:center; flex-direction:column; gap:40px;
+  background:var(--white);
+}
+.login-logo { font-family:'Cormorant',serif; font-size:48px; font-weight:300; letter-spacing:-.01em; }
+.login-box { display:flex; flex-direction:column; gap:16px; width:300px; }
+.login-box input {
+  width:100%; padding:14px 0; border:none; border-bottom:1px solid var(--border);
+  background:transparent; font-family:'Jost',sans-serif; font-size:12px;
+  font-weight:300; letter-spacing:.08em; color:var(--black); outline:none;
+  transition:border-color .2s;
+}
+.login-box input:focus { border-bottom-color:var(--black); }
+.login-box input::placeholder { color:var(--grey); text-transform:uppercase; font-size:9px; letter-spacing:.18em; }
+.btn-primary {
+  background:var(--black); color:var(--white); border:none;
+  padding:14px; font-family:'Jost',sans-serif;
+  font-size:9px; font-weight:300; letter-spacing:.2em; text-transform:uppercase;
+  cursor:pointer; transition:opacity .2s; margin-top:8px;
+}
+.btn-primary:hover { opacity:.75; }
+.btn-primary:disabled { opacity:.35; cursor:not-allowed; }
+.login-error { font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); text-align:center; min-height:16px; }
+
+/* ── SETUP (GitHub config) ───────────────── */
+#screen-setup {
+  flex-direction:column;
+}
+.setup-wrap { max-width:600px; margin:0 auto; padding:80px 40px; width:100%; }
+.setup-wrap h1 { font-family:'Cormorant',serif; font-size:32px; font-weight:300; margin-bottom:8px; }
+.setup-wrap p { font-size:11px; font-weight:300; color:var(--grey); line-height:1.7; margin-bottom:40px; letter-spacing:.03em; }
+.field-group { display:flex; flex-direction:column; gap:24px; margin-bottom:40px; }
+.field { display:flex; flex-direction:column; gap:8px; }
+.field label { font-size:8px; font-weight:300; letter-spacing:.22em; text-transform:uppercase; color:var(--grey); }
+.field input {
+  padding:12px 0; border:none; border-bottom:1px solid var(--border);
+  background:transparent; font-family:'Jost',sans-serif;
+  font-size:12px; font-weight:300; color:var(--black); outline:none;
+  transition:border-color .2s;
+}
+.field input:focus { border-bottom-color:var(--black); }
+.setup-note { font-size:9px; color:var(--grey); letter-spacing:.05em; line-height:1.6; margin-top:8px; }
+.setup-note a { color:var(--black); }
+
+/* ── EDITOR MAIN ─────────────────────────── */
+#screen-editor { flex-direction:column; }
+
+.editor-topbar {
+  position:sticky; top:0; z-index:100;
+  background:var(--white); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px; height:60px;
+}
+.editor-topbar-left { display:flex; align-items:center; gap:20px; }
+.topbar-logo { font-family:'Cormorant',serif; font-size:20px; font-weight:300; }
+.topbar-badge { font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:var(--grey); background:var(--hover); padding:4px 10px; }
+.topbar-right { display:flex; align-items:center; gap:16px; }
+.btn-ghost { background:none; border:1px solid var(--border); padding:8px 18px; font-family:'Jost',sans-serif; font-size:9px; font-weight:300; letter-spacing:.18em; text-transform:uppercase; cursor:pointer; color:var(--black); transition:all .2s; }
+.btn-ghost:hover { border-color:var(--black); }
+.btn-publish { background:var(--black); color:var(--white); border:1px solid var(--black); padding:8px 24px; font-family:'Jost',sans-serif; font-size:9px; font-weight:300; letter-spacing:.18em; text-transform:uppercase; cursor:pointer; transition:opacity .2s; display:flex; align-items:center; gap:8px; }
+.btn-publish:hover { opacity:.8; }
+.btn-publish:disabled { opacity:.4; cursor:not-allowed; }
+.publish-status { font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--grey); min-width:160px; text-align:right; }
+.publish-status.ok { color:var(--green); }
+.publish-status.err { color:var(--red); }
+
+.editor-body { display:grid; grid-template-columns:280px 1fr; min-height:calc(100vh - 60px); }
+
+/* Sidebar */
+.sidebar { border-right:1px solid var(--border); padding:32px 0; display:flex; flex-direction:column; }
+.sidebar-section-title { font-size:8px; letter-spacing:.22em; text-transform:uppercase; color:var(--grey); padding:0 28px 14px; }
+
+.project-item {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 28px; cursor:pointer; transition:background .15s;
+  border-left:2px solid transparent; position:relative;
+}
+.project-item:hover { background:var(--hover); }
+.project-item.active { background:var(--hover); border-left-color:var(--black); }
+.project-thumb { width:44px; height:32px; background:#e8e6e1; overflow:hidden; flex-shrink:0; }
+.project-thumb img { width:100%; height:100%; object-fit:cover; }
+.project-item-info { flex:1; min-width:0; }
+.project-item-name { font-family:'Cormorant',serif; font-size:14px; font-weight:300; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.project-item-sub { font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--grey); margin-top:2px; }
+.project-drag { cursor:grab; color:var(--grey); font-size:12px; padding:4px; }
+
+.sidebar-actions { padding:20px 28px 0; display:flex; flex-direction:column; gap:10px; margin-top:auto; }
+.btn-add { width:100%; background:none; border:1px dashed var(--border); padding:12px; font-family:'Jost',sans-serif; font-size:9px; font-weight:300; letter-spacing:.18em; text-transform:uppercase; cursor:pointer; color:var(--grey); transition:all .2s; }
+.btn-add:hover { border-color:var(--black); color:var(--black); }
+
+.sidebar-logo-section { padding:24px 28px; border-bottom:1px solid var(--border); margin-bottom:20px; }
+.logo-upload-area { width:100%; height:52px; border:1px dashed var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; transition:border-color .2s; background:white; }
+.logo-upload-area:hover { border-color:var(--black); }
+.logo-upload-area img { max-height:38px; max-width:100%; object-fit:contain; mix-blend-mode:multiply; }
+.logo-upload-area span { font-size:8px; letter-spacing:.15em; text-transform:uppercase; color:var(--grey); }
+
+/* Main panel */
+.main-panel { padding:48px 60px; overflow-y:auto; }
+.main-panel-empty { display:flex; align-items:center; justify-content:center; height:100%; font-size:11px; color:var(--grey); letter-spacing:.1em; text-transform:uppercase; }
+
+.project-editor { display:flex; flex-direction:column; gap:40px; max-width:640px; }
+.pe-header { display:flex; justify-content:space-between; align-items:flex-start; }
+.pe-title-input { font-family:'Cormorant',serif; font-size:36px; font-weight:300; border:none; background:transparent; outline:none; color:var(--black); width:100%; border-bottom:1px solid transparent; transition:border-color .2s; padding-bottom:4px; }
+.pe-title-input:focus { border-bottom-color:var(--border); }
+.btn-delete { background:none; border:none; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--grey); cursor:pointer; transition:color .2s; white-space:nowrap; padding-top:8px; }
+.btn-delete:hover { color:var(--red); }
+
+.pe-image-area {
+  width:100%; aspect-ratio:16/10; background:#f0ede8;
+  border:1px dashed var(--border); display:flex; flex-direction:column;
+  align-items:center; justify-content:center; cursor:pointer;
+  overflow:hidden; position:relative; transition:border-color .2s;
+}
+.pe-image-area:hover { border-color:var(--black); }
+.pe-image-area img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
+.pe-image-label { font-size:8px; letter-spacing:.18em; text-transform:uppercase; color:var(--grey); position:relative; z-index:1; }
+.pe-image-overlay { position:absolute; inset:0; background:rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; z-index:2; }
+.pe-image-area:hover .pe-image-overlay { opacity:1; }
+.pe-image-overlay span { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:white; }
+
+.pe-fields { display:grid; grid-template-columns:1fr 1fr; gap:24px 40px; }
+.pe-field { display:flex; flex-direction:column; gap:8px; }
+.pe-field label { font-size:8px; letter-spacing:.22em; text-transform:uppercase; color:var(--grey); }
+.pe-field input, .pe-field textarea {
+  border:none; border-bottom:1px solid var(--border); background:transparent;
+  font-family:'Jost',sans-serif; font-size:12px; font-weight:300;
+  color:var(--black); outline:none; padding:8px 0;
+  transition:border-color .2s; width:100%;
+}
+.pe-field input:focus, .pe-field textarea:focus { border-bottom-color:var(--black); }
+.pe-field textarea { resize:none; height:80px; line-height:1.6; }
+.pe-field.full { grid-column:1/-1; }
+
+#file-input { display:none; }
+
+/* Notification toast */
+#toast {
+  position:fixed; bottom:32px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--black); color:var(--white);
+  padding:12px 28px; font-size:9px; letter-spacing:.15em; text-transform:uppercase;
+  opacity:0; transition:opacity .3s, transform .3s; z-index:9999; white-space:nowrap;
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+#toast.error { background:var(--red); }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ──────────────────────────────────── -->
+<div id="screen-login" class="screen active">
+  <div class="login-logo">Borneo</div>
+  <div class="login-box">
+    <input type="password" id="pw-input" placeholder="Password" autocomplete="current-password">
+    <div class="login-error" id="login-error"></div>
+    <button class="btn-primary" id="btn-login">Accedi</button>
+  </div>
+</div>
+
+<!-- ── SETUP ──────────────────────────────────── -->
+<div id="screen-setup" class="screen">
+  <div class="setup-wrap">
+    <h1>Configurazione GitHub</h1>
+    <p>Per pubblicare le modifiche sul sito live, l'editor ha bisogno di accedere al tuo repository GitHub dove è ospitato il sito. Servono solo due informazioni.</p>
+    <div class="field-group">
+      <div class="field">
+        <label>Repository GitHub</label>
+        <input type="text" id="gh-repo" placeholder="nomeutente/borneo" autocomplete="off">
+        <div class="setup-note">Formato: <strong>nomeutente/nome-repository</strong> — es. <strong>antoniodepaola/borneo</strong></div>
+      </div>
+      <div class="field">
+        <label>Personal Access Token</label>
+        <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+        <div class="setup-note">
+          Vai su <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> →
+          seleziona <strong>repo</strong> → genera → incolla qui.<br>
+          Il token viene salvato solo nel tuo browser.
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-save-setup">Salva e continua →</button>
+  </div>
+</div>
+
+<!-- ── EDITOR ─────────────────────────────────── -->
+<div id="screen-editor" class="screen">
+  <div class="editor-topbar">
+    <div class="editor-topbar-left">
+      <span class="topbar-logo">Borneo</span>
+      <span class="topbar-badge">Editor</span>
+    </div>
+    <div class="topbar-right">
+      <span class="publish-status" id="publish-status"></span>
+      <button class="btn-ghost" id="btn-preview">↗ Anteprima sito</button>
+      <button class="btn-ghost" id="btn-settings">Impostazioni</button>
+      <button class="btn-publish" id="btn-publish">
+        <span>↑ Pubblica</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo-section">
+        <div class="ep-section-title" style="font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;">Logo</div>
+        <div class="logo-upload-area" id="logo-upload-area">
+          <span>Carica logo</span>
+        </div>
+      </div>
+
+      <div class="sidebar-section-title">Progetti</div>
+      <div id="projects-list"></div>
+
+      <div class="sidebar-actions">
+        <button class="btn-add" id="btn-add-project">+ Aggiungi progetto</button>
+        <button class="btn-ghost" id="btn-logout" style="font-size:8px;opacity:.5;">Esci dall'editor</button>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-panel" id="main-panel">
+      <div class="main-panel-empty" id="main-empty">Seleziona un progetto per modificarlo</div>
+      <div class="project-editor" id="project-editor" style="display:none">
+        <div class="pe-header">
+          <input class="pe-title-input" id="pe-title" placeholder="Nome progetto" type="text">
+          <button class="btn-delete" id="btn-delete-project">Elimina progetto</button>
+        </div>
+        <div class="pe-image-area" id="pe-image-area">
+          <div class="pe-image-label">Clicca per caricare immagine</div>
+          <div class="pe-image-overlay"><span>Cambia immagine</span></div>
+        </div>
+        <div class="pe-fields">
+          <div class="pe-field"><label>Tipologia</label><input id="pe-type" placeholder="es. Residenziale"></div>
+          <div class="pe-field"><label>Anno</label><input id="pe-year" placeholder="2024"></div>
+          <div class="pe-field"><label>Luogo</label><input id="pe-location" placeholder="Roma, IT"></div>
+          <div class="pe-field"><label>Stato</label><input id="pe-status" placeholder="In corso"></div>
+          <div class="pe-field full"><label>Descrizione</label><textarea id="pe-desc" placeholder="Descrizione del progetto..."></textarea></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<input type="file" id="file-input" accept="image/*">
+
+<script>
+// ── CONFIG ────────────────────────────────────────
+// Cambia questa password con la tua
+const PASSWORD_HASH = '${HASH}'; // sostituito sotto
+
+// Hash semplice (SHA-256 via SubtleCrypto)
+async function hashPw(pw) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+// ── STATE ─────────────────────────────────────────
+let content = { logo: 'images/logo.jpg', projects: [] };
+let selectedIdx = null;
+let logoFile = null;
+let imageFiles = {}; // idx -> { dataUrl, filename }
+
+// ── GITHUB ───────────────────────────────────────
+function ghRepo() { return localStorage.getItem('gh_repo') || ''; }
+function ghToken() { return localStorage.getItem('gh_token') || ''; }
+
+async function ghGet(path) {
+  const r = await fetch(`https://api.github.com/repos/${ghRepo()}/contents/${path}`, {
+    headers: { Authorization: `token ${ghToken()}`, Accept: 'application/vnd.github.v3+json' }
+  });
+  if (!r.ok) throw new Error(`GitHub GET ${path}: ${r.status}`);
+  return r.json();
+}
+
+async function ghPut(path, contentB64, sha, message) {
+  const body = { message, content: contentB64 };
+  if (sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${ghRepo()}/contents/${path}`, {
+    method: 'PUT',
+    headers: { Authorization: `token ${ghToken()}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || `GitHub PUT ${path}: ${r.status}`); }
+  return r.json();
+}
+
+async function getSha(path) {
+  try { const d = await ghGet(path); return d.sha; }
+  catch(e) { return null; }
+}
+
+function toB64(str) { return btoa(unescape(encodeURIComponent(str))); }
+
+function dataUrlToB64(dataUrl) {
+  return dataUrl.split(',')[1];
+}
+
+// ── SCREENS ───────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── LOGIN ─────────────────────────────────────────
+const STORED_HASH_KEY = 'borneo_pw_hash';
+
+async function initLogin() {
+  // Prima volta: salva l'hash della password di default
+  if (!localStorage.getItem(STORED_HASH_KEY)) {
+    const h = await hashPw('borneo2024');
+    localStorage.setItem(STORED_HASH_KEY, h);
+  }
+}
+
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const pw = document.getElementById('pw-input').value;
+  const h = await hashPw(pw);
+  const stored = localStorage.getItem(STORED_HASH_KEY);
+  if (h === stored) {
+    document.getElementById('login-error').textContent = '';
+    if (!ghRepo() || !ghToken()) { show('screen-setup'); }
+    else { await loadEditorContent(); show('screen-editor'); }
+  } else {
+    document.getElementById('login-error').textContent = 'Password errata';
+  }
+});
+document.getElementById('pw-input').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('btn-login').click(); });
+
+// ── SETUP ─────────────────────────────────────────
+document.getElementById('btn-save-setup').addEventListener('click', async () => {
+  const repo = document.getElementById('gh-repo').value.trim();
+  const token = document.getElementById('gh-token').value.trim();
+  if (!repo || !token) { toast('Compila tutti i campi', true); return; }
+  localStorage.setItem('gh_repo', repo);
+  localStorage.setItem('gh_token', token);
+  await loadEditorContent();
+  show('screen-editor');
+});
+
+// ── LOAD CONTENT FROM GITHUB ──────────────────────
+async function loadEditorContent() {
+  try {
+    const file = await ghGet('content.json');
+    const json = JSON.parse(atob(file.content.replace(/\n/g,'')));
+    content = json;
+    renderSidebar();
+  } catch(e) {
+    // Se il repo è vuoto o content.json non esiste ancora, parto da zero
+    content = { logo: 'images/logo.jpg', projects: [] };
+    renderSidebar();
+  }
+}
+
+// ── SIDEBAR ───────────────────────────────────────
+function renderSidebar() {
+  const list = document.getElementById('projects-list');
+  list.innerHTML = '';
+  content.projects.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'project-item' + (i === selectedIdx ? ' active' : '');
+    item.innerHTML = `
+      <div class="project-thumb"><img src="${p.image}" alt="" onerror="this.style.display='none'"></div>
+      <div class="project-item-info">
+        <div class="project-item-name">${p.title || 'Senza titolo'}</div>
+        <div class="project-item-sub">${p.year || ''}</div>
+      </div>`;
+    item.addEventListener('click', () => selectProject(i));
+    list.appendChild(item);
+  });
+
+  // Logo preview
+  const logoArea = document.getElementById('logo-upload-area');
+  if (logoFile) {
+    logoArea.innerHTML = `<img src="${logoFile.dataUrl}" alt="logo">`;
+  } else if (content.logo) {
+    const imgSrc = `https://raw.githubusercontent.com/${ghRepo()}/main/${content.logo}?v=${Date.now()}`;
+    logoArea.innerHTML = `<img src="${imgSrc}" alt="logo" onerror="this.parentElement.innerHTML='<span>Carica logo</span>'">`;
+  } else {
+    logoArea.innerHTML = `<span>Carica logo</span>`;
+  }
+}
+
+// ── SELECT PROJECT ────────────────────────────────
+function selectProject(idx) {
+  selectedIdx = idx;
+  const p = content.projects[idx];
+  document.getElementById('main-empty').style.display = 'none';
+  document.getElementById('project-editor').style.display = 'flex';
+  document.getElementById('pe-title').value = p.title || '';
+  document.getElementById('pe-type').value = p.type || '';
+  document.getElementById('pe-year').value = p.year || '';
+  document.getElementById('pe-location').value = p.location || '';
+  document.getElementById('pe-status').value = p.status || '';
+  document.getElementById('pe-desc').value = p.description || '';
+
+  const area = document.getElementById('pe-image-area');
+  const existingImg = area.querySelector('img');
+  if (existingImg) existingImg.remove();
+  if (imageFiles[idx]) {
+    const img = document.createElement('img');
+    img.src = imageFiles[idx].dataUrl;
+    area.insertBefore(img, area.firstChild);
+  } else if (p.image) {
+    const img = document.createElement('img');
+    img.src = `https://raw.githubusercontent.com/${ghRepo()}/main/${p.image}?v=${Date.now()}`;
+    img.onerror = () => img.remove();
+    area.insertBefore(img, area.firstChild);
+  }
+
+  renderSidebar();
+}
+
+// ── LIVE FIELD SYNC ───────────────────────────────
+['pe-title','pe-type','pe-year','pe-location','pe-status','pe-desc'].forEach(id => {
+  document.getElementById(id).addEventListener('input', e => {
+    if (selectedIdx === null) return;
+    const map = { 'pe-title':'title','pe-type':'type','pe-year':'year','pe-location':'location','pe-status':'status','pe-desc':'description' };
+    content.projects[selectedIdx][map[id]] = e.target.value;
+    if (id === 'pe-title' || id === 'pe-year') renderSidebar();
+  });
+});
+
+// ── IMAGE UPLOAD ──────────────────────────────────
+let fileTarget = null; // 'logo' | 'project'
+
+document.getElementById('logo-upload-area').addEventListener('click', () => {
+  fileTarget = 'logo';
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-input').click();
+});
+
+document.getElementById('pe-image-area').addEventListener('click', () => {
+  if (selectedIdx === null) return;
+  fileTarget = 'project';
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-input').click();
+});
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const dataUrl = ev.target.result;
+    if (fileTarget === 'logo') {
+      const ext = file.name.split('.').pop();
+      logoFile = { dataUrl, filename: `images/logo.${ext}`, file };
+      content.logo = `images/logo.${ext}`;
+      renderSidebar();
+    } else if (fileTarget === 'project' && selectedIdx !== null) {
+      const ext = file.name.split('.').pop();
+      const fname = `images/project_${Date.now()}.${ext}`;
+      imageFiles[selectedIdx] = { dataUrl, filename: fname };
+      content.projects[selectedIdx].image = fname;
+      selectProject(selectedIdx);
+    }
+  };
+  reader.readAsDataURL(file);
+});
+
+// ── ADD / DELETE PROJECT ──────────────────────────
+document.getElementById('btn-add-project').addEventListener('click', () => {
+  const newP = { id: Date.now(), title: 'Nuovo progetto', type: '', year: new Date().getFullYear().toString(), location: '', status: '', description: '', image: '' };
+  content.projects.push(newP);
+  selectProject(content.projects.length - 1);
+  renderSidebar();
+});
+
+document.getElementById('btn-delete-project').addEventListener('click', () => {
+  if (selectedIdx === null) return;
+  if (!confirm(`Eliminare "${content.projects[selectedIdx].title}"?`)) return;
+  delete imageFiles[selectedIdx];
+  content.projects.splice(selectedIdx, 1);
+  selectedIdx = null;
+  document.getElementById('main-empty').style.display = 'flex';
+  document.getElementById('project-editor').style.display = 'none';
+  renderSidebar();
+});
+
+// ── PUBLISH ───────────────────────────────────────
+document.getElementById('btn-publish').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-publish');
+  const status = document.getElementById('publish-status');
+  btn.disabled = true;
+  status.className = 'publish-status';
+  status.textContent = 'Caricamento immagini…';
+
+  try {
+    // 1. Upload logo if new
+    if (logoFile) {
+      status.textContent = 'Logo in upload…';
+      const sha = await getSha(logoFile.filename);
+      await ghPut(logoFile.filename, dataUrlToB64(logoFile.dataUrl), sha, 'Update logo');
+      logoFile = null;
+    }
+
+    // 2. Upload project images if new
+    const imgEntries = Object.entries(imageFiles);
+    for (let i = 0; i < imgEntries.length; i++) {
+      const [, imgData] = imgEntries[i];
+      status.textContent = `Immagini: ${i+1}/${imgEntries.length}…`;
+      const sha = await getSha(imgData.filename);
+      await ghPut(imgData.filename, dataUrlToB64(imgData.dataUrl), sha, `Update image ${imgData.filename}`);
+    }
+    imageFiles = {};
+
+    // 3. Update content.json
+    status.textContent = 'Aggiornamento contenuti…';
+    const sha = await getSha('content.json');
+    await ghPut('content.json', toB64(JSON.stringify(content, null, 2)), sha, 'Update content via editor');
+
+    status.className = 'publish-status ok';
+    status.textContent = '✓ Pubblicato — live in ~30s';
+    toast('Pubblicato con successo!');
+    setTimeout(() => { status.textContent = ''; }, 8000);
+  } catch(e) {
+    console.error(e);
+    status.className = 'publish-status err';
+    status.textContent = '✗ Errore: ' + e.message;
+    toast('Errore: ' + e.message, true);
+  }
+  btn.disabled = false;
+});
+
+// ── BUTTONS ───────────────────────────────────────
+document.getElementById('btn-preview').addEventListener('click', () => window.open('../index.html', '_blank'));
+document.getElementById('btn-settings').addEventListener('click', () => show('screen-setup'));
+document.getElementById('btn-logout').addEventListener('click', () => { selectedIdx = null; show('screen-login'); });
+
+// ── TOAST ─────────────────────────────────────────
+function toast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (isError ? ' error' : '');
+  setTimeout(() => { t.className = ''; }, 3500);
+}
+
+// ── INIT ──────────────────────────────────────────
+initLogin();
+// Se vuoi prefillare il setup con dati salvati
+if (ghRepo()) document.getElementById('gh-repo').value = ghRepo();
+if (ghToken()) document.getElementById('gh-token').value = ghToken();
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "logo": "images/logo.jpg",
+  "projects": [
+    {
+      "id": 1,
+      "title": "Corte Interna",
+      "type": "Spazio pubblico",
+      "year": "2024",
+      "location": "Livorno, IT",
+      "status": "In costruzione",
+      "description": "Un giardino vincolato nel cuore del centro storico. Il progetto lavora per sottrazione, rivelando la qualità della luce esistente attraverso una trama di essenze mediterranee.",
+      "image": "images/project1.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Città Giudiziaria",
+      "type": "Concorso di architettura",
+      "year": "2024",
+      "location": "Piazzale Clodio, Roma",
+      "status": "Concorso",
+      "description": "Espansione del complesso giudiziario di Piazzale Clodio. Il progetto ridefinisce la gerarchia dei percorsi separati come struttura generatrice dell'intero impianto.",
+      "image": "images/project2.jpg"
+    }
+  ]
+}
