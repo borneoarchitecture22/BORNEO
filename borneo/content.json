@@ -34,7 +34,7 @@
       "borderRadius": 0,
       "shadow": true
     },
-    "transition": "fade",
+    "transition": "scale",
     "transitionSpeed": 1
   },
   "projects": [
