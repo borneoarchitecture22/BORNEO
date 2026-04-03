@@ -3,13 +3,13 @@
   "projects": [
     {
       "id": 1,
-      "title": "Corte Interna",
+      "title": "Mercato di Livorno",
       "type": "Spazio pubblico",
-      "year": "2024",
+      "year": "2022 - ongoing",
       "location": "Livorno, IT",
       "status": "In costruzione",
-      "description": "Un giardino vincolato nel cuore del centro storico. Il progetto lavora per sottrazione, rivelando la qualitÃ  della luce esistente attraverso una trama di essenze mediterranee.",
-      "image": "images/project1.jpg"
+      "description": "Un giardino nel cuore del centro storico. Il progetto evolve attorno al tema del recupero delle acque meteoriche per la gestione del verde urbano. Il dispositivo introdotto, oltre a riordinare le funzioni mercatali, regola il microclima dell'area in \"simbiosi\" con il giardino lineare centrale.",
+      "image": "images/project_1775199017031.jpg"
     },
     {
       "id": 2,
