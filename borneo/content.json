@@ -68,7 +68,7 @@
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1775225773642.jpg",
+      "image": "images/p1775225940213.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -76,9 +76,10 @@
         "borderColor": "#0d0d0b",
         "shadow": true,
         "maxWidth": 640,
-        "positionX": 34,
-        "frameHeight": 680,
-        "frameWidth": 140
+        "positionX": 18,
+        "frameHeight": 780,
+        "frameWidth": 140,
+        "positionY": 42
       }
     }
   ]
