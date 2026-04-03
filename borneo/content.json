@@ -28,14 +28,14 @@
     "fontDisplay": "Cormorant",
     "fontBody": "Jost",
     "imageStyle": {
-      "maxWidth": 640,
+      "maxWidth": 920,
       "borderWidth": 0,
       "borderColor": "#0d0d0b",
       "borderRadius": 0,
       "shadow": true
     },
-    "transition": "clip",
-    "transitionSpeed": 0.72
+    "transition": "fade",
+    "transitionSpeed": 1
   },
   "projects": [
     {
