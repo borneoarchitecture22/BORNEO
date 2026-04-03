@@ -64,14 +64,17 @@
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1775225152409.jpg",
+      "image": "images/p1775225773642.jpg",
       "video": "",
       "imageStyle": {
-        "borderRadius": 120,
+        "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
         "shadow": true,
-        "maxWidth": 640
+        "maxWidth": 640,
+        "positionX": 34,
+        "frameHeight": 680,
+        "frameWidth": 140
       }
     }
   ]
