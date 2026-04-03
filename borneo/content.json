@@ -38,13 +38,13 @@
   "projects": [
     {
       "id": 1,
-      "title": "Mercato ",
-      "type": "Tipologia",
-      "year": "2024",
-      "location": "Luogo",
-      "status": "In corso",
-      "description": "Descrizione del progetto.",
-      "image": "",
+      "title": "Mercato di Livorno ",
+      "type": "Spazio Pubblico",
+      "year": "2022",
+      "location": "Livorno - IT",
+      "status": "Ongoing",
+      "description": "Un giardino urbano e il suo pergolato riorganizzano le funzioni mercatali del centro storico. La struttura gestisce i flussi di acqua meteorici e fognari, trattenendo l'acqua piovana per la cura del giardino. centrale",
+      "image": "images/p1775202510972.jpg",
       "video": ""
     }
   ]
