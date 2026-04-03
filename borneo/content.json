@@ -7,14 +7,14 @@
     },
     "backgroundImage": "images/bg_landing_1775223776028.jpg",
     "button": {
-      "text": "Entra",
+      "text": "Borneo",
       "bgColor": "#0d0d0b",
       "textColor": "#fafaf8",
       "borderRadius": 0,
-      "paddingX": 48,
-      "paddingY": 16,
-      "fontSize": 11,
-      "letterSpacing": 0.2,
+      "paddingX": 20,
+      "paddingY": 8,
+      "fontSize": 12,
+      "letterSpacing": 0.28,
       "borderWidth": 0,
       "borderColor": "#0d0d0b"
     }
