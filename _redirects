@@ -1,5 +1,0 @@
-# Netlify redirects
-# Il sito pubblico non linka mai all'editor — questa è l'unica protezione.
-# Per sicurezza aggiuntiva puoi abilitare Netlify Identity sul path /editor/
-
-/index.html     /index.html     200
