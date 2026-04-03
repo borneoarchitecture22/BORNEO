@@ -1,25 +1,45 @@
 {
   "logo": "images/logo.jpg",
+  "landing": {
+    "background": { "type": "color", "value": "#fafaf8" },
+    "backgroundImage": "",
+    "button": {
+      "text": "Entra",
+      "bgColor": "#0d0d0b",
+      "textColor": "#fafaf8",
+      "borderRadius": 0,
+      "paddingX": 48,
+      "paddingY": 16,
+      "fontSize": 11,
+      "letterSpacing": 0.2,
+      "borderWidth": 0,
+      "borderColor": "#0d0d0b"
+    }
+  },
+  "site": {
+    "background": { "type": "color", "value": "#fafaf8" },
+    "backgroundImage": "",
+    "fontDisplay": "Cormorant",
+    "fontBody": "Jost",
+    "imageStyle": {
+      "maxWidth": 640,
+      "borderWidth": 0,
+      "borderColor": "#0d0d0b",
+      "borderRadius": 0,
+      "shadow": true
+    }
+  },
   "projects": [
     {
       "id": 1,
-      "title": "Mercato di Livorno",
-      "type": "Spazio pubblico",
-      "year": "2022 - ongoing",
-      "location": "Livorno, IT",
-      "status": "In costruzione",
-      "description": "Un giardino nel cuore del centro storico. Il progetto evolve attorno al tema del recupero delle acque meteoriche per la gestione del verde urbano. Il dispositivo introdotto, oltre a riordinare le funzioni mercatali, regola il microclima dell'area in \"simbiosi\" con il giardino lineare centrale.",
-      "image": "images/project_1775199017031.jpg"
-    },
-    {
-      "id": 2,
-      "title": "CittÃ  Giudiziaria",
-      "type": "Concorso di architettura",
+      "title": "Titolo Progetto",
+      "type": "Tipologia",
       "year": "2024",
-      "location": "Piazzale Clodio, Roma",
-      "status": "Concorso",
-      "description": "Espansione del complesso giudiziario di Piazzale Clodio. Il progetto ridefinisce la gerarchia dei percorsi separati come struttura generatrice dell'intero impianto.",
-      "image": "images/project2.jpg"
+      "location": "Luogo",
+      "status": "In corso",
+      "description": "Descrizione del progetto.",
+      "image": "",
+      "video": ""
     }
   ]
 }
