@@ -341,6 +341,11 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
             </div>
           </div>
 
+          <div class="ss-row">
+            <span class="ss-label">Mostra logo</span>
+            <div class="ss-control"><label style="display:flex;align-items:center;gap:6px;cursor:pointer;"><input type="checkbox" id="l-show-logo"><span style="font-size:10px">Visibile</span></label></div>
+          </div>
+
           <div class="ss-title">Bottone</div>
           <div class="ss-row">
             <span class="ss-label">Testo</span>
@@ -526,7 +531,7 @@ const rawUrl=p=>`https://raw.githubusercontent.com/${ghRepo()}/main/borneo/${p}?
 // ── DEFAULT CONTENT ───────────────────────────────
 const defaultContent=()=>({
   logo:'images/logo.jpg',
-  landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},
+  landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},
   site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},
   projects:[]
 });
@@ -700,6 +705,7 @@ document.getElementById('btn-del').addEventListener('click',()=>{
 function populateSettings(){
   const L=C.landing,S=C.site,b=L.button;
   setV('l-bg-c',L.background.value||'#fafaf8');
+  document.getElementById('l-show-logo').checked=!!L.showLogo;
   if(L.backgroundImage)document.getElementById('l-bg-thumb').style.backgroundImage=`url('${rawUrl(L.backgroundImage)}')`;
   setV('l-btn-text',b.text);setV('l-btn-bg',b.bgColor);setV('l-btn-tc',b.textColor);
   setR('l-btn-r',b.borderRadius,'px');setR('l-btn-px',b.paddingX,'px');setR('l-btn-py',b.paddingY,'px');
@@ -727,6 +733,7 @@ function updateLandingPreview(){
   if(bgFiles.landing){prev.style.background='transparent';bgImg.style.backgroundImage=`url('${bgFiles.landing.dataUrl}')`;bgImg.style.opacity='1';}
   else if(L.backgroundImage){prev.style.background='transparent';bgImg.style.backgroundImage=`url('${rawUrl(L.backgroundImage)}')`;bgImg.style.opacity='1';}
   else{prev.style.background=L.background.value||'#fafaf8';bgImg.style.opacity='0';}
+  document.getElementById('lp-logo').style.display=L.showLogo?'block':'none';
   const isDk=isDark(L.background.value||'#fafaf8');
   document.getElementById('lp-logo').style.color=bgFiles.landing||L.backgroundImage?'#fff':(isDk?'#fafaf8':'#0d0d0b');
   const btn=document.getElementById('lp-btn');
@@ -763,6 +770,7 @@ function bindCk(id,setter){const el=document.getElementById(id);if(!el)return;el
 // Landing
 bindV('l-btn-text',v=>{C.landing.button.text=v;updateLandingPreview();});
 bindV('l-bg-c',v=>{C.landing.background.value=v;updateLandingPreview();});
+bindCk('l-show-logo',v=>{C.landing.showLogo=v;updateLandingPreview();});
 bindV('l-btn-bg',v=>{C.landing.button.bgColor=v;updateLandingPreview();});
 bindV('l-btn-tc',v=>{C.landing.button.textColor=v;updateLandingPreview();});
 bindR('l-btn-r','px',v=>{C.landing.button.borderRadius=v;updateLandingPreview();});

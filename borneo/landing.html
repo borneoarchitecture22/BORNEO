@@ -104,13 +104,18 @@ async function loadContent() {
     }
 
     // Logo
-    if (data.logo) {
-      const img = document.getElementById('logo-img');
-      img.src = data.logo;
-      img.style.display = 'block';
-      document.getElementById('logo-text').style.display = 'none';
+    if (data.landing.showLogo === false || data.landing.showLogo === undefined) {
+      document.getElementById('logo-wrap').style.display = 'none';
     } else {
-      document.getElementById('logo-text').style.display = 'block';
+      document.getElementById('logo-wrap').style.display = 'flex';
+      if (data.logo) {
+        const img = document.getElementById('logo-img');
+        img.src = data.logo;
+        img.style.display = 'block';
+        document.getElementById('logo-text').style.display = 'none';
+      } else {
+        document.getElementById('logo-text').style.display = 'block';
+      }
     }
 
     // Button
