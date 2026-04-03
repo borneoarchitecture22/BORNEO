@@ -164,14 +164,19 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
 #lp-logo{position:relative;z-index:1;font-family:'Cormorant',serif;font-size:36px;font-weight:300;}
 #lp-btn{position:relative;z-index:1;font-family:'Jost',sans-serif;font-weight:300;text-transform:uppercase;border:none;cursor:default;transition:all .2s;}
 
-/* site preview */
-#sp-preview{width:100%;height:100%;display:flex;flex-direction:column;gap:0;overflow:hidden;}
-#sp-nav{padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.08);}
-#sp-nav-logo{font-family:'Cormorant',serif;font-size:20px;font-weight:300;}
-#sp-stage{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;}
-#sp-img{background:#ddd;transition:all .3s;}
-#sp-footer{padding:12px 20px;border-top:1px solid rgba(0,0,0,.06);}
-#sp-proj-name{font-family:'Cormorant',serif;font-size:18px;font-weight:300;}
+/* site preview carousel */
+#sp-preview{width:100%;height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+#sp-nav{padding:10px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.08);flex-shrink:0;}
+#sp-nav-logo{font-family:'Cormorant',serif;font-size:18px;font-weight:300;}
+#sp-stage{flex:1;position:relative;overflow:hidden;}
+.sp-slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;}
+.sp-slide.active{opacity:1;pointer-events:auto;}
+.sp-slide img,.sp-slide video{max-width:85%;max-height:85%;object-fit:contain;}
+#sp-footer{padding:10px 28px;border-top:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+
+/* project image preview panel */
+#proj-preview-panel{background:#f5f3ef;}
+#proj-preview-panel .preview-frame{background:#f5f3ef;}
 
 /* toast */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--black);color:var(--white);padding:10px 22px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;z-index:9999;white-space:nowrap;pointer-events:none;}
@@ -252,63 +257,86 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
         </div>
       </div>
 
-      <div class="main-panel">
-        <div class="main-empty" id="main-empty">Seleziona un progetto dalla lista</div>
-        <div class="pe-wrap" id="pe-wrap" style="display:none">
-          <div class="pe-row">
-            <input class="pe-title-input" id="pe-title" placeholder="Nome progetto">
-            <button class="btn-delete" id="btn-del">Elimina</button>
-          </div>
+      <!-- EDITOR + PREVIEW split -->
+      <div style="flex:1;display:flex;overflow:hidden;">
 
-          <!-- MEDIA -->
-          <div class="media-area" id="media-area">
-            <div class="media-label">Immagine o video del progetto</div>
-            <div class="media-overlay">
-              <button class="mbtn" id="btn-mi">📷 Immagine</button>
-              <button class="mbtn" id="btn-mv">🎬 Video</button>
+        <!-- Form -->
+        <div class="main-panel" style="width:380px;flex-shrink:0;border-right:1px solid var(--border);">
+          <div class="main-empty" id="main-empty">Seleziona un progetto dalla lista</div>
+          <div class="pe-wrap" id="pe-wrap" style="display:none">
+            <div class="pe-row">
+              <input class="pe-title-input" id="pe-title" placeholder="Nome progetto">
+              <button class="btn-delete" id="btn-del">Elimina</button>
             </div>
-          </div>
 
-          <!-- FORMA IMMAGINE PER PROGETTO -->
-          <div>
-            <div class="sec-label" style="margin-bottom:12px">Forma immagine</div>
-            <div class="img-style-row">
-              <div class="img-style-field">
-                <label>Arrotondamento</label>
-                <div class="range-row">
-                  <input type="range" id="pi-radius" min="0" max="40" step="1" value="0">
-                  <span class="range-val" id="pi-radius-v">0px</span>
-                </div>
-              </div>
-              <div class="img-style-field">
-                <label>Bordo spessore</label>
-                <div class="range-row">
-                  <input type="range" id="pi-bw" min="0" max="8" step="1" value="0">
-                  <span class="range-val" id="pi-bw-v">0px</span>
-                </div>
-              </div>
-              <div class="img-style-field">
-                <label>Colore bordo</label>
-                <input type="color" id="pi-bc" value="#0d0d0b">
-              </div>
-              <div class="img-style-field">
-                <label>Ombra</label>
-                <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-top:4px;">
-                  <input type="checkbox" id="pi-shadow" checked>
-                  <span style="font-size:10px">Attiva</span>
-                </label>
+            <!-- MEDIA upload -->
+            <div class="media-area" id="media-area">
+              <div class="media-label">Immagine o video del progetto</div>
+              <div class="media-overlay">
+                <button class="mbtn" id="btn-mi">📷 Immagine</button>
+                <button class="mbtn" id="btn-mv">🎬 Video</button>
               </div>
             </div>
-          </div>
 
-          <div class="pe-fields">
-            <div class="pf"><label>Tipologia</label><input id="pe-type"></div>
-            <div class="pf"><label>Anno</label><input id="pe-year"></div>
-            <div class="pf"><label>Luogo</label><input id="pe-location"></div>
-            <div class="pf"><label>Stato</label><input id="pe-status"></div>
-            <div class="pf full"><label>Descrizione</label><textarea id="pe-desc"></textarea></div>
+            <!-- FORMA IMMAGINE -->
+            <div>
+              <div class="sec-label" style="margin-bottom:12px">Forma immagine</div>
+              <div class="img-style-row">
+                <div class="img-style-field">
+                  <label>Arrotondamento</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-radius" min="0" max="120" step="1" value="0">
+                    <span class="range-val" id="pi-radius-v">0px</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Bordo spessore</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-bw" min="0" max="12" step="1" value="0">
+                    <span class="range-val" id="pi-bw-v">0px</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Colore bordo</label>
+                  <input type="color" id="pi-bc" value="#0d0d0b">
+                </div>
+                <div class="img-style-field">
+                  <label>Larghezza max</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-maxw" min="100" max="1200" step="20" value="640">
+                    <span class="range-val" id="pi-maxw-v">640px</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Ombra</label>
+                  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-top:4px;">
+                    <input type="checkbox" id="pi-shadow" checked>
+                    <span style="font-size:10px">Attiva</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="pe-fields">
+              <div class="pf"><label>Tipologia</label><input id="pe-type"></div>
+              <div class="pf"><label>Anno</label><input id="pe-year"></div>
+              <div class="pf"><label>Luogo</label><input id="pe-location"></div>
+              <div class="pf"><label>Stato</label><input id="pe-status"></div>
+              <div class="pf full"><label>Descrizione</label><textarea id="pe-desc"></textarea></div>
+            </div>
           </div>
         </div>
+
+        <!-- PREVIEW immagine progetto -->
+        <div class="preview-panel" id="proj-preview-panel">
+          <div class="preview-label">Anteprima immagine</div>
+          <div class="preview-frame" style="display:flex;align-items:center;justify-content:center;">
+            <div id="proj-preview-empty" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#b0aca8;">Nessuna immagine</div>
+            <img id="proj-preview-img" src="" style="display:none;max-width:90%;max-height:80%;object-fit:contain;transition:all .3s;">
+            <video id="proj-preview-vid" muted loop autoplay playsinline style="display:none;max-width:90%;max-height:80%;object-fit:contain;transition:all .3s;"></video>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -482,9 +510,9 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
           </div>
         </div>
 
-        <!-- PREVIEW SITO -->
+        <!-- PREVIEW SITO: carosello animato -->
         <div class="preview-panel">
-          <div class="preview-label">Anteprima live</div>
+          <div class="preview-label">Anteprima live — clicca ▶ per vedere la transizione</div>
           <div class="preview-frame">
             <div id="sp-preview">
               <div id="sp-nav">
@@ -492,12 +520,16 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
                 <span style="font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:#9e9b96">Progetti</span>
               </div>
               <div id="sp-stage">
-                <div id="sp-img" style="width:180px;height:120px;background:#ddd;"></div>
+                <!-- slides generated by JS -->
               </div>
               <div id="sp-footer">
-                <div id="sp-proj-name">Nome Progetto</div>
-                <div style="font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#9e9b96;margin-top:2px">Tipologia — 2024</div>
+                <div style="font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:#9e9b96;margin-bottom:3px" id="sp-idx">01 / 01</div>
+                <div id="sp-proj-name" style="font-family:'Cormorant',serif;font-size:15px;font-weight:300;">Nome Progetto</div>
+                <div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-top:2px" id="sp-proj-sub">Tipologia — 2024</div>
               </div>
+              <!-- nav buttons -->
+              <button id="sp-prev" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9e9b96;z-index:20;padding:4px;">‹</button>
+              <button id="sp-next" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#9e9b96;z-index:20;padding:4px;">›</button>
             </div>
           </div>
         </div>
@@ -656,6 +688,7 @@ async function loadContent(){
   }
 
   renderSidebar();populateSettings();
+  setTimeout(buildCarouselSlides, 100);
 }
 
 // ── SIDEBAR ───────────────────────────────────────
@@ -701,20 +734,57 @@ function selectProject(idx){
     area.insertBefore(el,area.firstChild);
   }
   renderSidebar();
+  updateProjectImagePreview();
+}
+function updateProjectImagePreview() {
+  if (selIdx === null) return;
+  const p = C.projects[selIdx];
+  const st = p.imageStyle || {};
+  const src = mediaFiles[selIdx]?.dataUrl || p.video || p.image || '';
+  const isV = !!(p.video && !mediaFiles[selIdx]) || (mediaFiles[selIdx]?.isVideo);
+
+  const img = document.getElementById('proj-preview-img');
+  const vid = document.getElementById('proj-preview-vid');
+  const empty = document.getElementById('proj-preview-empty');
+
+  if (src) {
+    empty.style.display = 'none';
+    if (isV) {
+      img.style.display = 'none'; vid.style.display = 'block';
+      if (vid.src !== src) vid.src = src;
+      applyStyleToEl(vid, st);
+    } else {
+      vid.style.display = 'none'; img.style.display = 'block';
+      if (img.src !== src) img.src = src;
+      applyStyleToEl(img, st);
+    }
+  } else {
+    img.style.display = 'none'; vid.style.display = 'none';
+    empty.style.display = 'block';
+  }
+  // also refresh carousel
+  applyImageStylesToSlides();
 }
 
-// per-project image style live sync
-['pi-radius','pi-bw'].forEach(id=>{
+function applyStyleToEl(el, st) {
+  el.style.borderRadius = (st.borderRadius || 0) + 'px';
+  el.style.border = (st.borderWidth > 0) ? `${st.borderWidth}px solid ${st.borderColor || '#0d0d0b'}` : 'none';
+  el.style.boxShadow = st.shadow !== false ? '0 12px 48px rgba(0,0,0,.12)' : 'none';
+  el.style.maxWidth = (st.maxWidth || 640) > 600 ? '85%' : Math.round((st.maxWidth || 640) / 640 * 85) + '%';
+}
+['pi-radius','pi-bw','pi-maxw'].forEach(id=>{
   document.getElementById(id).addEventListener('input',e=>{
     if(selIdx===null)return;
     const v=parseFloat(e.target.value);
     const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=v+'px';
     if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};
-    C.projects[selIdx].imageStyle[id==='pi-radius'?'borderRadius':'borderWidth']=v;
+    const key={'pi-radius':'borderRadius','pi-bw':'borderWidth','pi-maxw':'maxWidth'}[id];
+    C.projects[selIdx].imageStyle[key]=v;
+    updateProjectImagePreview();
   });
 });
-document.getElementById('pi-bc').addEventListener('input',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.borderColor=e.target.value;}});
-document.getElementById('pi-shadow').addEventListener('change',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.shadow=e.target.checked;}});
+document.getElementById('pi-bc').addEventListener('input',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.borderColor=e.target.value;updateProjectImagePreview();}});
+document.getElementById('pi-shadow').addEventListener('change',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.shadow=e.target.checked;updateProjectImagePreview();}});
 
 // field sync
 ['pe-title','pe-type','pe-year','pe-location','pe-status','pe-desc'].forEach(id=>{
@@ -769,15 +839,15 @@ document.getElementById('fi-bg').addEventListener('change',e=>{
 
 // ── ADD / DELETE ───────────────────────────────────
 document.getElementById('btn-add').addEventListener('click',()=>{
-  C.projects.push({id:Date.now(),title:'Nuovo progetto',type:'',year:new Date().getFullYear()+'',location:'',status:'',description:'',image:'',video:'',imageStyle:{borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true}});
-  selectProject(C.projects.length-1);renderSidebar();
+  C.projects.push({id:Date.now(),title:'Nuovo progetto',type:'',year:new Date().getFullYear()+'',location:'',status:'',description:'',image:'',video:'',imageStyle:{borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true,maxWidth:640}});
+  selectProject(C.projects.length-1);renderSidebar();buildCarouselSlides();
 });
 document.getElementById('btn-del').addEventListener('click',()=>{
   if(selIdx===null)return;if(!confirm('Eliminare?'))return;
   delete mediaFiles[selIdx];C.projects.splice(selIdx,1);selIdx=null;
   document.getElementById('main-empty').style.display='flex';
   document.getElementById('pe-wrap').style.display='none';
-  renderSidebar();
+  renderSidebar();buildCarouselSlides();
 });
 
 // ── SETTINGS ──────────────────────────────────────
@@ -820,22 +890,149 @@ function updateLandingPreview(){
   btn.style.cssText=`background:${b.bgColor};color:${b.textColor};border-radius:${b.borderRadius}px;padding:${b.paddingY}px ${b.paddingX}px;font-size:${b.fontSize}px;letter-spacing:${b.letterSpacing}em;border:${b.borderWidth}px solid ${b.borderColor};font-family:'Jost',sans-serif;font-weight:300;text-transform:uppercase;cursor:default;`;
 }
 
-// ── LIVE PREVIEW: SITE ────────────────────────────
-function updateSitePreview(){
-  const S=C.site;
-  const prev=document.getElementById('sp-preview');
-  if(bgFiles.site){prev.style.backgroundImage=`url('${bgFiles.site.dataUrl}')`;prev.style.backgroundSize='cover';}
-  else if(S.backgroundImage){prev.style.backgroundImage=`url('${rawUrl(S.backgroundImage)}')`;prev.style.backgroundSize='cover';}
-  else{prev.style.backgroundImage='none';prev.style.background=S.background.value||'#fafaf8';}
-  document.getElementById('sp-nav-logo').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
-  document.getElementById('sp-proj-name').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
-  const st=S.imageStyle;
-  const img=document.getElementById('sp-img');
-  const scale=180/640;
-  img.style.width=Math.round(st.maxWidth*scale)+'px';
-  img.style.borderRadius=st.borderRadius+'px';
-  img.style.border=st.borderWidth>0?`${st.borderWidth}px solid ${st.borderColor}`:'none';
-  img.style.boxShadow=st.shadow?'0 4px 20px rgba(0,0,0,.12)':'none';
+// ── LIVE PREVIEW: SITE CAROUSEL ──────────────────
+let spCurrent = 0;
+let spAnimating = false;
+
+function buildCarouselSlides() {
+  const stage = document.getElementById('sp-stage');
+  if (!stage) return;
+  stage.innerHTML = '';
+  const projects = C.projects.length ? C.projects : [{title:'Progetto esempio',type:'Tipologia',year:'2024',image:'',video:''}];
+  projects.forEach((p, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'sp-slide' + (i === 0 ? ' active' : '');
+    slide.dataset.idx = i;
+    const src = mediaFiles[i] ? mediaFiles[i].dataUrl : (p.video || p.image || '');
+    const isV = !!(p.video && !mediaFiles[i]) || (mediaFiles[i]?.isVideo);
+    if (src) {
+      const el = isV ? document.createElement('video') : document.createElement('img');
+      el.src = src;
+      if (isV) { el.muted = true; el.loop = true; el.autoplay = true; el.playsInline = true; }
+      slide.appendChild(el);
+    } else {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:140px;height:100px;background:#e0ddd8;display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#b0aca8;';
+      ph.textContent = p.title || 'Immagine';
+      slide.appendChild(ph);
+    }
+    stage.appendChild(slide);
+  });
+  spCurrent = 0;
+  updateCarouselFooter(0);
+  applyImageStylesToSlides();
+}
+
+function applyImageStylesToSlides() {
+  const slides = document.querySelectorAll('.sp-slide');
+  slides.forEach((slide, i) => {
+    const p = C.projects[i];
+    const st = p?.imageStyle || C.site.imageStyle;
+    const el = slide.querySelector('img, video');
+    if (!el) return;
+    el.style.borderRadius = (st.borderRadius || 0) + 'px';
+    el.style.border = (st.borderWidth > 0) ? `${st.borderWidth}px solid ${st.borderColor}` : 'none';
+    el.style.boxShadow = st.shadow ? '0 6px 24px rgba(0,0,0,.12)' : 'none';
+    // scale maxWidth relative to preview
+    const scale = (document.getElementById('sp-stage')?.offsetWidth || 300) / 900;
+    const mw = (st.maxWidth || C.site.imageStyle.maxWidth || 640) * scale;
+    el.style.maxWidth = Math.min(mw, 85) + '%';
+  });
+}
+
+function updateCarouselFooter(idx) {
+  const projects = C.projects;
+  if (!projects.length) return;
+  const p = projects[idx] || projects[0];
+  const n = projects.length;
+  document.getElementById('sp-idx').textContent = String(idx+1).padStart(2,'0') + ' / ' + String(n).padStart(2,'0');
+  document.getElementById('sp-proj-name').textContent = p.title || '—';
+  document.getElementById('sp-proj-sub').textContent = (p.type||'') + ' — ' + (p.year||'');
+  document.getElementById('sp-proj-name').style.fontFamily = `'${C.site.fontDisplay||'Cormorant'}',serif`;
+}
+
+function carouselNavigate(dir) {
+  if (spAnimating || !C.projects.length) return;
+  const slides = document.querySelectorAll('.sp-slide');
+  if (slides.length < 2) return;
+  const n = slides.length;
+  const next = (spCurrent + dir + n) % n;
+  const speed = C.site.transitionSpeed || 0.72;
+  const transition = C.site.transition || 'clip';
+  spAnimating = true;
+
+  const curr = slides[spCurrent];
+  const nxt = slides[next];
+
+  // Reset all
+  slides.forEach(s => { s.style.transition = ''; s.style.transform = ''; s.style.opacity = '0'; s.style.clipPath = ''; s.classList.remove('active'); });
+
+  // Setup next slide starting state
+  if (transition === 'clip') {
+    nxt.style.clipPath = 'inset(0 0 100% 0)';
+    nxt.style.opacity = '1';
+  } else if (transition === 'fade') {
+    nxt.style.opacity = '0';
+  } else if (transition === 'slide') {
+    nxt.style.transform = dir > 0 ? 'translateX(100%)' : 'translateX(-100%)';
+    nxt.style.opacity = '1';
+  } else if (transition === 'scale') {
+    nxt.style.transform = 'scale(0.85)';
+    nxt.style.opacity = '0';
+  }
+
+  curr.style.opacity = '1';
+  curr.classList.add('active');
+  nxt.classList.add('active');
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const t = `all ${speed}s cubic-bezier(0.76,0,0.24,1)`;
+      curr.style.transition = t;
+      nxt.style.transition = t;
+
+      if (transition === 'clip') {
+        curr.style.opacity = '0';
+        nxt.style.clipPath = 'inset(0 0 0% 0)';
+      } else if (transition === 'fade') {
+        curr.style.opacity = '0';
+        nxt.style.opacity = '1';
+      } else if (transition === 'slide') {
+        curr.style.transform = dir > 0 ? 'translateX(-100%)' : 'translateX(100%)';
+        nxt.style.transform = 'translateX(0)';
+      } else if (transition === 'scale') {
+        curr.style.transform = 'scale(1.1)';
+        curr.style.opacity = '0';
+        nxt.style.transform = 'scale(1)';
+        nxt.style.opacity = '1';
+      }
+
+      setTimeout(() => {
+        slides.forEach(s => { s.style.opacity='0'; s.style.transform=''; s.style.clipPath=''; s.classList.remove('active'); s.style.transition=''; });
+        nxt.style.opacity = '1';
+        nxt.classList.add('active');
+        spCurrent = next;
+        updateCarouselFooter(spCurrent);
+        spAnimating = false;
+      }, speed * 1000 + 50);
+    });
+  });
+}
+
+// carousel nav buttons
+document.getElementById('sp-prev')?.addEventListener('click', () => carouselNavigate(-1));
+document.getElementById('sp-next')?.addEventListener('click', () => carouselNavigate(1));
+
+function updateSitePreview() {
+  const S = C.site;
+  const prev = document.getElementById('sp-preview');
+  if (!prev) return;
+  if (bgFiles.site) { prev.style.backgroundImage=`url('${bgFiles.site.dataUrl}')`;prev.style.backgroundSize='cover'; }
+  else if (S.backgroundImage) { prev.style.backgroundImage=`url('${rawUrl(S.backgroundImage)}')`;prev.style.backgroundSize='cover'; }
+  else { prev.style.backgroundImage='none'; prev.style.background=S.background.value||'#fafaf8'; }
+  document.getElementById('sp-nav-logo').style.fontFamily = `'${S.fontDisplay||'Cormorant'}',serif`;
+  document.getElementById('sp-proj-name').style.fontFamily = `'${S.fontDisplay||'Cormorant'}',serif`;
+  applyImageStylesToSlides();
 }
 
 // ── BIND ALL SETTINGS ─────────────────────────────
@@ -865,11 +1062,11 @@ bindV('s-font-d',v=>{C.site.fontDisplay=v;updateSitePreview();});
 bindV('s-font-b',v=>{C.site.fontBody=v;updateSitePreview();});
 bindV('s-transition',v=>{C.site.transition=v;});
 bindR('s-trans-speed','s',v=>{C.site.transitionSpeed=v;});
-bindR('s-img-w','px',v=>{C.site.imageStyle.maxWidth=v;updateSitePreview();});
-bindR('s-img-r','px',v=>{C.site.imageStyle.borderRadius=v;updateSitePreview();});
-bindR('s-img-bw','px',v=>{C.site.imageStyle.borderWidth=v;updateSitePreview();});
-bindV('s-img-bc',v=>{C.site.imageStyle.borderColor=v;updateSitePreview();});
-bindCk('s-img-sh',v=>{C.site.imageStyle.shadow=v;updateSitePreview();});
+bindR('s-img-w','px',v=>{C.site.imageStyle.maxWidth=v;updateSitePreview();applyImageStylesToSlides();});
+bindR('s-img-r','px',v=>{C.site.imageStyle.borderRadius=v;updateSitePreview();applyImageStylesToSlides();});
+bindR('s-img-bw','px',v=>{C.site.imageStyle.borderWidth=v;updateSitePreview();applyImageStylesToSlides();});
+bindV('s-img-bc',v=>{C.site.imageStyle.borderColor=v;updateSitePreview();applyImageStylesToSlides();});
+bindCk('s-img-sh',v=>{C.site.imageStyle.shadow=v;updateSitePreview();applyImageStylesToSlides();});
 
 // Swatches
 document.querySelectorAll('.sw').forEach(sw=>{
