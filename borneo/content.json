@@ -40,16 +40,34 @@
   "projects": [
     {
       "id": 1,
-      "title": "Titolo Progetto",
+      "title": "Mercato di Livorno ",
       "type": "Tipologia",
       "year": "2024",
       "location": "Luogo",
       "status": "In corso",
       "description": "Descrizione del progetto.",
-      "image": "images/p1775225017970.jpg",
+      "image": "images/p1775225117276.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true,
+        "maxWidth": 640
+      }
+    },
+    {
+      "id": 1775225108692,
+      "title": "Sdgs Lab",
+      "type": "",
+      "year": "2025",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1775225152409.jpg",
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 120,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
         "shadow": true,
