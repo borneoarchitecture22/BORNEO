@@ -301,10 +301,31 @@ body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);mi
                   <input type="color" id="pi-bc" value="#0d0d0b">
                 </div>
                 <div class="img-style-field">
-                  <label>Larghezza max</label>
+                  <label>Larghezza cornice</label>
                   <div class="range-row">
                     <input type="range" id="pi-maxw" min="100" max="1200" step="20" value="640">
                     <span class="range-val" id="pi-maxw-v">640px</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Altezza cornice (0=auto)</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-h" min="0" max="900" step="10" value="0">
+                    <span class="range-val" id="pi-h-v">auto</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Posizione X immagine</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-posx" min="0" max="100" step="1" value="50">
+                    <span class="range-val" id="pi-posx-v">50%</span>
+                  </div>
+                </div>
+                <div class="img-style-field">
+                  <label>Posizione Y immagine</label>
+                  <div class="range-row">
+                    <input type="range" id="pi-posy" min="0" max="100" step="1" value="50">
+                    <span class="range-val" id="pi-posy-v">50%</span>
                   </div>
                 </div>
                 <div class="img-style-field">
@@ -719,10 +740,18 @@ function selectProject(idx){
   document.getElementById('pe-status').value=p.status||'';
   document.getElementById('pe-desc').value=p.description||'';
   // image style
-  if(!p.imageStyle)p.imageStyle={borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};
+  if(!p.imageStyle)p.imageStyle={borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true,frameWidth:640,frameHeight:null,positionX:50,positionY:50};
   const st=p.imageStyle;
-  setR('pi-radius',st.borderRadius,'px');setR('pi-bw',st.borderWidth,'px');
-  setV('pi-bc',st.borderColor);document.getElementById('pi-shadow').checked=st.shadow;
+  setR('pi-radius',st.borderRadius||0,'px');
+  setR('pi-bw',st.borderWidth||0,'px');
+  setV('pi-bc',st.borderColor||'#0d0d0b');
+  setR('pi-maxw',st.frameWidth||640,'px');
+  const h=st.frameHeight||0;
+  const hEl=document.getElementById('pi-h');if(hEl)hEl.value=h;
+  const hLbl=document.getElementById('pi-h-v');if(hLbl)hLbl.textContent=h===0?'auto':h+'px';
+  setR('pi-posx',st.positionX??50,'%');
+  setR('pi-posy',st.positionY??50,'%');
+  document.getElementById('pi-shadow').checked=st.shadow!==false;
   // media
   const area=document.getElementById('media-area');
   area.querySelectorAll('img,video').forEach(el=>el.remove());
@@ -743,43 +772,94 @@ function updateProjectImagePreview() {
   const src = mediaFiles[selIdx]?.dataUrl || p.video || p.image || '';
   const isV = !!(p.video && !mediaFiles[selIdx]) || (mediaFiles[selIdx]?.isVideo);
 
-  const img = document.getElementById('proj-preview-img');
-  const vid = document.getElementById('proj-preview-vid');
+  const panel = document.getElementById('proj-preview-panel');
+  const frame = panel?.querySelector('.preview-frame');
+  if (!frame) return;
+
   const empty = document.getElementById('proj-preview-empty');
+  let img = document.getElementById('proj-preview-img');
+  let vid = document.getElementById('proj-preview-vid');
+
+  // Build a wrapper div inside the frame to act as the image frame
+  let wrapper = document.getElementById('proj-preview-wrapper');
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.id = 'proj-preview-wrapper';
+    wrapper.style.cssText = 'position:relative;display:flex;align-items:center;justify-content:center;transition:all .3s;';
+    frame.appendChild(wrapper);
+    // move img and vid inside wrapper
+    if(img) wrapper.appendChild(img);
+    if(vid) wrapper.appendChild(vid);
+  }
 
   if (src) {
-    empty.style.display = 'none';
+    if(empty) empty.style.display='none';
     if (isV) {
-      img.style.display = 'none'; vid.style.display = 'block';
-      if (vid.src !== src) vid.src = src;
-      applyStyleToEl(vid, st);
+      if(img) img.style.display='none';
+      if(vid) { vid.style.display='block'; if(vid.src!==src)vid.src=src; }
+      applyStyleToEl(vid, st, wrapper);
     } else {
-      vid.style.display = 'none'; img.style.display = 'block';
-      if (img.src !== src) img.src = src;
-      applyStyleToEl(img, st);
+      if(vid) vid.style.display='none';
+      if(img) { img.style.display='block'; if(img.src!==src)img.src=src; }
+      applyStyleToEl(img, st, wrapper);
     }
   } else {
-    img.style.display = 'none'; vid.style.display = 'none';
-    empty.style.display = 'block';
+    if(img) img.style.display='none';
+    if(vid) vid.style.display='none';
+    if(empty) empty.style.display='block';
+    wrapper.style.cssText='position:relative;display:flex;align-items:center;justify-content:center;';
   }
   // also refresh carousel
   applyImageStylesToSlides();
 }
 
-function applyStyleToEl(el, st) {
-  el.style.borderRadius = (st.borderRadius || 0) + 'px';
-  el.style.border = (st.borderWidth > 0) ? `${st.borderWidth}px solid ${st.borderColor || '#0d0d0b'}` : 'none';
-  el.style.boxShadow = st.shadow !== false ? '0 12px 48px rgba(0,0,0,.12)' : 'none';
-  el.style.maxWidth = (st.maxWidth || 640) > 600 ? '85%' : Math.round((st.maxWidth || 640) / 640 * 85) + '%';
+function applyStyleToEl(el, st, container) {
+  const hasHeight = st.frameHeight && st.frameHeight > 0;
+  // Container (the frame div)
+  if(container) {
+    container.style.width = (st.frameWidth||640) > 600 ? '85%' : Math.round((st.frameWidth||640)/640*85)+'%';
+    container.style.borderRadius = (st.borderRadius||0)+'px';
+    container.style.border = (st.borderWidth||0)>0 ? `${st.borderWidth}px solid ${st.borderColor||'#0d0d0b'}` : 'none';
+    container.style.boxShadow = st.shadow!==false ? '0 12px 48px rgba(0,0,0,.12)' : 'none';
+    container.style.overflow = 'hidden';
+    if(hasHeight) {
+      container.style.aspectRatio = 'unset';
+      container.style.height = Math.round((st.frameHeight/900)*400)+'px';
+    } else {
+      container.style.height = 'auto';
+      container.style.aspectRatio = 'unset';
+    }
+  }
+  // Image/video inside
+  if(hasHeight) {
+    el.style.width = '100%';
+    el.style.height = '100%';
+    el.style.objectFit = 'cover';
+    el.style.objectPosition = `${st.positionX??50}% ${st.positionY??50}%`;
+    el.style.maxWidth = 'none';
+    el.style.maxHeight = 'none';
+  } else {
+    el.style.width = 'auto';
+    el.style.height = 'auto';
+    el.style.maxWidth = '100%';
+    el.style.maxHeight = '55vh';
+    el.style.objectFit = 'contain';
+    el.style.objectPosition = 'center center';
+  }
 }
-['pi-radius','pi-bw','pi-maxw'].forEach(id=>{
-  document.getElementById(id).addEventListener('input',e=>{
+['pi-radius','pi-bw','pi-maxw','pi-h','pi-posx','pi-posy'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',e=>{
     if(selIdx===null)return;
     const v=parseFloat(e.target.value);
-    const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=v+'px';
+    const lbl=document.getElementById(id+'-v');
+    if(lbl){
+      if(id==='pi-h') lbl.textContent = v===0?'auto':v+'px';
+      else if(id==='pi-posx'||id==='pi-posy') lbl.textContent=v+'%';
+      else lbl.textContent=v+'px';
+    }
     if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};
-    const key={'pi-radius':'borderRadius','pi-bw':'borderWidth','pi-maxw':'maxWidth'}[id];
-    C.projects[selIdx].imageStyle[key]=v;
+    const key={'pi-radius':'borderRadius','pi-bw':'borderWidth','pi-maxw':'frameWidth','pi-h':'frameHeight','pi-posx':'positionX','pi-posy':'positionY'}[id];
+    C.projects[selIdx].imageStyle[key] = v===0&&id==='pi-h' ? null : v;
     updateProjectImagePreview();
   });
 });
@@ -903,7 +983,7 @@ function buildCarouselSlides() {
     const slide = document.createElement('div');
     slide.className = 'sp-slide' + (i === 0 ? ' active' : '');
     slide.dataset.idx = i;
-    const src = mediaFiles[i] ? mediaFiles[i].dataUrl : (p.video || p.image || '');
+    const src = mediaFiles[i] ? mediaFiles[i].dataUrl : (p.video ? rawUrl(p.video) : (p.image ? rawUrl(p.image) : ''));
     const isV = !!(p.video && !mediaFiles[i]) || (mediaFiles[i]?.isVideo);
     if (src) {
       const el = isV ? document.createElement('video') : document.createElement('img');
