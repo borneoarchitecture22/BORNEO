@@ -1,23 +1,29 @@
 {
   "logo": "images/logo.jpg",
   "landing": {
-    "background": { "type": "color", "value": "#fafaf8" },
-    "backgroundImage": "",
+    "background": {
+      "type": "color",
+      "value": "#fafaf8"
+    },
+    "backgroundImage": "images/bg_landing_1775222127105.jpg",
     "button": {
-      "text": "Entra",
+      "text": "Borneo",
       "bgColor": "#0d0d0b",
       "textColor": "#fafaf8",
       "borderRadius": 0,
-      "paddingX": 48,
-      "paddingY": 16,
-      "fontSize": 11,
+      "paddingX": 28,
+      "paddingY": 6,
+      "fontSize": 18,
       "letterSpacing": 0.2,
-      "borderWidth": 0,
+      "borderWidth": 2,
       "borderColor": "#0d0d0b"
     }
   },
   "site": {
-    "background": { "type": "color", "value": "#fafaf8" },
+    "background": {
+      "type": "color",
+      "value": "#fafaf8"
+    },
     "backgroundImage": "",
     "fontDisplay": "Cormorant",
     "fontBody": "Jost",
@@ -27,7 +33,9 @@
       "borderColor": "#0d0d0b",
       "borderRadius": 0,
       "shadow": true
-    }
+    },
+    "transition": "clip",
+    "transitionSpeed": 0.72
   },
   "projects": [
     {
@@ -39,7 +47,13 @@
       "status": "In corso",
       "description": "Descrizione del progetto.",
       "image": "",
-      "video": ""
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
     }
   ]
 }
