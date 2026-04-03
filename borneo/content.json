@@ -1,11 +1,8 @@
 {
   "logo": "images/logo.jpg",
   "landing": {
-    "background": {
-      "type": "color",
-      "value": "#fafaf8"
-    },
-    "backgroundImage": "images/bg_landing_1775202407803.jpg",
+    "background": { "type": "color", "value": "#fafaf8" },
+    "backgroundImage": "",
     "button": {
       "text": "Entra",
       "bgColor": "#0d0d0b",
@@ -20,10 +17,7 @@
     }
   },
   "site": {
-    "background": {
-      "type": "color",
-      "value": "#ffffff"
-    },
+    "background": { "type": "color", "value": "#fafaf8" },
     "backgroundImage": "",
     "fontDisplay": "Cormorant",
     "fontBody": "Jost",
@@ -38,24 +32,13 @@
   "projects": [
     {
       "id": 1,
-      "title": "Mercato di Livorno ",
-      "type": "Spazio Pubblico",
-      "year": "2022",
-      "location": "Livorno - IT",
-      "status": "Ongoing",
-      "description": "Un giardino urbano e il suo pergolato riorganizzano le funzioni mercatali del centro storico. La struttura gestisce i flussi di acqua meteorici e fognari, trattenendo l'acqua piovana per la cura del giardino. centrale",
-      "image": "images/p1775202706019.jpg",
-      "video": ""
-    },
-    {
-      "id": 1775202698303,
-      "title": "SDGS LAB",
-      "type": "Spazio Pubblico",
-      "year": "2025",
-      "location": "Kassel - DE",
-      "status": "Completed",
-      "description": "A Shifting stage, changing with the course of seasons.",
-      "image": "images/p1775202743785.jpg",
+      "title": "Titolo Progetto",
+      "type": "Tipologia",
+      "year": "2024",
+      "location": "Luogo",
+      "status": "In corso",
+      "description": "Descrizione del progetto.",
+      "image": "",
       "video": ""
     }
   ]
