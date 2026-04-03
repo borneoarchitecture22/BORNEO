@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo — Editor</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--white:#fafaf8;--black:#0d0d0b;--grey:#9e9b96;--border:#e2dfd9;--hover:#f0ede8;--red:#c0392b;--green:#27ae60;--blue:#2980b9;}
+body{font-family:'Jost',sans-serif;background:var(--white);color:var(--black);min-height:100vh;}
+.screen{display:none;min-height:100vh;}.screen.active{display:flex;}
+
+/* LOGIN */
+#screen-login{align-items:center;justify-content:center;flex-direction:column;gap:40px;}
+.login-logo{font-family:'Cormorant',serif;font-size:48px;font-weight:300;}
+.login-box{display:flex;flex-direction:column;gap:16px;width:300px;}
+.login-box input{width:100%;padding:14px 0;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;letter-spacing:.08em;color:var(--black);outline:none;transition:border-color .2s;}
+.login-box input:focus{border-bottom-color:var(--black);}
+.login-box input::placeholder{color:var(--grey);text-transform:uppercase;font-size:9px;letter-spacing:.18em;}
+.btn-primary{background:var(--black);color:var(--white);border:none;padding:14px;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;margin-top:8px;}
+.btn-primary:hover{opacity:.75;}.btn-primary:disabled{opacity:.35;cursor:not-allowed;}
+.login-error{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);text-align:center;min-height:16px;}
+
+/* SETUP */
+#screen-setup{flex-direction:column;}
+.setup-wrap{max-width:560px;margin:0 auto;padding:80px 40px;width:100%;}
+.setup-wrap h1{font-family:'Cormorant',serif;font-size:32px;font-weight:300;margin-bottom:8px;}
+.setup-wrap p{font-size:11px;color:var(--grey);line-height:1.7;margin-bottom:40px;}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;}
+.field label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);}
+.field input{padding:12px 0;border:none;border-bottom:1px solid var(--border);background:transparent;font-family:'Jost',sans-serif;font-size:12px;color:var(--black);outline:none;}
+.field input:focus{border-bottom-color:var(--black);}
+.setup-note{font-size:9px;color:var(--grey);line-height:1.6;margin-top:6px;}
+.setup-note a{color:var(--black);}
+
+/* EDITOR MAIN */
+#screen-editor{flex-direction:column;}
+.editor-topbar{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:56px;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-logo{font-family:'Cormorant',serif;font-size:20px;font-weight:300;}
+.topbar-badge{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);background:var(--hover);padding:3px 9px;}
+.topbar-tabs{display:flex;gap:0;margin-left:16px;}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;padding:8px 20px;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;color:var(--grey);transition:all .2s;}
+.tab-btn.active{color:var(--black);border-bottom-color:var(--black);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.btn-ghost{background:none;border:1px solid var(--border);padding:7px 16px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;color:var(--black);transition:all .2s;}
+.btn-ghost:hover{border-color:var(--black);}
+.btn-publish{background:var(--black);color:var(--white);border:none;padding:8px 22px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;}
+.btn-publish:hover{opacity:.8;}.btn-publish:disabled{opacity:.4;cursor:not-allowed;}
+.publish-status{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);min-width:180px;text-align:right;}
+.publish-status.ok{color:var(--green);}.publish-status.err{color:var(--red);}
+
+/* TABS CONTENT */
+.editor-body{flex:1;display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px);}
+.tab-panel{display:none;}.tab-panel.active{display:flex;}
+
+/* PROJECTS TAB */
+#tab-projects{grid-column:1/-1;}
+.projects-layout{display:grid;grid-template-columns:260px 1fr;width:100%;}
+.sidebar{border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;}
+.sidebar-section{padding:0 24px 16px;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.section-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--grey);margin-bottom:12px;}
+.logo-upload{width:100%;height:48px;border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;background:white;overflow:hidden;transition:border-color .2s;}
+.logo-upload:hover{border-color:var(--black);}
+.logo-upload img{max-height:36px;max-width:100%;mix-blend-mode:multiply;}
+.logo-upload span{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
+.proj-item{display:flex;align-items:center;gap:10px;padding:10px 24px;cursor:pointer;border-left:2px solid transparent;transition:all .15s;}
+.proj-item:hover{background:var(--hover);}
+.proj-item.active{background:var(--hover);border-left-color:var(--black);}
+.proj-thumb{width:40px;height:30px;background:#e8e6e1;flex-shrink:0;overflow:hidden;}
+.proj-thumb img,.proj-thumb video{width:100%;height:100%;object-fit:cover;}
+.proj-info{flex:1;min-width:0;}
+.proj-name{font-family:'Cormorant',serif;font-size:13px;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.proj-sub{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);margin-top:1px;}
+.sidebar-footer{padding:16px 24px 0;margin-top:auto;display:flex;flex-direction:column;gap:8px;}
+.btn-add{width:100%;background:none;border:1px dashed var(--border);padding:11px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;color:var(--grey);transition:all .2s;}
+.btn-add:hover{border-color:var(--black);color:var(--black);}
+.btn-logout{background:none;border:none;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);cursor:pointer;text-align:left;}
+
+/* PROJECT EDITOR PANEL */
+.main-panel{padding:40px 52px;overflow-y:auto;flex:1;}
+.main-empty{display:flex;align-items:center;justify-content:center;height:100%;font-size:10px;color:var(--grey);letter-spacing:.12em;text-transform:uppercase;}
+.pe-wrap{display:flex;flex-direction:column;gap:32px;max-width:600px;}
+.pe-row{display:flex;justify-content:space-between;align-items:flex-start;}
+.pe-title-input{font-family:'Cormorant',serif;font-size:32px;font-weight:300;border:none;background:transparent;outline:none;color:var(--black);width:100%;border-bottom:1px solid transparent;transition:border-color .2s;padding-bottom:4px;}
+.pe-title-input:focus{border-bottom-color:var(--border);}
+.btn-delete{background:none;border:none;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);cursor:pointer;padding-top:8px;white-space:nowrap;}
+.btn-delete:hover{color:var(--red);}
+.media-area{width:100%;aspect-ratio:16/10;background:#f0ede8;border:1px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;transition:border-color .2s;}
+.media-area:hover{border-color:var(--black);}
+.media-area img,.media-area video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.media-label{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);position:relative;z-index:1;}
+.media-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2;gap:12px;}
+.media-area:hover .media-overlay{opacity:1;}
+.media-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:white;padding:8px 16px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;}
+.media-btn:hover{background:rgba(255,255,255,.25);}
+.pe-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;}
+.pf{display:flex;flex-direction:column;gap:6px;}
+.pf label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);}
+.pf input,.pf textarea{border:none;border-bottom:1px solid var(--border);background:transparent;font-family:'Jost',sans-serif;font-size:12px;font-weight:300;color:var(--black);outline:none;padding:7px 0;transition:border-color .2s;}
+.pf input:focus,.pf textarea:focus{border-bottom-color:var(--black);}
+.pf textarea{resize:none;height:72px;line-height:1.6;}
+.pf.full{grid-column:1/-1;}
+
+/* SETTINGS TABS */
+#tab-landing,#tab-site{padding:40px 52px;overflow-y:auto;flex-direction:column;gap:40px;max-width:700px;}
+.settings-section{display:flex;flex-direction:column;gap:20px;}
+.settings-section h3{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--black);border-bottom:1px solid var(--border);padding-bottom:12px;}
+.settings-row{display:grid;grid-template-columns:160px 1fr;align-items:center;gap:16px;}
+.settings-row label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey);}
+.settings-row input[type=color]{width:36px;height:28px;border:1px solid var(--border);padding:2px;cursor:pointer;background:none;}
+.settings-row input[type=range]{width:100%;accent-color:var(--black);}
+.settings-row input[type=number]{width:80px;padding:6px 8px;border:1px solid var(--border);background:none;font-family:'Jost',sans-serif;font-size:11px;color:var(--black);outline:none;}
+.settings-row input[type=text]{width:100%;padding:8px 0;border:none;border-bottom:1px solid var(--border);background:none;font-family:'Jost',sans-serif;font-size:11px;color:var(--black);outline:none;}
+.settings-row input[type=text]:focus{border-bottom-color:var(--black);}
+.settings-row select{padding:7px 10px;border:1px solid var(--border);background:none;font-family:'Jost',sans-serif;font-size:11px;color:var(--black);outline:none;cursor:pointer;}
+.color-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.color-swatch{width:24px;height:24px;border:2px solid transparent;border-radius:2px;cursor:pointer;transition:transform .15s;}
+.color-swatch:hover,.color-swatch.active{transform:scale(1.15);border-color:var(--black);}
+.upload-bg{display:flex;align-items:center;gap:12px;}
+.btn-upload-small{background:none;border:1px solid var(--border);padding:7px 14px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--black);}
+.btn-upload-small:hover{border-color:var(--black);}
+.bg-preview{width:60px;height:36px;border:1px solid var(--border);overflow:hidden;background-size:cover;background-position:center;}
+.val-label{font-size:10px;color:var(--grey);min-width:32px;text-align:right;}
+.btn-clear-bg{background:none;border:none;font-size:9px;color:var(--grey);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;}
+.btn-clear-bg:hover{color:var(--red);}
+
+/* PREVIEW */
+.btn-preview-landing{display:inline-block;margin-top:8px;background:none;border:1px solid var(--border);padding:8px 18px;font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;color:var(--black);}
+
+/* TOAST */
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:var(--white);padding:11px 26px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;opacity:0;transition:opacity .3s,transform .3s;z-index:9999;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#toast.error{background:var(--red);}
+
+#file-input,#file-input-bg{display:none;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-logo">Borneo</div>
+  <div class="login-box">
+    <input type="password" id="pw-input" placeholder="Password">
+    <div class="login-error" id="login-error"></div>
+    <button class="btn-primary" id="btn-login">Accedi</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="screen-setup" class="screen">
+  <div class="setup-wrap">
+    <h1>Configurazione GitHub</h1>
+    <p>Per pubblicare le modifiche, l'editor ha bisogno di accedere al tuo repository GitHub.</p>
+    <div class="field">
+      <label>Repository GitHub</label>
+      <input type="text" id="gh-repo" placeholder="nomeutente/BORNEO">
+      <div class="setup-note">Formato: <strong>nomeutente/BORNEO</strong> — es. <strong>borneoarchitecture22/BORNEO</strong></div>
+    </div>
+    <div class="field">
+      <label>Personal Access Token</label>
+      <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+      <div class="setup-note">Vai su <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> → seleziona <strong>repo</strong> → genera → incolla qui.</div>
+    </div>
+    <button class="btn-primary" id="btn-save-setup">Salva e continua →</button>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="screen-editor" class="screen">
+  <div class="editor-topbar">
+    <div class="topbar-left">
+      <span class="topbar-logo">Borneo</span>
+      <span class="topbar-badge">Editor</span>
+      <div class="topbar-tabs">
+        <button class="tab-btn active" data-tab="projects">Progetti</button>
+        <button class="tab-btn" data-tab="landing">Landing Page</button>
+        <button class="tab-btn" data-tab="site">Sito</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="publish-status" id="publish-status"></span>
+      <button class="btn-ghost" id="btn-preview-site">↗ Sito</button>
+      <button class="btn-ghost" id="btn-preview-landing">↗ Landing</button>
+      <button class="btn-ghost" id="btn-settings">Impostazioni</button>
+      <button class="btn-publish" id="btn-publish">↑ Pubblica</button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+
+    <!-- TAB: PROJECTS -->
+    <div class="tab-panel active" id="tab-projects" style="grid-column:1/-1">
+      <div class="projects-layout">
+        <div class="sidebar">
+          <div class="sidebar-section">
+            <div class="section-label">Logo</div>
+            <div class="logo-upload" id="logo-upload"><span>Carica logo</span></div>
+          </div>
+          <div class="section-label" style="padding:0 24px 10px">Progetti</div>
+          <div id="projects-list"></div>
+          <div class="sidebar-footer">
+            <button class="btn-add" id="btn-add">+ Aggiungi progetto</button>
+            <button class="btn-logout" id="btn-logout">Esci dall'editor</button>
+          </div>
+        </div>
+        <div class="main-panel">
+          <div class="main-empty" id="main-empty">Seleziona un progetto dalla lista</div>
+          <div class="pe-wrap" id="pe-wrap" style="display:none">
+            <div class="pe-row">
+              <input class="pe-title-input" id="pe-title" placeholder="Nome progetto" type="text">
+              <button class="btn-delete" id="btn-delete">Elimina</button>
+            </div>
+            <div class="media-area" id="media-area">
+              <div class="media-label">Clicca per aggiungere immagine o video</div>
+              <div class="media-overlay">
+                <button class="media-btn" id="btn-media-img">📷 Immagine</button>
+                <button class="media-btn" id="btn-media-video">🎬 Video</button>
+              </div>
+            </div>
+            <div class="pe-fields">
+              <div class="pf"><label>Tipologia</label><input id="pe-type"></div>
+              <div class="pf"><label>Anno</label><input id="pe-year"></div>
+              <div class="pf"><label>Luogo</label><input id="pe-location"></div>
+              <div class="pf"><label>Stato</label><input id="pe-status"></div>
+              <div class="pf full"><label>Descrizione</label><textarea id="pe-desc"></textarea></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: LANDING -->
+    <div class="tab-panel" id="tab-landing">
+      <div class="settings-section">
+        <h3>Sfondo Landing</h3>
+        <div class="settings-row">
+          <label>Colore sfondo</label>
+          <div class="color-row">
+            <input type="color" id="l-bg-color">
+            <div class="color-swatch" style="background:#fafaf8;border:1px solid #ccc" data-color="#fafaf8" data-target="l-bg-color"></div>
+            <div class="color-swatch" style="background:#0d0d0b" data-color="#0d0d0b" data-target="l-bg-color"></div>
+            <div class="color-swatch" style="background:#1a1a2e" data-color="#1a1a2e" data-target="l-bg-color"></div>
+            <div class="color-swatch" style="background:#f5f0e8" data-color="#f5f0e8" data-target="l-bg-color"></div>
+            <div class="color-swatch" style="background:#2c3e50" data-color="#2c3e50" data-target="l-bg-color"></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label>Immagine sfondo</label>
+          <div class="upload-bg">
+            <button class="btn-upload-small" id="btn-l-bg-img">Carica immagine</button>
+            <div class="bg-preview" id="l-bg-preview"></div>
+            <button class="btn-clear-bg" id="btn-l-bg-clear">Rimuovi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Bottone Entra</h3>
+        <div class="settings-row"><label>Testo</label><input type="text" id="l-btn-text" value="Entra"></div>
+        <div class="settings-row">
+          <label>Colore sfondo</label>
+          <div class="color-row">
+            <input type="color" id="l-btn-bg">
+            <div class="color-swatch" style="background:#0d0d0b" data-color="#0d0d0b" data-target="l-btn-bg"></div>
+            <div class="color-swatch" style="background:#fafaf8;border:1px solid #ccc" data-color="#fafaf8" data-target="l-btn-bg"></div>
+            <div class="color-swatch" style="background:transparent;border:1px solid #0d0d0b" data-color="transparent" data-target="l-btn-bg"></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label>Colore testo</label>
+          <div class="color-row">
+            <input type="color" id="l-btn-text-color">
+            <div class="color-swatch" style="background:#fafaf8;border:1px solid #ccc" data-color="#fafaf8" data-target="l-btn-text-color"></div>
+            <div class="color-swatch" style="background:#0d0d0b" data-color="#0d0d0b" data-target="l-btn-text-color"></div>
+          </div>
+        </div>
+        <div class="settings-row"><label>Bordo arrotondato</label><input type="range" id="l-btn-radius" min="0" max="40" step="1"><span class="val-label" id="l-btn-radius-val">0px</span></div>
+        <div class="settings-row"><label>Larghezza padding</label><input type="range" id="l-btn-px" min="16" max="120" step="4"><span class="val-label" id="l-btn-px-val">48px</span></div>
+        <div class="settings-row"><label>Altezza padding</label><input type="range" id="l-btn-py" min="8" max="40" step="2"><span class="val-label" id="l-btn-py-val">16px</span></div>
+        <div class="settings-row"><label>Dimensione testo</label><input type="range" id="l-btn-fs" min="8" max="24" step="1"><span class="val-label" id="l-btn-fs-val">11px</span></div>
+        <div class="settings-row"><label>Spaziatura lettere</label><input type="range" id="l-btn-ls" min="0" max="0.6" step="0.02"><span class="val-label" id="l-btn-ls-val">0.2em</span></div>
+        <div class="settings-row"><label>Bordo spessore</label><input type="range" id="l-btn-bw" min="0" max="4" step="1"><span class="val-label" id="l-btn-bw-val">0px</span></div>
+        <div class="settings-row">
+          <label>Colore bordo</label>
+          <div class="color-row"><input type="color" id="l-btn-bc"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SITE -->
+    <div class="tab-panel" id="tab-site">
+      <div class="settings-section">
+        <h3>Sfondo Sito</h3>
+        <div class="settings-row">
+          <label>Colore sfondo</label>
+          <div class="color-row">
+            <input type="color" id="s-bg-color">
+            <div class="color-swatch" style="background:#fafaf8;border:1px solid #ccc" data-color="#fafaf8" data-target="s-bg-color"></div>
+            <div class="color-swatch" style="background:#0d0d0b" data-color="#0d0d0b" data-target="s-bg-color"></div>
+            <div class="color-swatch" style="background:#f5f0e8" data-color="#f5f0e8" data-target="s-bg-color"></div>
+            <div class="color-swatch" style="background:#1a1a2e" data-color="#1a1a2e" data-target="s-bg-color"></div>
+            <div class="color-swatch" style="background:#f8f4ef" data-color="#f8f4ef" data-target="s-bg-color"></div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <label>Immagine sfondo</label>
+          <div class="upload-bg">
+            <button class="btn-upload-small" id="btn-s-bg-img">Carica immagine</button>
+            <div class="bg-preview" id="s-bg-preview"></div>
+            <button class="btn-clear-bg" id="btn-s-bg-clear">Rimuovi</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Font</h3>
+        <div class="settings-row">
+          <label>Font titoli</label>
+          <select id="s-font-display">
+            <option value="Cormorant">Cormorant (serif elegante)</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="EB Garamond">EB Garamond</option>
+            <option value="DM Serif Display">DM Serif Display</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <label>Font testo</label>
+          <select id="s-font-body">
+            <option value="Jost">Jost (sans-serif)</option>
+            <option value="EB Garamond">EB Garamond</option>
+            <option value="Cormorant">Cormorant</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Immagini nel carosello</h3>
+        <div class="settings-row"><label>Dimensione massima</label><input type="range" id="s-img-maxw" min="300" max="1200" step="20"><span class="val-label" id="s-img-maxw-val">640px</span></div>
+        <div class="settings-row"><label>Bordo arrotondato</label><input type="range" id="s-img-radius" min="0" max="24" step="1"><span class="val-label" id="s-img-radius-val">0px</span></div>
+        <div class="settings-row"><label>Spessore bordo</label><input type="range" id="s-img-bw" min="0" max="8" step="1"><span class="val-label" id="s-img-bw-val">0px</span></div>
+        <div class="settings-row">
+          <label>Colore bordo</label>
+          <div class="color-row"><input type="color" id="s-img-bc"></div>
+        </div>
+        <div class="settings-row">
+          <label>Ombra</label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="s-img-shadow" checked>
+            <span style="font-size:10px">Attiva ombra</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+<input type="file" id="file-input" accept="image/*,video/mp4,video/webm">
+<input type="file" id="file-input-bg" accept="image/*">
+
+<script>
+// ── AUTH ──────────────────────────────────────────
+async function hashPw(pw){ const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw)); return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
+const HASH_KEY='borneo_pw_hash';
+async function initLogin(){ if(!localStorage.getItem(HASH_KEY)){ const h=await hashPw('borneo2024'); localStorage.setItem(HASH_KEY,h); } }
+
+// ── GITHUB ────────────────────────────────────────
+const ghRepo=()=>localStorage.getItem('gh_repo')||'';
+const ghToken=()=>localStorage.getItem('gh_token')||'';
+function repoPath(p){ return 'borneo/'+p; }
+
+async function ghGet(path){ const r=await fetch(`https://api.github.com/repos/${ghRepo()}/contents/${path}`,{headers:{Authorization:`token ${ghToken()}`,Accept:'application/vnd.github.v3+json'}}); if(!r.ok)throw new Error(`GET ${path}: ${r.status}`); return r.json(); }
+async function ghPut(path,b64,sha,msg){ const body={message:msg,content:b64}; if(sha)body.sha=sha; const r=await fetch(`https://api.github.com/repos/${ghRepo()}/contents/${path}`,{method:'PUT',headers:{Authorization:`token ${ghToken()}`,Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},body:JSON.stringify(body)}); if(!r.ok){const e=await r.json();throw new Error(e.message||`PUT ${path}: ${r.status}`);} return r.json(); }
+async function getSha(path){ try{const d=await ghGet(path);return d.sha;}catch(e){return null;} }
+function toB64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function dataUrlToB64(dataUrl){ return dataUrl.split(',')[1]; }
+
+// ── STATE ─────────────────────────────────────────
+let content={logo:'images/logo.jpg',landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},projects:[]};
+let selectedIdx=null, logoFile=null, mediaFiles={}, bgFiles={};
+
+// ── SCREENS ───────────────────────────────────────
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+// ── TABS ──────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ── LOGIN ─────────────────────────────────────────
+document.getElementById('btn-login').addEventListener('click',async()=>{
+  const pw=document.getElementById('pw-input').value;
+  const h=await hashPw(pw), stored=localStorage.getItem(HASH_KEY);
+  if(h===stored){ document.getElementById('login-error').textContent=''; if(!ghRepo()||!ghToken()){show('screen-setup');}else{await loadContent();show('screen-editor');} }
+  else{ document.getElementById('login-error').textContent='Password errata'; }
+});
+document.getElementById('pw-input').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-login').click();});
+
+// ── SETUP ─────────────────────────────────────────
+document.getElementById('btn-save-setup').addEventListener('click',async()=>{
+  const repo=document.getElementById('gh-repo').value.trim(), token=document.getElementById('gh-token').value.trim();
+  if(!repo||!token){toast('Compila tutti i campi',true);return;}
+  localStorage.setItem('gh_repo',repo); localStorage.setItem('gh_token',token);
+  await loadContent(); show('screen-editor');
+});
+
+// ── LOAD CONTENT ──────────────────────────────────
+async function loadContent(){
+  try{
+    const file=await ghGet(repoPath('content.json'));
+    content=JSON.parse(atob(file.content.replace(/\n/g,'')));
+  }catch(e){ /* use defaults */ }
+  renderSidebar(); populateSettings();
+}
+
+// ── SIDEBAR ───────────────────────────────────────
+function renderSidebar(){
+  const list=document.getElementById('projects-list'); list.innerHTML='';
+  content.projects.forEach((p,i)=>{
+    const item=document.createElement('div'); item.className='proj-item'+(i===selectedIdx?' active':'');
+    const thumbSrc=mediaFiles[i]?mediaFiles[i].dataUrl:(p.video||p.image||'');
+    const isVid=p.video&&!mediaFiles[i];
+    item.innerHTML=`<div class="proj-thumb">${thumbSrc?(isVid?`<video src="${thumbSrc}" muted>`:`<img src="${thumbSrc}" alt="">`):'<div style="width:100%;height:100%;background:#ddd"></div>'}</div><div class="proj-info"><div class="proj-name">${p.title||'Senza titolo'}</div><div class="proj-sub">${p.year||''}</div></div>`;
+    item.addEventListener('click',()=>selectProject(i)); list.appendChild(item);
+  });
+  // logo
+  const logoArea=document.getElementById('logo-upload');
+  if(logoFile){ logoArea.innerHTML=`<img src="${logoFile.dataUrl}">`; }
+  else if(content.logo){ logoArea.innerHTML=`<img src="https://raw.githubusercontent.com/${ghRepo()}/main/borneo/${content.logo}?v=${Date.now()}" onerror="this.parentElement.innerHTML='<span>Carica logo</span>'">`; }
+  else{ logoArea.innerHTML=`<span>Carica logo</span>`; }
+}
+
+// ── SELECT PROJECT ────────────────────────────────
+function selectProject(idx){
+  selectedIdx=idx; const p=content.projects[idx];
+  document.getElementById('main-empty').style.display='none';
+  document.getElementById('pe-wrap').style.display='flex';
+  document.getElementById('pe-title').value=p.title||'';
+  document.getElementById('pe-type').value=p.type||'';
+  document.getElementById('pe-year').value=p.year||'';
+  document.getElementById('pe-location').value=p.location||'';
+  document.getElementById('pe-status').value=p.status||'';
+  document.getElementById('pe-desc').value=p.description||'';
+  // media preview
+  const area=document.getElementById('media-area');
+  area.querySelectorAll('img,video').forEach(el=>el.remove());
+  const src=mediaFiles[idx]?mediaFiles[idx].dataUrl:(p.video||p.image);
+  if(src){
+    let el;
+    if(p.video&&!mediaFiles[idx]||mediaFiles[idx]?.isVideo){ el=document.createElement('video'); el.src=src; el.muted=true; el.loop=true; el.autoplay=true; }
+    else{ el=document.createElement('img'); el.src=src; }
+    area.insertBefore(el,area.firstChild);
+  }
+  renderSidebar();
+}
+
+// ── FIELDS SYNC ───────────────────────────────────
+['pe-title','pe-type','pe-year','pe-location','pe-status','pe-desc'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',e=>{
+    if(selectedIdx===null)return;
+    const map={'pe-title':'title','pe-type':'type','pe-year':'year','pe-location':'location','pe-status':'status','pe-desc':'description'};
+    content.projects[selectedIdx][map[id]]=e.target.value;
+    if(id==='pe-title'||id==='pe-year')renderSidebar();
+  });
+});
+
+// ── FILE PICKER ───────────────────────────────────
+let fileTarget=null, bgTarget=null;
+
+document.getElementById('logo-upload').addEventListener('click',()=>{ fileTarget='logo'; triggerFile(false); });
+document.getElementById('btn-media-img').addEventListener('click',e=>{ e.stopPropagation(); if(selectedIdx===null)return; fileTarget='img'; triggerFile(false); });
+document.getElementById('btn-media-video').addEventListener('click',e=>{ e.stopPropagation(); if(selectedIdx===null)return; fileTarget='video'; triggerFile(true); });
+document.getElementById('btn-l-bg-img').addEventListener('click',()=>{ bgTarget='landing'; triggerBg(); });
+document.getElementById('btn-s-bg-img').addEventListener('click',()=>{ bgTarget='site'; triggerBg(); });
+document.getElementById('btn-l-bg-clear').addEventListener('click',()=>{ content.landing.backgroundImage=''; delete bgFiles.landing; document.getElementById('l-bg-preview').style.backgroundImage=''; });
+document.getElementById('btn-s-bg-clear').addEventListener('click',()=>{ content.site.backgroundImage=''; delete bgFiles.site; document.getElementById('s-bg-preview').style.backgroundImage=''; });
+
+function triggerFile(videoOnly){ const fi=document.getElementById('file-input'); fi.accept=videoOnly?'video/mp4,video/webm':'image/*'; fi.value=''; fi.click(); }
+function triggerBg(){ document.getElementById('file-input-bg').value=''; document.getElementById('file-input-bg').click(); }
+
+document.getElementById('file-input').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const dataUrl=ev.target.result;
+    if(fileTarget==='logo'){
+      const ext=file.name.split('.').pop();
+      logoFile={dataUrl,filename:`images/logo.${ext}`,repoFilename:repoPath(`images/logo.${ext}`)};
+      content.logo=`images/logo.${ext}`; renderSidebar();
+    } else if(fileTarget==='img'&&selectedIdx!==null){
+      const ext=file.name.split('.').pop(), fname=`images/p${Date.now()}.${ext}`;
+      mediaFiles[selectedIdx]={dataUrl,filename:fname,repoFilename:repoPath(fname),isVideo:false};
+      content.projects[selectedIdx].image=fname; content.projects[selectedIdx].video='';
+      selectProject(selectedIdx);
+    } else if(fileTarget==='video'&&selectedIdx!==null){
+      const ext=file.name.split('.').pop(), fname=`images/p${Date.now()}.${ext}`;
+      mediaFiles[selectedIdx]={dataUrl,filename:fname,repoFilename:repoPath(fname),isVideo:true};
+      content.projects[selectedIdx].video=fname; content.projects[selectedIdx].image='';
+      selectProject(selectedIdx);
+    }
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('file-input-bg').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const dataUrl=ev.target.result;
+    const ext=file.name.split('.').pop(), fname=`images/bg_${bgTarget}_${Date.now()}.${ext}`;
+    bgFiles[bgTarget]={dataUrl,filename:fname,repoFilename:repoPath(fname)};
+    if(bgTarget==='landing'){ content.landing.backgroundImage=fname; document.getElementById('l-bg-preview').style.backgroundImage=`url('${dataUrl}')`; }
+    else{ content.site.backgroundImage=fname; document.getElementById('s-bg-preview').style.backgroundImage=`url('${dataUrl}')`; }
+  };
+  reader.readAsDataURL(file);
+});
+
+// ── ADD / DELETE ───────────────────────────────────
+document.getElementById('btn-add').addEventListener('click',()=>{
+  content.projects.push({id:Date.now(),title:'Nuovo progetto',type:'',year:new Date().getFullYear()+'',location:'',status:'',description:'',image:'',video:''});
+  selectProject(content.projects.length-1); renderSidebar();
+});
+document.getElementById('btn-delete').addEventListener('click',()=>{
+  if(selectedIdx===null)return;
+  if(!confirm(`Eliminare "${content.projects[selectedIdx].title}"?`))return;
+  delete mediaFiles[selectedIdx]; content.projects.splice(selectedIdx,1); selectedIdx=null;
+  document.getElementById('main-empty').style.display='flex';
+  document.getElementById('pe-wrap').style.display='none';
+  renderSidebar();
+});
+
+// ── SETTINGS UI ───────────────────────────────────
+function populateSettings(){
+  const L=content.landing, S=content.site;
+  // Landing bg
+  document.getElementById('l-bg-color').value=L.background.value||'#fafaf8';
+  if(L.backgroundImage) document.getElementById('l-bg-preview').style.backgroundImage=`url('${rawUrl(L.backgroundImage)}')`;
+  // Landing button
+  const b=L.button;
+  setVal('l-btn-text',b.text); setVal('l-btn-bg',b.bgColor); setVal('l-btn-text-color',b.textColor);
+  setRange('l-btn-radius',b.borderRadius,'px'); setRange('l-btn-px',b.paddingX,'px'); setRange('l-btn-py',b.paddingY,'px');
+  setRange('l-btn-fs',b.fontSize,'px'); setRange('l-btn-ls',b.letterSpacing,'em'); setRange('l-btn-bw',b.borderWidth,'px');
+  setVal('l-btn-bc',b.borderColor);
+  // Site bg
+  document.getElementById('s-bg-color').value=S.background.value||'#fafaf8';
+  if(S.backgroundImage) document.getElementById('s-bg-preview').style.backgroundImage=`url('${rawUrl(S.backgroundImage)}')`;
+  // Site fonts
+  document.getElementById('s-font-display').value=S.fontDisplay||'Cormorant';
+  document.getElementById('s-font-body').value=S.fontBody||'Jost';
+  // Image style
+  const st=S.imageStyle;
+  setRange('s-img-maxw',st.maxWidth,'px'); setRange('s-img-radius',st.borderRadius,'px');
+  setRange('s-img-bw',st.borderWidth,'px'); setVal('s-img-bc',st.borderColor);
+  document.getElementById('s-img-shadow').checked=st.shadow;
+}
+
+function rawUrl(path){ return `https://raw.githubusercontent.com/${ghRepo()}/main/borneo/${path}?v=${Date.now()}`; }
+function setVal(id,val){ const el=document.getElementById(id); if(el)el.value=val; }
+function setRange(id,val,unit){ const el=document.getElementById(id); if(el){el.value=val; const lbl=document.getElementById(id+'-val'); if(lbl)lbl.textContent=val+unit;} }
+
+// Live update settings → content
+function bindRange(id,unit,setter){
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener('input',()=>{ const v=parseFloat(el.value); const lbl=document.getElementById(id+'-val'); if(lbl)lbl.textContent=v+unit; setter(v); });
+}
+function bindVal(id,setter){
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener('input',()=>setter(el.value));
+}
+function bindCheck(id,setter){
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener('change',()=>setter(el.checked));
+}
+
+// Landing button
+bindVal('l-btn-text',v=>content.landing.button.text=v);
+bindVal('l-btn-bg',v=>content.landing.button.bgColor=v);
+bindVal('l-btn-text-color',v=>content.landing.button.textColor=v);
+bindRange('l-btn-radius','px',v=>content.landing.button.borderRadius=v);
+bindRange('l-btn-px','px',v=>content.landing.button.paddingX=v);
+bindRange('l-btn-py','px',v=>content.landing.button.paddingY=v);
+bindRange('l-btn-fs','px',v=>content.landing.button.fontSize=v);
+bindRange('l-btn-ls','em',v=>content.landing.button.letterSpacing=v);
+bindRange('l-btn-bw','px',v=>content.landing.button.borderWidth=v);
+bindVal('l-btn-bc',v=>content.landing.button.borderColor=v);
+bindVal('l-bg-color',v=>content.landing.background.value=v);
+// Site
+bindVal('s-bg-color',v=>content.site.background.value=v);
+bindVal('s-font-display',v=>content.site.fontDisplay=v);
+bindVal('s-font-body',v=>content.site.fontBody=v);
+bindRange('s-img-maxw','px',v=>content.site.imageStyle.maxWidth=v);
+bindRange('s-img-radius','px',v=>content.site.imageStyle.borderRadius=v);
+bindRange('s-img-bw','px',v=>content.site.imageStyle.borderWidth=v);
+bindVal('s-img-bc',v=>content.site.imageStyle.borderColor=v);
+bindCheck('s-img-shadow',v=>content.site.imageStyle.shadow=v);
+
+// Color swatches
+document.querySelectorAll('.color-swatch').forEach(sw=>{
+  sw.addEventListener('click',()=>{
+    const el=document.getElementById(sw.dataset.target);
+    if(el){ el.value=sw.dataset.color; el.dispatchEvent(new Event('input')); }
+  });
+});
+
+// ── PUBLISH ───────────────────────────────────────
+document.getElementById('btn-publish').addEventListener('click',async()=>{
+  const btn=document.getElementById('btn-publish'), status=document.getElementById('publish-status');
+  btn.disabled=true; status.className='publish-status'; status.textContent='Pubblicazione…';
+  try{
+    // Upload logo
+    if(logoFile){ status.textContent='Logo…'; const sha=await getSha(logoFile.repoFilename); await ghPut(logoFile.repoFilename,dataUrlToB64(logoFile.dataUrl),sha,'Update logo'); logoFile=null; }
+    // Upload bg images
+    for(const[key,bgf] of Object.entries(bgFiles)){ status.textContent=`Sfondo ${key}…`; const sha=await getSha(bgf.repoFilename); await ghPut(bgf.repoFilename,dataUrlToB64(bgf.dataUrl),sha,`Update bg ${key}`); }
+    // Upload project media
+    const mEntries=Object.entries(mediaFiles);
+    for(let i=0;i<mEntries.length;i++){
+      const[,mf]=mEntries[i]; status.textContent=`Media ${i+1}/${mEntries.length}…`;
+      const sha=await getSha(mf.repoFilename); await ghPut(mf.repoFilename,dataUrlToB64(mf.dataUrl),sha,'Update media');
+    }
+    // content.json
+    status.textContent='Contenuti…';
+    const sha=await getSha(repoPath('content.json'));
+    await ghPut(repoPath('content.json'),toB64(JSON.stringify(content,null,2)),sha,'Update content');
+    // reset local uploads
+    Object.keys(bgFiles).forEach(k=>delete bgFiles[k]);
+    Object.keys(mediaFiles).forEach(k=>delete mediaFiles[k]);
+    status.className='publish-status ok'; status.textContent='✓ Live in ~30s';
+    toast('Pubblicato!'); setTimeout(()=>status.textContent='',7000);
+  }catch(e){ status.className='publish-status err'; status.textContent='✗ '+e.message; toast(e.message,true); }
+  btn.disabled=false;
+});
+
+// ── NAV BUTTONS ───────────────────────────────────
+document.getElementById('btn-preview-site').addEventListener('click',()=>window.open('../index.html','_blank'));
+document.getElementById('btn-preview-landing').addEventListener('click',()=>window.open('../landing.html','_blank'));
+document.getElementById('btn-settings').addEventListener('click',()=>show('screen-setup'));
+document.getElementById('btn-logout').addEventListener('click',()=>{selectedIdx=null;show('screen-login');});
+
+// ── TOAST ─────────────────────────────────────────
+function toast(msg,isError=false){ const t=document.getElementById('toast'); t.textContent=msg; t.className='show'+(isError?' error':''); setTimeout(()=>t.className='',3500); }
+
+// ── INIT ──────────────────────────────────────────
+initLogin();
+if(ghRepo()) document.getElementById('gh-repo').value=ghRepo();
+if(ghToken()) document.getElementById('gh-token').value=ghToken();
+</script>
+</body>
+</html>
