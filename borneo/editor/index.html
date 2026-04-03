@@ -569,13 +569,92 @@ document.getElementById('btn-save-setup').addEventListener('click',async()=>{
   await loadContent();show('screen-editor');
 });
 
-// ── LOAD ──────────────────────────────────────────
+// ── DRAFT AUTOSAVE ────────────────────────────────
+const DRAFT_KEY = 'borneo_draft';
+let draftTimer = null;
+
+function saveDraft() {
+  // Save content (without binary image data - just paths)
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ content: C, savedAt: Date.now() }));
+    showDraftStatus('● Bozza salvata');
+  } catch(e) {}
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return false;
+    const draft = JSON.parse(raw);
+    const age = Date.now() - draft.savedAt;
+    // Only restore if less than 7 days old
+    if (age > 7 * 24 * 3600 * 1000) { localStorage.removeItem(DRAFT_KEY); return false; }
+    return draft;
+  } catch(e) { return false; }
+}
+
+function clearDraft() {
+  localStorage.removeItem(DRAFT_KEY);
+  showDraftStatus('');
+}
+
+function showDraftStatus(msg) {
+  let el = document.getElementById('draft-status');
+  if (!el) return;
+  el.textContent = msg;
+}
+
+function scheduleDraft() {
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(saveDraft, 1500); // save 1.5s after last change
+}
+
+// Patch all bind functions to also trigger autosave
+const _origBindV = bindV;
+// We'll hook into the content mutation points directly:
+function autosaveHook() { scheduleDraft(); }
+
+// Hook into all inputs/changes that modify C
+document.addEventListener('input', e => {
+  if (e.target.closest('#screen-editor')) scheduleDraft();
+});
+document.addEventListener('change', e => {
+  if (e.target.closest('#screen-editor')) scheduleDraft();
+});
+
+// ── TOPBAR DRAFT INDICATOR ────────────────────────
+// Insert draft status element in topbar
+document.querySelector('.topbar-right').insertAdjacentHTML('afterbegin',
+  '<span id="draft-status" style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#b0ad a8;margin-right:4px;"></span>'
+);
+// Fix the broken CSS value above
+document.getElementById('draft-status').style.color = '#b0aca8';
+
+// ── LOAD WITH DRAFT RESTORE ───────────────────────
 async function loadContent(){
+  // First load from GitHub
   try{const f=await ghGet(rp('content.json'));C=JSON.parse(atob(f.content.replace(/\n/g,'')));}catch(e){}
-  // ensure new keys exist
   if(!C.site.transition)C.site.transition='clip';
   if(!C.site.transitionSpeed)C.site.transitionSpeed=0.72;
   C.projects.forEach(p=>{if(!p.imageStyle)p.imageStyle={borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};});
+
+  // Check for a newer draft
+  const draft = loadDraft();
+  if (draft && draft.savedAt > Date.now() - 7*24*3600*1000) {
+    const draftDate = new Date(draft.savedAt).toLocaleString('it-IT',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const restore = confirm(`Trovata una bozza non pubblicata del ${draftDate}.\n\nVuoi ripristinarla?`);
+    if (restore) {
+      C = draft.content;
+      // ensure keys
+      if(!C.site.transition)C.site.transition='clip';
+      if(!C.site.transitionSpeed)C.site.transitionSpeed=0.72;
+      C.projects.forEach(p=>{if(!p.imageStyle)p.imageStyle={borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};});
+      showDraftStatus('● Bozza ripristinata');
+    } else {
+      clearDraft();
+    }
+  }
+
   renderSidebar();populateSettings();
 }
 
@@ -808,6 +887,7 @@ document.getElementById('btn-pub').addEventListener('click',async()=>{
     for(let i=0;i<me.length;i++){const[,mf]=me[i];st.textContent=`Media ${i+1}/${me.length}…`;await ghPut(mf.repoFilename,dUrlB64(mf.dataUrl),await getSha(mf.repoFilename),'Update media');}
     st.textContent='Contenuti…';await ghPut(rp('content.json'),toB64(JSON.stringify(C,null,2)),await getSha(rp('content.json')),'Update content');
     Object.keys(bgFiles).forEach(k=>delete bgFiles[k]);Object.keys(mediaFiles).forEach(k=>delete mediaFiles[k]);
+    clearDraft();
     st.className='pub-status ok';st.textContent='✓ Live in ~30s';toast('Pubblicato!');setTimeout(()=>st.textContent='',8000);
   }catch(e){st.className='pub-status err';st.textContent='✗ '+e.message;toast(e.message,true);}
   btn.disabled=false;
