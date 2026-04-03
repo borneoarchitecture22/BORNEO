@@ -4,58 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body {
-  width:100%; height:100%; overflow:hidden;
-  font-family:'Jost',sans-serif;
-  cursor: none;
-}
+html, body { width:100%; height:100%; overflow:hidden; cursor:none; }
+
 #cursor {
-  position:fixed; z-index:9999; width:8px; height:8px;
-  background:currentColor; border-radius:50%;
+  position:fixed; z-index:9999;
+  width:8px; height:8px; background:#0d0d0b; border-radius:50%;
   pointer-events:none; transform:translate(-50%,-50%);
-  transition: width .2s, height .2s, background .2s;
+  transition:width .2s, height .2s, background .2s, border .2s;
 }
-#cursor.expand {
-  width:48px; height:48px; background:transparent !important;
+#cursor.big {
+  width:48px; height:48px; background:transparent;
   border:1px solid currentColor;
 }
+
 #landing {
   width:100%; height:100%;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  gap:48px;
-  position:relative; overflow:hidden;
-  transition: background .5s;
+  gap:40px; position:relative; overflow:hidden;
 }
-#bg-image {
-  position:absolute; inset:0;
+
+#bg-layer {
+  position:absolute; inset:0; z-index:0;
   background-size:cover; background-position:center;
-  opacity:0; transition:opacity .5s;
+  transition:background .3s;
 }
-.logo-wrap {
+
+#logo-wrap {
   position:relative; z-index:1;
-  animation: fade-up .9s cubic-bezier(0.76,0,0.24,1) .1s both;
+  display:none;
 }
-.logo-wrap img {
-  height:52px; width:auto;
-  mix-blend-mode:multiply;
-  display:block;
-}
-.logo-wrap .logo-text {
-  font-family:'Cormorant',serif;
-  font-size:52px; font-weight:300; letter-spacing:-.01em;
-  line-height:1;
-}
+#logo-img { height:48px; width:auto; mix-blend-mode:multiply; display:block; }
+
 #enter-btn {
   position:relative; z-index:1;
-  border:none; cursor:none;
   font-family:'Jost',sans-serif;
-  font-weight:300; text-transform:uppercase; letter-spacing:.2em;
-  transition: opacity .25s, transform .25s;
+  font-weight:300; text-transform:uppercase;
+  cursor:none; border:none;
+  /* default styles — overridden by content.json */
+  background:#0d0d0b; color:#fafaf8;
+  padding:16px 48px; font-size:11px; letter-spacing:.2em;
+  transition:opacity .25s, transform .25s;
   animation: fade-up .9s cubic-bezier(0.76,0,0.24,1) .3s both;
 }
 #enter-btn:hover { opacity:.7; transform:translateY(-1px); }
@@ -69,88 +61,91 @@ html, body {
 <body>
 <div id="cursor"></div>
 <div id="landing">
-  <div id="bg-image"></div>
-  <div class="logo-wrap">
-    <img id="logo-img" src="" alt="Borneo" style="display:none">
-    <div class="logo-text" id="logo-text" style="display:none">Borneo</div>
+  <div id="bg-layer"></div>
+  <div id="logo-wrap">
+    <img id="logo-img" src="" alt="Borneo">
   </div>
-  <button id="enter-btn" onclick="window.location.href='index.html'">Entra</button>
+  <button id="enter-btn">Entra</button>
 </div>
 
 <script>
+// cursor
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top = e.clientY + 'px';
 });
-document.getElementById('enter-btn').addEventListener('mouseenter', () => cursor.classList.add('expand'));
-document.getElementById('enter-btn').addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+const btn = document.getElementById('enter-btn');
+btn.addEventListener('mouseenter', () => cursor.classList.add('big'));
+btn.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+btn.addEventListener('click', () => { window.location.href = 'index.html'; });
 
-async function loadContent() {
+async function applyContent() {
+  let data;
   try {
-    const r = await fetch('content.json?v=' + Date.now());
-    const data = await r.json();
-    const L = data.landing;
-    const landing = document.getElementById('landing');
+    const res = await fetch('content.json?t=' + Date.now());
+    data = await res.json();
+  } catch(e) {
+    console.warn('content.json non trovato, uso defaults');
+    return;
+  }
 
-    // Background
-    if (L.backgroundImage) {
-      const bg = document.getElementById('bg-image');
-      bg.style.backgroundImage = `url('${L.backgroundImage}')`;
-      bg.style.opacity = '1';
-      landing.style.background = 'transparent';
-    } else {
-      landing.style.background = L.background.value;
-    }
+  const L = data.landing || {};
+  const bg = document.getElementById('bg-layer');
 
-    // Logo
-    if (data.landing.showLogo === false || data.landing.showLogo === undefined) {
-      document.getElementById('logo-wrap').style.display = 'none';
-    } else {
-      document.getElementById('logo-wrap').style.display = 'flex';
-      if (data.logo) {
-        const img = document.getElementById('logo-img');
-        img.src = data.logo;
-        img.style.display = 'block';
-        document.getElementById('logo-text').style.display = 'none';
-      } else {
-        document.getElementById('logo-text').style.display = 'block';
-      }
-    }
+  // ── SFONDO ───────────────────────────────────
+  if (L.backgroundImage) {
+    bg.style.backgroundImage = `url('${L.backgroundImage}')`;
+    bg.style.backgroundSize = 'cover';
+    bg.style.backgroundPosition = 'center';
+    document.getElementById('landing').style.background = 'none';
+  } else {
+    const bgColor = (L.background && L.background.value) ? L.background.value : '#fafaf8';
+    bg.style.backgroundImage = 'none';
+    bg.style.background = bgColor;
+    document.getElementById('landing').style.background = bgColor;
+  }
 
-    // Button
-    const btn = document.getElementById('enter-btn');
-    const b = L.button;
-    btn.textContent = b.text;
-    btn.style.cssText = `
-      background: ${b.bgColor};
-      color: ${b.textColor};
-      border-radius: ${b.borderRadius}px;
-      padding: ${b.paddingY}px ${b.paddingX}px;
-      font-size: ${b.fontSize}px;
-      letter-spacing: ${b.letterSpacing}em;
-      border: ${b.borderWidth}px solid ${b.borderColor};
-      cursor: none;
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      text-transform: uppercase;
-      transition: opacity .25s, transform .25s;
-    `;
+  // ── LOGO ─────────────────────────────────────
+  const logoWrap = document.getElementById('logo-wrap');
+  if (L.showLogo && data.logo) {
+    logoWrap.style.display = 'block';
+    document.getElementById('logo-img').src = data.logo;
+  } else {
+    logoWrap.style.display = 'none';
+  }
 
-    // Cursor color based on bg
-    cursor.style.color = isDark(L.background.value) ? '#fafaf8' : '#0d0d0b';
-    document.getElementById('logo-text').style.color = isDark(L.background.value) ? '#fafaf8' : '#0d0d0b';
+  // ── BOTTONE ───────────────────────────────────
+  const b = L.button || {};
+  const text      = b.text          || 'Entra';
+  const bgColor   = b.bgColor       || '#0d0d0b';
+  const textColor = b.textColor     || '#fafaf8';
+  const radius    = (b.borderRadius  != null) ? b.borderRadius  : 0;
+  const px        = (b.paddingX      != null) ? b.paddingX      : 48;
+  const py        = (b.paddingY      != null) ? b.paddingY      : 16;
+  const fs        = (b.fontSize      != null) ? b.fontSize      : 11;
+  const ls        = (b.letterSpacing != null) ? b.letterSpacing : 0.2;
+  const bw        = (b.borderWidth   != null) ? b.borderWidth   : 0;
+  const bc        = b.borderColor    || '#0d0d0b';
 
-  } catch(e) { console.error(e); }
+  btn.textContent = text;
+  btn.style.background    = bgColor;
+  btn.style.color         = textColor;
+  btn.style.borderRadius  = radius + 'px';
+  btn.style.padding       = py + 'px ' + px + 'px';
+  btn.style.fontSize      = fs + 'px';
+  btn.style.letterSpacing = ls + 'em';
+  btn.style.border        = bw + 'px solid ' + bc;
+
+  // cursor color
+  const isDark = c => { const h=c.replace('#',''); return (parseInt(h.substr(0,2),16)*299+parseInt(h.substr(2,2),16)*587+parseInt(h.substr(4,2),16)*114)/1000 < 128; };
+  const landBg = (L.background && L.background.value) ? L.background.value : '#fafaf8';
+  const cColor = (L.backgroundImage || isDark(landBg)) ? '#fafaf8' : '#0d0d0b';
+  cursor.style.background = cColor;
+  cursor.style.color = cColor;
 }
 
-function isDark(hex) {
-  const c = hex.replace('#','');
-  const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
-  return (r*299 + g*587 + b*114) / 1000 < 128;
-}
-
-loadContent();
+applyContent();
 </script>
 </body>
 </html>
