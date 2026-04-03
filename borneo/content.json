@@ -46,14 +46,18 @@
       "location": "Luogo",
       "status": "In corso",
       "description": "Descrizione del progetto.",
-      "image": "images/p1775225117276.jpg",
+      "image": "images/p1775225837855.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
         "shadow": true,
-        "maxWidth": 640
+        "maxWidth": 640,
+        "frameWidth": 260,
+        "frameHeight": 900,
+        "positionY": 83,
+        "positionX": 9
       }
     },
     {
