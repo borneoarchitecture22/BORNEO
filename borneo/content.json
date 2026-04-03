@@ -1,7 +1,10 @@
 {
   "logo": "images/logo.jpg",
   "landing": {
-    "background": { "type": "color", "value": "#fafaf8" },
+    "background": {
+      "type": "color",
+      "value": "#fafaf8"
+    },
     "backgroundImage": "",
     "button": {
       "text": "Entra",
@@ -17,7 +20,10 @@
     }
   },
   "site": {
-    "background": { "type": "color", "value": "#fafaf8" },
+    "background": {
+      "type": "color",
+      "value": "#fafaf8"
+    },
     "backgroundImage": "",
     "fontDisplay": "Cormorant",
     "fontBody": "Jost",
