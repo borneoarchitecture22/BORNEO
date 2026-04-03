@@ -44,7 +44,18 @@
       "location": "Livorno - IT",
       "status": "Ongoing",
       "description": "Un giardino urbano e il suo pergolato riorganizzano le funzioni mercatali del centro storico. La struttura gestisce i flussi di acqua meteorici e fognari, trattenendo l'acqua piovana per la cura del giardino. centrale",
-      "image": "images/p1775202510972.jpg",
+      "image": "images/p1775202706019.jpg",
+      "video": ""
+    },
+    {
+      "id": 1775202698303,
+      "title": "SDGS LAB",
+      "type": "Spazio Pubblico",
+      "year": "2025",
+      "location": "Kassel - DE",
+      "status": "Completed",
+      "description": "A Shifting stage, changing with the course of seasons.",
+      "image": "images/p1775202743785.jpg",
       "video": ""
     }
   ]
