@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo — Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&family=EB+Garamond:ital,wght@0,400;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--white:#fafaf8;--black:#0d0d0b;--grey:#9e9b96;}
+html,body{width:100%;min-height:100%;background:var(--white);color:var(--black);font-family:'Jost',sans-serif;cursor:none;}
+body.custom-cursor{cursor:none;}
+#cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);}
+#cursor.dot{width:8px;height:8px;background:var(--black);border-radius:50%;display:block;}
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:flex-start;justify-content:space-between;padding:36px 48px 0;}
+.logo-img{height:32px;width:auto;display:block;mix-blend-mode:multiply;}
+nav{display:flex;gap:32px;align-items:center;}
+nav a{color:var(--black);text-decoration:none;opacity:.45;transition:opacity .3s;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;}
+nav a:hover{opacity:1;}
+nav a.icon-link{opacity:.45;}
+nav a.icon-link img{width:22px;height:22px;object-fit:contain;mix-blend-mode:multiply;}
+.page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;}
+.page-image{height:100vh;overflow:hidden;}
+.page-image img{width:100%;height:100%;object-fit:cover;}
+.page-content{padding:80px 64px;}
+.page-title{font-family:'Cormorant',serif;font-size:clamp(36px,5vw,64px);font-weight:300;line-height:1.05;margin-bottom:40px;}
+.page-body{font-size:15px;font-weight:300;line-height:1.85;color:#4a4845;max-width:44ch;white-space:pre-wrap;}
+@media(max-width:768px){.page{grid-template-columns:1fr;}.page-image{height:50vh;}.page-content{padding:48px 24px;}}
+</style>
+</head>
+<body class="custom-cursor">
+<div id="cursor" class="dot"></div>
+<header>
+  <img class="logo-img" src="" alt="Borneo" id="page-logo">
+  <nav id="page-nav"></nav>
+</header>
+<div class="page" id="page-wrap" style="padding-top:80px;">
+  <div class="page-image" id="page-img-wrap" style="display:none;"><img id="page-img" src="" alt=""></div>
+  <div class="page-content" id="page-content-wrap">
+    <h1 class="page-title" id="page-title">Studio</h1>
+    <div class="page-body" id="page-body"></div>
+  </div>
+</div>
+<script>
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
+async function load(){
+  try{
+    const r=await fetch('content.json?v='+Date.now());const data=await r.json();
+    if(data.cursor){const img=document.createElement('img');img.src=data.cursor;img.style.cssText='width:40px;height:40px;object-fit:contain;';cursor.innerHTML='';cursor.appendChild(img);}
+    document.getElementById('page-logo').src=data.logo||'';
+    const nav=document.getElementById('page-nav'),navData=data.nav||{};
+    (navData.items||[{label:'← Progetti',href:'index.html'}]).forEach(item=>{
+      const a=document.createElement('a');a.href=item.href||'#';
+      if(navData.layout==='icons'&&item.icon){a.className='icon-link';const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);}
+      else{a.textContent=item.label;}
+      nav.appendChild(a);
+    });
+    const fd=(data.site&&data.site.fontDisplay)||'Cormorant';
+    document.getElementById('page-title').style.fontFamily=`'${fd}',serif`;
+    document.body.style.background=(data.pages&&data.pages.studio&&data.pages.studio.background)||'#fafaf8';
+    const s=data.pages&&data.pages.studio||{};
+    if(s.title)document.getElementById('page-title').textContent=s.title;
+    if(s.content)document.getElementById('page-body').textContent=s.content;
+    if(s.image){document.getElementById('page-img-wrap').style.display='block';document.getElementById('page-img').src=s.image;}
+    else{document.getElementById('page-wrap').style.gridTemplateColumns='1fr';document.getElementById('page-content-wrap').style.maxWidth='680px';document.getElementById('page-content-wrap').style.margin='0 auto';}
+  }catch(e){console.error(e);}
+}
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo — Contatti</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--white:#fafaf8;--black:#0d0d0b;--grey:#9e9b96;}
+html,body{width:100%;min-height:100%;background:var(--white);color:var(--black);font-family:'Jost',sans-serif;cursor:none;}
+#cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--black);border-radius:50%;}
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:flex-start;justify-content:space-between;padding:36px 48px 0;}
+.logo-img{height:32px;width:auto;display:block;mix-blend-mode:multiply;}
+nav{display:flex;gap:32px;}
+nav a{color:var(--black);text-decoration:none;opacity:.45;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;transition:opacity .3s;}
+nav a:hover{opacity:1;}
+nav a.icon-link img{width:22px;height:22px;object-fit:contain;mix-blend-mode:multiply;}
+.page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;}
+.contact-wrap{display:flex;flex-direction:column;gap:48px;max-width:560px;width:100%;}
+.page-title{font-family:'Cormorant',serif;font-size:clamp(36px,5vw,64px);font-weight:300;line-height:1.05;}
+.contact-body{font-size:14px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;}
+.contact-info{display:flex;flex-direction:column;gap:16px;}
+.contact-row{display:flex;gap:24px;align-items:baseline;}
+.contact-label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--grey);width:80px;flex-shrink:0;}
+.contact-value{font-size:13px;font-weight:300;color:var(--black);}
+.contact-value a{color:var(--black);text-decoration:none;border-bottom:1px solid var(--grey);}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<header>
+  <img class="logo-img" src="" alt="Borneo" id="page-logo">
+  <nav id="page-nav"></nav>
+</header>
+<div class="page">
+  <div class="contact-wrap">
+    <h1 class="page-title" id="page-title">Contatti</h1>
+    <div class="contact-body" id="contact-body"></div>
+    <div class="contact-info" id="contact-info"></div>
+  </div>
+</div>
+<script>
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';});
+async function load(){
+  try{
+    const r=await fetch('content.json?v='+Date.now());const data=await r.json();
+    document.getElementById('page-logo').src=data.logo||'';
+    const nav=document.getElementById('page-nav'),navData=data.nav||{};
+    (navData.items||[]).forEach(item=>{
+      const a=document.createElement('a');a.href=item.href||'#';
+      if(navData.layout==='icons'&&item.icon){a.className='icon-link';const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);}
+      else{a.textContent=item.label;}
+      nav.appendChild(a);
+    });
+    const fd=(data.site&&data.site.fontDisplay)||'Cormorant';
+    document.getElementById('page-title').style.fontFamily=`'${fd}',serif`;
+    document.body.style.background=(data.pages&&data.pages.contatti&&data.pages.contatti.background)||'#fafaf8';
+    const c=data.pages&&data.pages.contatti||{};
+    if(c.title)document.getElementById('page-title').textContent=c.title;
+    if(c.content)document.getElementById('contact-body').textContent=c.content;
+    const info=document.getElementById('contact-info');
+    if(c.email){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Email</span><span class="contact-value"><a href="mailto:${c.email}">${c.email}</a></span>`;info.appendChild(d);}
+    if(c.phone){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Telefono</span><span class="contact-value">${c.phone}</span>`;info.appendChild(d);}
+    if(c.address){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Indirizzo</span><span class="contact-value">${c.address}</span>`;info.appendChild(d);}
+  }catch(e){console.error(e);}
+}
+load();
+</script>
+</body>
+</html>
