@@ -34,8 +34,8 @@
       "borderRadius": 0,
       "shadow": true
     },
-    "transition": "fade",
-    "transitionSpeed": 0.7
+    "transition": "slide",
+    "transitionSpeed": 0.6
   },
   "projects": [
     {
@@ -122,5 +122,11 @@
     }
   },
   "logoLayout": "tc",
-  "infoLayout": "bc"
+  "infoLayout": "bc",
+  "navLayout": "tr",
+  "progressLayout": "br",
+  "showLogo": true,
+  "showInfo": true,
+  "showProgress": false,
+  "showNav": false
 }
