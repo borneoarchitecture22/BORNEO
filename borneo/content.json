@@ -41,12 +41,12 @@
     {
       "id": 1,
       "title": "MDL",
-      "type": "Tipologia",
-      "year": "2024",
-      "location": "Luogo",
-      "status": "In corso",
+      "type": "Urban renovation",
+      "year": "2022",
+      "location": "Livorno - IT",
+      "status": "Ongoing",
       "description": "Descrizione del progetto.",
-      "image": "images/p1775225837855.jpg",
+      "image": "images/p1775890380328.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -54,10 +54,10 @@
         "borderColor": "#0d0d0b",
         "shadow": true,
         "maxWidth": 640,
-        "frameWidth": 240,
+        "frameWidth": 920,
         "frameHeight": 900,
-        "positionY": 83,
-        "positionX": 9
+        "positionY": 46,
+        "positionX": 50
       }
     },
     {
