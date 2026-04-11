@@ -144,9 +144,9 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
 #spftn{font-family:'Cormorant',serif;font-size:13px;font-weight:300;}
 #sppv,#spnx{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;color:var(--g);z-index:20;padding:4px;}
 #sppv{left:4px;}#spnx{right:4px;}
-/* Footer position grid */
-.pos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:4px;}
-.pos-btn{border:1px solid var(--br);background:none;padding:6px 10px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:var(--g);transition:all .2s;}
+/* Position grids */
+.pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:4px;}
+.pos-btn{border:1px solid var(--br);background:none;padding:5px 6px;font-family:'Jost',sans-serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--g);transition:all .2s;text-align:center;}
 .pos-btn:hover{border-color:var(--b);color:var(--b);}
 .pos-btn.active{background:var(--b);color:var(--w);border-color:var(--b);}
 /* Nav items */
@@ -313,13 +313,42 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="st">Font</div>
           <div class="sr"><span class="slb">Titoli</span><div class="sc"><select id="s-fd"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option></select></div></div>
           <div class="sr"><span class="slb">Testo</span><div class="sc"><select id="s-fb"><option value="Jost">Jost</option><option value="EB Garamond">EB Garamond</option><option value="Cormorant">Cormorant</option></select></div></div>
-          <div class="st">Posizione info progetto</div>
-          <div class="sl2" style="margin-bottom:8px">Posizione nel sito</div>
-          <div class="pos-grid" id="pos-grid">
-            <button class="pos-btn" data-pos="pos-tl">↖ Alto sx</button>
-            <button class="pos-btn" data-pos="pos-tr">↗ Alto dx</button>
-            <button class="pos-btn active" data-pos="pos-bl">↙ Basso sx</button>
-            <button class="pos-btn" data-pos="pos-br">↘ Basso dx</button>
+          <div class="st">Posizioni elementi</div>
+          <div class="sl2" style="margin-bottom:6px">Logo</div>
+          <div class="pos-grid" id="grid-logo">
+            <button class="pos-btn active" data-v="tl">↖ Alto sx</button>
+            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
+            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
+            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
+            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
+            <button class="pos-btn" data-v="br">↘ Basso dx</button>
+          </div>
+          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Menu (Studio/Contatti)</div>
+          <div class="pos-grid" id="grid-nav">
+            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
+            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
+            <button class="pos-btn active" data-v="tr">↗ Alto dx</button>
+            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
+            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
+            <button class="pos-btn" data-v="br">↘ Basso dx</button>
+          </div>
+          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Nome progetto</div>
+          <div class="pos-grid" id="grid-info">
+            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
+            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
+            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
+            <button class="pos-btn active" data-v="bl">↙ Basso sx</button>
+            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
+            <button class="pos-btn" data-v="br">↘ Basso dx</button>
+          </div>
+          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Barra avanzamento</div>
+          <div class="pos-grid" id="grid-progress">
+            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
+            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
+            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
+            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
+            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
+            <button class="pos-btn active" data-v="br">↘ Basso dx</button>
           </div>
           <div class="st">Transizione</div>
           <div class="sr"><span class="slb">Tipo</span><div class="sc"><select id="s-tr"><option value="clip">Tenda</option><option value="fade">Dissolvenza</option><option value="slide">Scivolata</option><option value="scale">Zoom</option></select></div></div>
@@ -416,7 +445,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},footerLayout:'pos-bl',landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -467,7 +496,10 @@ async function initAll(){
 async function loadContent(){
   try{const f=await ghGet(rp('content.json'));C=JSON.parse(atob(f.content.replace(/\n/g,'')));}catch(e){C=DC();}
   if(!C.nav)C.nav=DC().nav;
-  if(!C.footerLayout)C.footerLayout='pos-bl';
+  if(!C.logoLayout)C.logoLayout='tl';
+  if(!C.navLayout)C.navLayout='tr';
+  if(!C.infoLayout)C.infoLayout='bl';
+  if(!C.progressLayout)C.progressLayout='br';
   if(!C.cursor)C.cursor='';
   if(!C.pages)C.pages=DC().pages;
   if(!C.site.transition)C.site.transition='clip';
@@ -734,8 +766,11 @@ function populateSettings(){
   if(S.backgroundImage&&!staged.bg_site)document.getElementById('s-bg-th').style.backgroundImage=`url('${rawU(S.backgroundImage)}')`;
   if(C.cursor&&!staged.cursor)document.getElementById('cur-th').style.backgroundImage=`url('${rawU(C.cursor)}')`;
   sV('s-fd',S.fontDisplay||'Cormorant');sV('s-fb',S.fontBody||'Jost');
-  // footer position
-  document.querySelectorAll('.pos-btn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.pos===(C.footerLayout||'pos-bl'));});
+  // position grids
+  ['logo','nav','info','progress'].forEach(key=>{
+    const val=C[key+'Layout']||{logo:'tl',nav:'tr',info:'bl',progress:'br'}[key];
+    document.querySelectorAll(`#grid-${key} .pos-btn`).forEach(btn=>btn.classList.toggle('active',btn.dataset.v===val));
+  });
   sV('s-tr',S.transition||'clip');sR('s-spd',S.transitionSpeed||0.72,'s');
   const st=S.imageStyle;
   sR('s-iw',st.maxWidth,'px');sR('s-ir',st.borderRadius,'px');sR('s-ibw',st.borderWidth,'px');
@@ -743,12 +778,14 @@ function populateSettings(){
   updateLandingPreview();updateSitePreview();
 }
 
-// Footer position buttons
-document.getElementById('pos-grid').addEventListener('click',e=>{
-  const btn=e.target.closest('.pos-btn');if(!btn)return;
-  C.footerLayout=btn.dataset.pos;
-  document.querySelectorAll('.pos-btn').forEach(b=>b.classList.toggle('active',b===btn));
-  updateSitePreview();
+// Position grids — 4 independent
+['logo','nav','info','progress'].forEach(key=>{
+  document.getElementById(`grid-${key}`)?.addEventListener('click',e=>{
+    const btn=e.target.closest('.pos-btn');if(!btn)return;
+    C[key+'Layout']=btn.dataset.v;
+    document.querySelectorAll(`#grid-${key} .pos-btn`).forEach(b=>b.classList.toggle('active',b===btn));
+    updateSitePreview();
+  });
 });
 
 // Landing binds
@@ -866,12 +903,20 @@ function applyCarouselStyles(){
   else{spp.style.backgroundImage='none';spp.style.background=S.background?.value||'#fafaf8';}
   document.getElementById('spftn').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
   document.getElementById('spnl').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
-  // footer position in preview
+  // logo position in preview
+  const spnav=document.getElementById('spnav');
+  const logoPos=C.logoLayout||'tl';
+  const navPos=C.navLayout||'tr';
+  // reorder logo/nav in preview nav bar based on positions
+  const isLogoRight=logoPos.endsWith('r');
+  const isNavRight=navPos.endsWith('r');
+  spnav.style.flexDirection=(isLogoRight&&!isNavRight)?'row-reverse':'row';
+  if(logoPos.includes('c')||navPos.includes('c')){spnav.style.justifyContent='center';spnav.style.gap='20px';}
+  else spnav.style.justifyContent='space-between';
+  // info/progress position in preview footer
+  const infoPos=C.infoLayout||'bl';
   const spft=document.getElementById('spft');
-  const pos=C.footerLayout||'pos-bl';
-  spft.style.cssText='padding:9px 18px;flex-shrink:0;border-top:1px solid rgba(0,0,0,.06);';
-  if(pos==='pos-tr'||pos==='pos-br')spft.style.textAlign='right';
-  else spft.style.textAlign='left';
+  spft.style.textAlign=infoPos.endsWith('c')?'center':infoPos.endsWith('r')?'right':'left';
 }
 
 function updateCarouselFooter(idx){
