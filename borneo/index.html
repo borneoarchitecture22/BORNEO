@@ -221,18 +221,31 @@ function applyNav(D){
 }
 
 function applyPositions(D){
-  // Logo
   const lw=document.getElementById('site-logo-wrap');
   lw.className=D.logoLayout||'tl';
-  // Nav
+  lw.style.display=D.showLogo===false?'none':'';
+
   const nw=document.getElementById('site-nav-wrap');
   nw.className=D.navLayout||'tr';
-  // Project info
+  nw.style.display=D.showNav===false?'none':'';
+
   const pw=document.getElementById('proj-info-wrap');
   pw.className=D.infoLayout||'bl';
-  // Progress
+  pw.style.display=D.showInfo===false?'none':'';
+
   const prw=document.getElementById('proj-progress-wrap');
   prw.className=D.progressLayout||'br';
+  prw.style.display=D.showProgress===false?'none':'';
+
+  // Center the stage image accounting for UI elements
+  // If logo/nav are at top → add top padding, if bottom → add bottom padding
+  const logoPos=D.logoLayout||'tl';
+  const infoPos=D.infoLayout||'bl';
+  const hasTop=logoPos.startsWith('t')||(D.navLayout||'tr').startsWith('t');
+  const hasBottom=infoPos.startsWith('b')||(D.progressLayout||'br').startsWith('b');
+  const stage=document.getElementById('stage');
+  stage.style.paddingTop=hasTop&&D.showLogo!==false?'70px':'0';
+  stage.style.paddingBottom=hasBottom&&D.showInfo!==false?'70px':'0';
 }
 
 function applyCursor(D){
