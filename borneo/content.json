@@ -28,7 +28,7 @@
     "fontDisplay": "EB Garamond",
     "fontBody": "EB Garamond",
     "imageStyle": {
-      "maxWidth": 920,
+      "maxWidth": 200,
       "borderWidth": 0,
       "borderColor": "#0d0d0b",
       "borderRadius": 0,
@@ -82,5 +82,45 @@
         "positionY": 42
       }
     }
-  ]
+  ],
+  "nav": {
+    "layout": "text",
+    "items": [
+      {
+        "label": "Progetti",
+        "icon": "",
+        "href": "#"
+      },
+      {
+        "label": "Studio",
+        "icon": "",
+        "href": "studio.html"
+      },
+      {
+        "label": "Contatti",
+        "icon": "",
+        "href": "contatti.html"
+      }
+    ]
+  },
+  "footerLayout": "pos-bl",
+  "cursor": "",
+  "pages": {
+    "studio": {
+      "title": "Studio",
+      "content": "",
+      "background": "#fafaf8",
+      "image": ""
+    },
+    "contatti": {
+      "title": "Contatti",
+      "content": "",
+      "background": "#fafaf8",
+      "email": "",
+      "phone": "",
+      "address": ""
+    }
+  },
+  "logoLayout": "tc",
+  "infoLayout": "bc"
 }
