@@ -1,62 +1,86 @@
 {
   "logo": "images/logo.jpg",
-  "cursor": "",
-  "nav": {
-    "layout": "text",
-    "items": [
-      { "label": "Progetti", "icon": "", "href": "#" },
-      { "label": "Studio",   "icon": "", "href": "studio.html" },
-      { "label": "Contatti", "icon": "", "href": "contatti.html" }
-    ]
-  },
-  "footerLayout": "name-right",
   "landing": {
-    "background": { "type": "color", "value": "#fafaf8" },
-    "backgroundImage": "",
-    "showLogo": false,
+    "background": {
+      "type": "color",
+      "value": "#fafaf8"
+    },
+    "backgroundImage": "images/bg_landing_1775223776028.jpg",
     "button": {
-      "text": "Entra",
+      "text": "Borneo",
       "bgColor": "#0d0d0b",
       "textColor": "#fafaf8",
       "borderRadius": 0,
-      "paddingX": 48,
-      "paddingY": 16,
-      "fontSize": 11,
-      "letterSpacing": 0.2,
+      "paddingX": 20,
+      "paddingY": 8,
+      "fontSize": 12,
+      "letterSpacing": 0.28,
       "borderWidth": 0,
       "borderColor": "#0d0d0b"
     }
   },
   "site": {
-    "background": { "type": "color", "value": "#fafaf8" },
+    "background": {
+      "type": "color",
+      "value": "#ffffff"
+    },
     "backgroundImage": "",
-    "fontDisplay": "Cormorant",
-    "fontBody": "Jost",
-    "transition": "clip",
-    "transitionSpeed": 0.72,
+    "fontDisplay": "EB Garamond",
+    "fontBody": "EB Garamond",
     "imageStyle": {
-      "maxWidth": 640,
+      "maxWidth": 920,
       "borderWidth": 0,
       "borderColor": "#0d0d0b",
       "borderRadius": 0,
       "shadow": true
-    }
-  },
-  "pages": {
-    "studio": {
-      "title": "Studio",
-      "content": "",
-      "background": "#fafaf8",
-      "image": ""
     },
-    "contatti": {
-      "title": "Contatti",
-      "content": "",
-      "background": "#fafaf8",
-      "email": "",
-      "phone": "",
-      "address": ""
-    }
+    "transition": "fade",
+    "transitionSpeed": 0.7
   },
-  "projects": []
+  "projects": [
+    {
+      "id": 1,
+      "title": "MDL",
+      "type": "Tipologia",
+      "year": "2024",
+      "location": "Luogo",
+      "status": "In corso",
+      "description": "Descrizione del progetto.",
+      "image": "images/p1775225837855.jpg",
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true,
+        "maxWidth": 640,
+        "frameWidth": 260,
+        "frameHeight": 900,
+        "positionY": 83,
+        "positionX": 9
+      }
+    },
+    {
+      "id": 1775225108692,
+      "title": "KSL",
+      "type": "",
+      "year": "2025",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1775225940213.jpg",
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true,
+        "maxWidth": 640,
+        "positionX": 18,
+        "frameHeight": 780,
+        "frameWidth": 140,
+        "positionY": 42
+      }
+    }
+  ]
 }
