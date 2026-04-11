@@ -265,11 +265,7 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
         <!-- PREVIEW -->
         <div class="pvp">
           <div class="pvl">Anteprima live</div>
-          <div id="ppw">
-            <div id="ppe">Nessuna immagine</div>
-            <img id="ppi" src="" alt="">
-            <video id="ppv" muted loop autoplay playsinline></video>
-          </div>
+          <div id="ppw"></div>
         </div>
       </div>
     </div>
@@ -313,6 +309,11 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="st">Font</div>
           <div class="sr"><span class="slb">Titoli</span><div class="sc"><select id="s-fd"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option></select></div></div>
           <div class="sr"><span class="slb">Testo</span><div class="sc"><select id="s-fb"><option value="Jost">Jost</option><option value="EB Garamond">EB Garamond</option><option value="Cormorant">Cormorant</option></select></div></div>
+          <div class="st">Visibilità elementi</div>
+          <div class="sr"><span class="slb">Logo</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-logo" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Nome progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-info" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Numeratore</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-progress" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Menu navigazione</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-nav" checked><span style="font-size:10px">Visibile</span></label></div></div>
           <div class="st">Posizioni elementi</div>
           <div class="sl2" style="margin-bottom:6px">Logo</div>
           <div class="pos-grid" id="grid-logo">
@@ -445,7 +446,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -500,6 +501,10 @@ async function loadContent(){
   if(!C.navLayout)C.navLayout='tr';
   if(!C.infoLayout)C.infoLayout='bl';
   if(!C.progressLayout)C.progressLayout='br';
+  if(C.showLogo===undefined)C.showLogo=true;
+  if(C.showInfo===undefined)C.showInfo=true;
+  if(C.showProgress===undefined)C.showProgress=true;
+  if(C.showNav===undefined)C.showNav=true;
   if(!C.cursor)C.cursor='';
   if(!C.pages)C.pages=DC().pages;
   if(!C.site.transition)C.site.transition='clip';
@@ -624,41 +629,56 @@ function updateProjPreview(){
   const stg=staged[`media_${selIdx}`];
   const src=stg?stg.dataUrl:(p.video?rawU(p.video):(p.image?rawU(p.image):''));
   const isV=stg?stg.isVideo:!!p.video;
-  const ppw=document.getElementById('ppw');
-  const ppe=document.getElementById('ppe');
-  const img=document.getElementById('ppi');
-  const vid=document.getElementById('ppv');
-  const isPng=!isV&&(stg?.dataUrl?.includes('image/png')||p.image?.toLowerCase().endsWith('.png'));
+  const isPng=!isV&&(src.startsWith('data:image/png')||p.image?.toLowerCase().endsWith('.png'));
   const fh=st.frameHeight&&st.frameHeight>0;
   const fw=st.frameWidth||640;
-  const panW=ppw.parentElement?.offsetWidth||500;
-  const scale=Math.min(1,(panW-60)/fw);
+
+  const panel=document.querySelector('.pvp');
+  const panW=(panel?.offsetWidth||500)-60;
+  const panH=(panel?.offsetHeight||400)-60;
+  const scaleW=panW/fw;
+  const scaleH=fh?panH/st.frameHeight:1;
+  const scale=Math.min(1,scaleW,fh?scaleH:1);
+
+  const ppw=document.getElementById('ppw');
+  // Clear and rebuild content
+  ppw.innerHTML='';
   ppw.style.width=Math.round(fw*scale)+'px';
   ppw.style.borderRadius=(st.borderRadius||0)+'px';
   ppw.style.border=(st.borderWidth||0)>0?`${st.borderWidth}px solid ${st.borderColor||'#0d0d0b'}`:'none';
-  ppw.style.overflow='hidden';ppw.style.background='transparent';
-  ppw.style.boxShadow=st.shadow!==false&&!isPng?'0 12px 48px rgba(0,0,0,.12)':'none';
-  if(fh){ppw.style.height=Math.round(st.frameHeight*scale)+'px';ppw.style.maxHeight='65vh';}
-  else{ppw.style.height='auto';ppw.style.maxHeight='65vh';}
-  if(src){
-    ppe.style.display='none';
-    if(isV){
-      img.style.display='none';vid.style.display='block';
-      if(vid.src!==src){vid.src=src;vid.load();}
-      if(fh){vid.style.cssText=`width:100%;height:100%;object-fit:cover;object-position:${st.positionX??50}% ${st.positionY??50}%;max-width:none;max-height:none;`;}
-      else{vid.style.cssText='max-width:100%;max-height:65vh;width:auto;height:auto;object-fit:contain;';}
-    } else {
-      vid.style.display='none';img.style.display='block';
-      if(img.src!==src)img.src=src;
-      if(isPng){img.style.background='transparent';img.style.filter=st.shadow!==false?'drop-shadow(0 8px 30px rgba(0,0,0,.15))':'none';}
-      else img.style.filter='none';
-      if(fh){img.style.cssText=`width:100%;height:100%;object-fit:cover;object-position:${st.positionX??50}% ${st.positionY??50}%;max-width:none;max-height:none;background:transparent;`;}
-      else{img.style.cssText='max-width:100%;max-height:65vh;width:auto;height:auto;object-fit:contain;background:transparent;';}
-    }
-  } else {
-    img.style.display='none';vid.style.display='none';ppe.style.display='block';
-    ppw.style.width='200px';ppw.style.height='130px';ppw.style.background='#e8e6e1';ppw.style.border='none';ppw.style.boxShadow='none';
+  ppw.style.overflow='hidden';
+  ppw.style.background='transparent';
+  ppw.style.position='relative';
+
+  if(!src){
+    ppw.style.width='220px';ppw.style.height='150px';ppw.style.background='#e8e6e1';
+    ppw.style.border='none';ppw.style.boxShadow='none';ppw.style.borderRadius='0';
+    ppw.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#b0aca8">Nessuna immagine</div>';
+    return;
   }
+
+  ppw.style.boxShadow=st.shadow!==false&&!isPng?'0 12px 48px rgba(0,0,0,.12)':'none';
+
+  let media;
+  if(isV){
+    media=document.createElement('video');
+    media.muted=true;media.loop=true;media.autoplay=true;media.playsInline=true;
+  } else {
+    media=document.createElement('img');
+    media.alt='preview';
+    if(isPng){media.style.background='transparent';if(st.shadow!==false)media.style.filter='drop-shadow(0 8px 30px rgba(0,0,0,.15))';}
+  }
+  media.src=src;
+
+  if(fh){
+    ppw.style.height=Math.round(st.frameHeight*scale)+'px';
+    media.style.cssText=`width:100%;height:100%;object-fit:cover;object-position:${st.positionX??50}% ${st.positionY??50}%;max-width:none;max-height:none;display:block;background:transparent;`;
+  } else {
+    ppw.style.height='auto';
+    media.style.cssText=`max-width:100%;max-height:60vh;width:auto;height:auto;object-fit:contain;display:block;background:transparent;`;
+  }
+
+  ppw.appendChild(media);
   applyCarouselStyles();
 }
 
@@ -766,6 +786,11 @@ function populateSettings(){
   if(S.backgroundImage&&!staged.bg_site)document.getElementById('s-bg-th').style.backgroundImage=`url('${rawU(S.backgroundImage)}')`;
   if(C.cursor&&!staged.cursor)document.getElementById('cur-th').style.backgroundImage=`url('${rawU(C.cursor)}')`;
   sV('s-fd',S.fontDisplay||'Cormorant');sV('s-fb',S.fontBody||'Jost');
+  // visibility toggles
+  document.getElementById('vis-logo').checked=C.showLogo!==false;
+  document.getElementById('vis-info').checked=C.showInfo!==false;
+  document.getElementById('vis-progress').checked=C.showProgress!==false;
+  document.getElementById('vis-nav').checked=C.showNav!==false;
   // position grids
   ['logo','nav','info','progress'].forEach(key=>{
     const val=C[key+'Layout']||{logo:'tl',nav:'tr',info:'bl',progress:'br'}[key];
@@ -778,6 +803,11 @@ function populateSettings(){
   updateLandingPreview();updateSitePreview();
 }
 
+// Visibility binds
+bCk('vis-logo',v=>{C.showLogo=v;updateSitePreview();});
+bCk('vis-info',v=>{C.showInfo=v;updateSitePreview();});
+bCk('vis-progress',v=>{C.showProgress=v;updateSitePreview();});
+bCk('vis-nav',v=>{C.showNav=v;updateSitePreview();});
 // Position grids — 4 independent
 ['logo','nav','info','progress'].forEach(key=>{
   document.getElementById(`grid-${key}`)?.addEventListener('click',e=>{
