@@ -63,12 +63,12 @@
     {
       "id": 1775225108692,
       "title": "KSL",
-      "type": "",
+      "type": "Onsite P",
       "year": "2025",
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1775225940213.jpg",
+      "image": "images/p1775890456114.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -78,7 +78,7 @@
         "maxWidth": 640,
         "positionX": 18,
         "frameHeight": 780,
-        "frameWidth": 140,
+        "frameWidth": 800,
         "positionY": 42
       }
     }
