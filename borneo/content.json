@@ -136,5 +136,6 @@
   "showLogo": true,
   "showInfo": true,
   "showProgress": false,
-  "showNav": true
+  "showNav": true,
+  "showIndex": false
 }
