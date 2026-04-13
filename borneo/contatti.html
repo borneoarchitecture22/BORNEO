@@ -71,7 +71,9 @@ async function load(){
     cb.style.fontWeight=c.bodyWeight||300;
     cb.style.color=c.bodyColor||'#4a4845';
     cb.style.lineHeight=c.bodyLineHeight||1.85;
-    cb.style.textAlign=c.bodyAlign||'left';
+    const cAlign=c.bodyAlign||'left';
+    cb.style.textAlign=cAlign==='justify-right'?'justify':cAlign;
+    cb.style.textAlignLast=cAlign==='justify-right'?'right':'';
     // contact info rows
     const info=document.getElementById('contact-info');
     const iFont=c.infoFont||'Jost';

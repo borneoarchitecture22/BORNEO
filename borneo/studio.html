@@ -72,7 +72,9 @@ async function load(){
     b.style.fontWeight=s.bodyWeight||300;
     b.style.color=s.bodyColor||'#4a4845';
     b.style.lineHeight=s.bodyLineHeight||1.85;
-    b.style.textAlign=s.bodyAlign||'left';
+    const sAlign=s.bodyAlign||'left';
+    b.style.textAlign=sAlign==='justify-right'?'justify':sAlign;
+    b.style.textAlignLast=sAlign==='justify-right'?'right':'';
     if(s.image){document.getElementById('page-img-wrap').style.display='block';document.getElementById('page-img').src=s.image;}
     else{document.getElementById('page-wrap').style.gridTemplateColumns='1fr';document.getElementById('page-content-wrap').style.maxWidth='680px';document.getElementById('page-content-wrap').style.margin='0 auto';}
   }catch(e){console.error(e);}
