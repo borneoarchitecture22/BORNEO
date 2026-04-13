@@ -227,6 +227,6 @@
   "showProgress": false,
   "showNav": true,
   "showIndex": false,
-  "showName": true,
+  "showName": false,
   "showTag": false
 }
