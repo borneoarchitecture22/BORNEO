@@ -35,7 +35,8 @@
       "shadow": true
     },
     "transition": "slide",
-    "transitionSpeed": 0.6
+    "transitionSpeed": 0.6,
+    "projectPagesEnabled": false
   },
   "projects": [
     {
