@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:wght@200;300;400;500&family=Jost:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;--thin:#d4d1cc;--speed:.72s;--ease:cubic-bezier(0.76,0,0.24,1);}
@@ -208,14 +208,29 @@ function applyBg(D){
 }
 
 function applyFonts(D){
-  const fd=(D.site&&D.site.fontDisplay)||'Cormorant';
-  document.querySelectorAll('.proj-name,.ov-title,.ov-desc').forEach(el=>el.style.fontFamily=`'${fd}',serif`);
+  const s=D.site||{};
+  const fd=s.fontDisplay||'Cormorant';
+  // overlay title
+  document.querySelectorAll('.ov-title,.ov-desc').forEach(el=>el.style.fontFamily=`'${fd}',serif`);
+  // carousel title — uses separate titleFont settings if set
+  const tf=s.titleFont||fd;
+  const ts=s.titleSize||22;
+  const tw=s.titleWeight||300;
+  const tc=s.titleColor||'var(--b)';
+  const el=document.getElementById('f-name');
+  if(el){
+    el.style.fontFamily=`'${tf}',sans-serif`;
+    el.style.fontSize=ts+'px';
+    el.style.fontWeight=tw;
+    el.style.color=tc;
+  }
 }
 
 function applyNav(D){
   const nav=document.getElementById('site-nav');nav.innerHTML='';
   const nd=D.nav||{layout:'text',items:[{label:'Progetti',href:'#'},{label:'Studio',href:'studio.html'},{label:'Contatti',href:'contatti.html'}]};
   nd.items.forEach(item=>{
+    if(item.visible===false)return; // skip hidden items
     const a=document.createElement('a');a.href=item.href||'#';
     if(nd.layout==='icons'&&item.icon){
       a.className='il-link';
