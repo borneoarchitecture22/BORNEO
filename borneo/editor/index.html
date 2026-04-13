@@ -316,7 +316,9 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-tc" value="#0d0d0b"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="s-tc"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="s-tc"></div><div class="sw" style="background:#9e9b96" data-c="#9e9b96" data-t="s-tc"></div></div></div></div>
           <div class="st">Visibilità elementi</div>
           <div class="sr"><span class="slb">Logo</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-logo" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Nome progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-info" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Numeratore (01/02)</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-index" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Nome progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-name" checked><span style="font-size:10px">Visibile</span></label></div></div>
+          <div class="sr"><span class="slb">Tipologia — Anno</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-tag" checked><span style="font-size:10px">Visibile</span></label></div></div>
           <div class="sr"><span class="slb">Numeratore</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-progress" checked><span style="font-size:10px">Visibile</span></label></div></div>
           <div class="sr"><span class="slb">Menu navigazione</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-nav" checked><span style="font-size:10px">Visibile</span></label></div></div>
           <div class="st">Posizioni elementi</div>
@@ -373,7 +375,7 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div id="spp">
             <div id="spnav"><span id="spnl">Borneo</span><span style="font-size:7px;letter-spacing:.13em;text-transform:uppercase;color:#9e9b96">Progetti</span></div>
             <div id="spst"></div>
-            <div id="spft"><div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-bottom:2px" id="spidx">01/01</div><div id="spftn">Progetto</div></div>
+            <div id="spft"><div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-bottom:2px" id="spidx">01/01</div><div id="spftn">Progetto</div><div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-top:2px" id="spftag">Tipologia — 2024</div></div>
             <button id="sppv">‹</button><button id="spnx">›</button>
           </div>
         </div>
@@ -453,7 +455,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showIndex:false,showName:true,showTag:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -509,7 +511,9 @@ async function loadContent(){
   if(!C.infoLayout)C.infoLayout='bl';
   if(!C.progressLayout)C.progressLayout='br';
   if(C.showLogo===undefined)C.showLogo=true;
-  if(C.showInfo===undefined)C.showInfo=true;
+  if(C.showIndex===undefined)C.showIndex=false;
+  if(C.showName===undefined)C.showName=true;
+  if(C.showTag===undefined)C.showTag=true;
   if(C.showProgress===undefined)C.showProgress=true;
   if(C.showNav===undefined)C.showNav=true;
   if(!C.cursor)C.cursor='';
@@ -801,7 +805,9 @@ function populateSettings(){
   sV('s-fd',S.fontDisplay||'Cormorant');sV('s-fb',S.fontBody||'Jost');
   // visibility toggles
   document.getElementById('vis-logo').checked=C.showLogo!==false;
-  document.getElementById('vis-info').checked=C.showInfo!==false;
+  document.getElementById('vis-index').checked=C.showIndex===true;
+  document.getElementById('vis-name').checked=C.showName!==false;
+  document.getElementById('vis-tag').checked=C.showTag!==false;
   document.getElementById('vis-progress').checked=C.showProgress!==false;
   document.getElementById('vis-nav').checked=C.showNav!==false;
   // position grids
@@ -822,7 +828,9 @@ function populateSettings(){
 
 // Visibility binds
 bCk('vis-logo',v=>{C.showLogo=v;updateSitePreview();});
-bCk('vis-info',v=>{C.showInfo=v;updateSitePreview();});
+bCk('vis-index',v=>{C.showIndex=v;updateSitePreview();});
+bCk('vis-name',v=>{C.showName=v;updateSitePreview();});
+bCk('vis-tag',v=>{C.showTag=v;updateSitePreview();});
 bCk('vis-progress',v=>{C.showProgress=v;updateSitePreview();});
 bCk('vis-nav',v=>{C.showNav=v;updateSitePreview();});
 // Position grids — 4 independent
@@ -953,6 +961,10 @@ function applyCarouselStyles(){
   const bgSrc=staged.bg_site?staged.bg_site.dataUrl:(S.backgroundImage?rawU(S.backgroundImage):'');
   if(bgSrc){spp.style.backgroundImage=`url('${bgSrc}')`;spp.style.backgroundSize='cover';}
   else{spp.style.backgroundImage='none';spp.style.background=S.background?.value||'#fafaf8';}
+  // visibility in preview
+  document.getElementById('spidx').style.display=C.showIndex?'block':'none';
+  document.getElementById('spftn').style.display=C.showName!==false?'block':'none';
+  document.getElementById('spftag').style.display=C.showTag!==false?'block':'none';
   document.getElementById('spftn').style.fontFamily=`'${S.titleFont||S.fontDisplay||'Cormorant'}',sans-serif`;
   document.getElementById('spftn').style.fontSize=(S.titleSize||22)*0.65+'px';
   document.getElementById('spftn').style.fontWeight=S.titleWeight||300;
@@ -979,6 +991,8 @@ function updateCarouselFooter(idx){
   const n=Math.max(1,C.projects.length);
   document.getElementById('spidx').textContent=String(idx+1).padStart(2,'0')+'/'+String(n).padStart(2,'0');
   document.getElementById('spftn').textContent=p.title||'Progetto';
+  const tagEl=document.getElementById('spftag');
+  if(tagEl)tagEl.textContent=(p.type||'Tipologia')+' — '+(p.year||'2024');
 }
 
 function spNav(dir){
