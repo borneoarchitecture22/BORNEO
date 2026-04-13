@@ -86,6 +86,90 @@
         "frameWidth": 800,
         "positionY": 42
       }
+    },
+    {
+      "id": 1776099496040,
+      "title": "TAB",
+      "type": "Temporary Pavillion",
+      "year": "2024",
+      "location": "Tallinn - EE",
+      "status": "",
+      "description": "",
+      "image": "images/p1776099564034.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 500,
+        "frameHeight": 390,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776099686706,
+      "title": "KNG",
+      "type": "Temporary Pavilion",
+      "year": "2023",
+      "location": "Hamburg - De",
+      "status": "",
+      "description": "",
+      "image": "images/p1776099728218.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 700,
+        "frameHeight": 510,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776099820372,
+      "title": "CNC",
+      "type": "Temporary Garden/Pavilion",
+      "year": "2025",
+      "location": "Logrono - Es",
+      "status": "Ongoing",
+      "description": "",
+      "image": "images/p1776099834996.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 420,
+        "frameHeight": 400,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776099909021,
+      "title": "ALG",
+      "type": "Building Renovation",
+      "year": "2025",
+      "location": "Allgau - De",
+      "status": "Ongoing",
+      "description": "",
+      "image": "images/p1776099930572.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 860,
+        "frameHeight": 840,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
     }
   ],
   "nav": {
