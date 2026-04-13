@@ -253,7 +253,16 @@ function applyPositions(D){
 
   const pw=document.getElementById('proj-info-wrap');
   pw.className=D.infoLayout||'bl';
-  pw.style.display=D.showInfo===false?'none':'';
+  // granular element visibility inside info wrap
+  const idxEl=document.getElementById('f-index');
+  const nameEl=document.getElementById('f-name');
+  const tagEl=document.getElementById('f-tag');
+  if(idxEl)idxEl.style.display=D.showIndex===true?'block':'none';
+  if(nameEl)nameEl.style.display=D.showName!==false?'block':'none';
+  if(tagEl)tagEl.style.display=D.showTag!==false?'block':'none';
+  // hide whole wrap if all three are off
+  const anyInfo=(D.showIndex||D.showName!==false||D.showTag!==false);
+  pw.style.display=anyInfo?'':'none';
 
   const prw=document.getElementById('proj-progress-wrap');
   prw.className=D.progressLayout||'br';
