@@ -397,25 +397,72 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
 
     <!-- STUDIO -->
     <div class="tp" id="tab-studio">
-      <div class="mp" style="max-width:560px;">
-        <div class="sl2" style="margin-bottom:14px">Pagina Studio</div>
-        <div class="sr" style="margin-bottom:14px;"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="st-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="st-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="st-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="st-bg"></div></div></div></div>
-        <div class="sr" style="margin-bottom:14px;"><span class="slb">Immagine</span><div class="sc"><div class="ur"><button class="bu" id="btn-st-img">Carica</button><div class="bgt" id="st-img-th"></div><button class="bcl" id="btn-st-img-clr">✕</button></div></div></div>
-        <div class="pf" style="margin-bottom:14px;"><label>Titolo</label><input id="st-title" value="Studio"></div>
-        <div class="pf"><label>Testo (a capo libero)</label><textarea id="st-content" style="height:220px;resize:vertical;"></textarea></div>
+      <div class="ssl">
+        <div class="sp">
+          <div class="st">Pagina Studio</div>
+          <div class="sr"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="st-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="st-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="st-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="st-bg"></div></div></div></div>
+          <div class="sr"><span class="slb">Immagine</span><div class="sc"><div class="ur"><button class="bu" id="btn-st-img">Carica</button><div class="bgt" id="st-img-th"></div><button class="bcl" id="btn-st-img-clr">✕</button></div></div></div>
+          <div class="st">Titolo</div>
+          <div class="pf" style="margin-bottom:12px;"><label>Testo titolo</label><input id="st-title" value="Studio"></div>
+          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="st-title-font"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
+          <div class="sr"><span class="slb">Peso titolo</span><div class="sc"><select id="st-title-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+          <div class="sr"><span class="slb">Colore titolo</span><div class="sc"><input type="color" id="st-title-color" value="#0d0d0b"></div></div>
+          <div class="sr"><span class="slb">Allineamento titolo</span><div class="sc"><select id="st-title-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
+          <div class="st">Testo</div>
+          <div class="pf" style="margin-bottom:12px;"><label>Contenuto (a capo libero)</label><textarea id="st-content" style="height:160px;resize:vertical;"></textarea></div>
+          <div class="sr"><span class="slb">Font testo</span><div class="sc"><select id="st-body-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option><option value="Playfair Display">Playfair Display</option></select></div></div>
+          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="st-body-size" min="10" max="28" step="1"><span class="rv2" id="st-body-size-v">15px</span></div></div>
+          <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="st-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+          <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="st-body-color" value="#4a4845"></div></div>
+          <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="st-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="st-body-lh-v">1.85</span></div></div>
+          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="st-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato</option></select></div></div>
+        </div>
+        <div class="pp" style="background:#f5f3ef;">
+          <div class="pfl">Anteprima Studio</div>
+          <div id="studio-preview" style="width:100%;height:100%;overflow-y:auto;padding:48px 40px;display:flex;flex-direction:column;gap:24px;background:#fafaf8;">
+            <h1 id="sp-st-title" style="font-family:'Cormorant',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.05;">Studio</h1>
+            <p id="sp-st-body" style="font-family:'Jost',sans-serif;font-size:15px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;max-width:44ch;"></p>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- CONTATTI -->
     <div class="tp" id="tab-contatti">
-      <div class="mp" style="max-width:560px;">
-        <div class="sl2" style="margin-bottom:14px">Pagina Contatti</div>
-        <div class="sr" style="margin-bottom:14px;"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="ct-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="ct-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="ct-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="ct-bg"></div></div></div></div>
-        <div class="pf" style="margin-bottom:14px;"><label>Titolo</label><input id="ct-title" value="Contatti"></div>
-        <div class="pf" style="margin-bottom:14px;"><label>Testo introduttivo</label><textarea id="ct-content" style="height:100px;resize:vertical;"></textarea></div>
-        <div class="pf" style="margin-bottom:14px;"><label>Email</label><input id="ct-email" type="email" placeholder="info@borneo.it"></div>
-        <div class="pf" style="margin-bottom:14px;"><label>Telefono</label><input id="ct-phone" placeholder="+39 000 000 0000"></div>
-        <div class="pf"><label>Indirizzo</label><input id="ct-address" placeholder="Via Roma 1, 00100 Roma"></div>
+      <div class="ssl">
+        <div class="sp">
+          <div class="st">Pagina Contatti</div>
+          <div class="sr"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="ct-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="ct-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="ct-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="ct-bg"></div></div></div></div>
+          <div class="st">Titolo</div>
+          <div class="pf" style="margin-bottom:12px;"><label>Testo titolo</label><input id="ct-title" value="Contatti"></div>
+          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="ct-title-font"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
+          <div class="sr"><span class="slb">Peso titolo</span><div class="sc"><select id="ct-title-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+          <div class="sr"><span class="slb">Colore titolo</span><div class="sc"><input type="color" id="ct-title-color" value="#0d0d0b"></div></div>
+          <div class="sr"><span class="slb">Allineamento titolo</span><div class="sc"><select id="ct-title-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
+          <div class="st">Testo introduttivo</div>
+          <div class="pf" style="margin-bottom:12px;"><label>Contenuto</label><textarea id="ct-content" style="height:100px;resize:vertical;"></textarea></div>
+          <div class="sr"><span class="slb">Font testo</span><div class="sc"><select id="ct-body-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option></select></div></div>
+          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="ct-body-size" min="10" max="28" step="1"><span class="rv2" id="ct-body-size-v">14px</span></div></div>
+          <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="ct-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+          <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="ct-body-color" value="#4a4845"></div></div>
+          <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="ct-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="ct-body-lh-v">1.85</span></div></div>
+          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="ct-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato</option></select></div></div>
+          <div class="st">Dati di contatto</div>
+          <div class="pf" style="margin-bottom:12px;"><label>Email</label><input id="ct-email" type="email" placeholder="info@borneo.it"></div>
+          <div class="pf" style="margin-bottom:12px;"><label>Telefono</label><input id="ct-phone" placeholder="+39 000 000 0000"></div>
+          <div class="pf" style="margin-bottom:12px;"><label>Indirizzo</label><input id="ct-address" placeholder="Via Roma 1, 00100 Roma"></div>
+          <div class="sr"><span class="slb">Font dati</span><div class="sc"><select id="ct-info-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option></select></div></div>
+          <div class="sr"><span class="slb">Dimensione dati</span><div class="sc"><input type="range" id="ct-info-size" min="10" max="24" step="1"><span class="rv2" id="ct-info-size-v">13px</span></div></div>
+          <div class="sr"><span class="slb">Allineamento dati</span><div class="sc"><select id="ct-info-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
+        </div>
+        <div class="pp" style="background:#f5f3ef;">
+          <div class="pfl">Anteprima Contatti</div>
+          <div id="contatti-preview" style="width:100%;height:100%;overflow-y:auto;padding:48px 40px;display:flex;flex-direction:column;gap:24px;background:#fafaf8;">
+            <h1 id="sp-ct-title" style="font-family:'Cormorant',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.05;">Contatti</h1>
+            <p id="sp-ct-body" style="font-family:'Jost',sans-serif;font-size:14px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;"></p>
+            <div id="sp-ct-info" style="display:flex;flex-direction:column;gap:10px;"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -455,7 +502,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showIndex:false,showName:true,showTag:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showIndex:false,showName:true,showTag:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:15,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left'},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:14,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left',infoFont:'Jost',infoSize:13,infoAlign:'left'}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -1053,13 +1100,103 @@ function populatePages(){
   const st=C.pages?.studio||{},ct=C.pages?.contatti||{};
   sV('st-bg',st.background||'#fafaf8');sV('st-title',st.title||'Studio');sV('st-content',st.content||'');
   if(st.image&&!staged.studio_img)document.getElementById('st-img-th').style.backgroundImage=`url('${rawU(st.image)}')`;
+  sV('st-title-font',st.titleFont||'Cormorant');sV('st-title-weight',st.titleWeight||300);sV('st-title-color',st.titleColor||'#0d0d0b');sV('st-title-align',st.titleAlign||'left');
+  sV('st-body-font',st.bodyFont||'Jost');sR('st-body-size',st.bodySize||15,'px');sV('st-body-weight',st.bodyWeight||300);sV('st-body-color',st.bodyColor||'#4a4845');sR('st-body-lh',st.bodyLineHeight||1.85,'');sV('st-body-align',st.bodyAlign||'left');
   sV('ct-bg',ct.background||'#fafaf8');sV('ct-title',ct.title||'Contatti');sV('ct-content',ct.content||'');
   sV('ct-email',ct.email||'');sV('ct-phone',ct.phone||'');sV('ct-address',ct.address||'');
+  sV('ct-title-font',ct.titleFont||'Cormorant');sV('ct-title-weight',ct.titleWeight||300);sV('ct-title-color',ct.titleColor||'#0d0d0b');sV('ct-title-align',ct.titleAlign||'left');
+  sV('ct-body-font',ct.bodyFont||'Jost');sR('ct-body-size',ct.bodySize||14,'px');sV('ct-body-weight',ct.bodyWeight||300);sV('ct-body-color',ct.bodyColor||'#4a4845');sR('ct-body-lh',ct.bodyLineHeight||1.85,'');sV('ct-body-align',ct.bodyAlign||'left');
+  sV('ct-info-font',ct.infoFont||'Jost');sR('ct-info-size',ct.infoSize||13,'px');sV('ct-info-align',ct.infoAlign||'left');
+  updateStudioPreview();updateContattiPreview();
 }
-['st-title','st-content'].forEach(id=>document.getElementById(id)?.addEventListener('input',e=>{if(!C.pages)C.pages={};if(!C.pages.studio)C.pages.studio={};const k=id.replace('st-','');C.pages.studio[k]=e.target.value;}));
-document.getElementById('st-bg')?.addEventListener('input',e=>{if(!C.pages)C.pages={};if(!C.pages.studio)C.pages.studio={};C.pages.studio.background=e.target.value;});
-['ct-title','ct-content','ct-email','ct-phone','ct-address'].forEach(id=>document.getElementById(id)?.addEventListener('input',e=>{if(!C.pages)C.pages={};if(!C.pages.contatti)C.pages.contatti={};const k=id.replace('ct-','');C.pages.contatti[k]=e.target.value;}));
-document.getElementById('ct-bg')?.addEventListener('input',e=>{if(!C.pages)C.pages={};if(!C.pages.contatti)C.pages.contatti={};C.pages.contatti.background=e.target.value;});
+// Studio
+function pSt(){if(!C.pages)C.pages={};if(!C.pages.studio)C.pages.studio={};}
+['st-title','st-content'].forEach(id=>document.getElementById(id)?.addEventListener('input',e=>{pSt();C.pages.studio[id.replace('st-','')]=e.target.value;updateStudioPreview();}));
+document.getElementById('st-bg')?.addEventListener('input',e=>{pSt();C.pages.studio.background=e.target.value;updateStudioPreview();});
+['st-title-font','st-title-weight','st-title-color','st-title-align','st-body-font','st-body-weight','st-body-color','st-body-align'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',e=>{pSt();const k=id.replace('st-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.studio[k]=e.target.value;updateStudioPreview();});
+  document.getElementById(id)?.addEventListener('change',e=>{pSt();const k=id.replace('st-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.studio[k]=e.target.value;updateStudioPreview();});
+});
+['st-body-size','st-body-lh'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',e=>{pSt();const k=id.replace('st-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.studio[k]=parseFloat(e.target.value);const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=e.target.value+(id==='st-body-size'?'px':'');updateStudioPreview();});
+});
+
+// Contatti
+function pCt(){if(!C.pages)C.pages={};if(!C.pages.contatti)C.pages.contatti={};}
+['ct-title','ct-content','ct-email','ct-phone','ct-address'].forEach(id=>document.getElementById(id)?.addEventListener('input',e=>{pCt();C.pages.contatti[id.replace('ct-','')]=e.target.value;updateContattiPreview();}));
+document.getElementById('ct-bg')?.addEventListener('input',e=>{pCt();C.pages.contatti.background=e.target.value;updateContattiPreview();});
+['ct-title-font','ct-title-weight','ct-title-color','ct-title-align','ct-body-font','ct-body-weight','ct-body-color','ct-body-align','ct-info-font','ct-info-align'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',e=>{pCt();const k=id.replace('ct-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.contatti[k]=e.target.value;updateContattiPreview();});
+  document.getElementById(id)?.addEventListener('change',e=>{pCt();const k=id.replace('ct-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.contatti[k]=e.target.value;updateContattiPreview();});
+});
+['ct-body-size','ct-body-lh','ct-info-size'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',e=>{pCt();const k=id.replace('ct-','').replace(/-([a-z])/g,(_,c)=>c.toUpperCase());C.pages.contatti[k]=parseFloat(e.target.value);const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=e.target.value+(id.endsWith('-lh')?'':'px');updateContattiPreview();});
+});
+
+// ── STUDIO PREVIEW ────────────────────────────────────────────────────────
+function updateStudioPreview(){
+  const st=C.pages?.studio||{};
+  const prev=document.getElementById('studio-preview');if(!prev)return;
+  prev.style.background=st.background||'#fafaf8';
+  const t=document.getElementById('sp-st-title');
+  if(t){
+    t.textContent=st.title||'Studio';
+    t.style.fontFamily=`'${st.titleFont||'Cormorant'}',serif`;
+    t.style.fontWeight=st.titleWeight||300;
+    t.style.color=st.titleColor||'#0d0d0b';
+    t.style.textAlign=st.titleAlign||'left';
+  }
+  const b=document.getElementById('sp-st-body');
+  if(b){
+    b.textContent=st.content||'';
+    b.style.fontFamily=`'${st.bodyFont||'Jost'}',sans-serif`;
+    b.style.fontSize=(st.bodySize||15)+'px';
+    b.style.fontWeight=st.bodyWeight||300;
+    b.style.color=st.bodyColor||'#4a4845';
+    b.style.lineHeight=st.bodyLineHeight||1.85;
+    b.style.textAlign=st.bodyAlign||'left';
+    b.style.maxWidth=st.bodyAlign==='justify'||st.bodyAlign==='left'?'44ch':'none';
+  }
+}
+
+// ── CONTATTI PREVIEW ──────────────────────────────────────────────────────
+function updateContattiPreview(){
+  const ct=C.pages?.contatti||{};
+  const prev=document.getElementById('contatti-preview');if(!prev)return;
+  prev.style.background=ct.background||'#fafaf8';
+  const t=document.getElementById('sp-ct-title');
+  if(t){
+    t.textContent=ct.title||'Contatti';
+    t.style.fontFamily=`'${ct.titleFont||'Cormorant'}',serif`;
+    t.style.fontWeight=ct.titleWeight||300;
+    t.style.color=ct.titleColor||'#0d0d0b';
+    t.style.textAlign=ct.titleAlign||'left';
+  }
+  const b=document.getElementById('sp-ct-body');
+  if(b){
+    b.textContent=ct.content||'';
+    b.style.fontFamily=`'${ct.bodyFont||'Jost'}',sans-serif`;
+    b.style.fontSize=(ct.bodySize||14)+'px';
+    b.style.fontWeight=ct.bodyWeight||300;
+    b.style.color=ct.bodyColor||'#4a4845';
+    b.style.lineHeight=ct.bodyLineHeight||1.85;
+    b.style.textAlign=ct.bodyAlign||'left';
+  }
+  const info=document.getElementById('sp-ct-info');
+  if(info){
+    info.innerHTML='';
+    const iFont=ct.infoFont||'Jost';
+    const iSize=ct.infoSize||13;
+    const iAlign=ct.infoAlign||'left';
+    [['Email',ct.email],['Tel',ct.phone],['Indirizzo',ct.address]].forEach(([lbl,val])=>{
+      if(!val)return;
+      const d=document.createElement('div');
+      d.style.cssText=`display:flex;gap:16px;font-family:'${iFont}',sans-serif;font-size:${iSize}px;text-align:${iAlign};`;
+      d.innerHTML=`<span style="color:#9e9b96;font-size:8px;letter-spacing:.18em;text-transform:uppercase;width:64px;flex-shrink:0;margin-top:2px">${lbl}</span><span>${val}</span>`;
+      info.appendChild(d);
+    });
+  }
+}
 
 // ── PUBLISH ───────────────────────────────────────
 document.getElementById('btnpub').addEventListener('click',async()=>{
