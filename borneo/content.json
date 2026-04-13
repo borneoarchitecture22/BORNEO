@@ -115,10 +115,13 @@
   "cursor": "",
   "pages": {
     "studio": {
-      "title": "About",
-      "content": "Borneo is a collective design studio working between Berlin and Rome,.\n\nThe collective operates at the intersection of theoretical speculation and hands-on practice, pursuing a design culture rooted in sustainability, climate responsiveness, and active engagement with communities and territories. Through participatory processes, material experimentation, and interdisciplinary exchange, Borneo explores new spatial possibilities â approaching each project as both a built intervention and a critical inquiry.\n\nThe studio's members are actively engaged in research and teaching. Among its ongoing initiatives, Borneo leads Simeri Laboratorio Urbano, an experimental summer school dedicated to territorial regeneration, and Botanica Urbana, a platform examining the evolving relationship between nature and the contemporary city.\n\nFollowing its selection through a public competition, the studio is currently engaged in the redevelopment of the Livorno Market Area. This project embodies the commitment to sustainable urban transformation and context-sensitive design.\n\nIn 2024, Borneo's work was presented at the Tallinn Architecture Biennale (TAB), affirming the studio's place within international architectural discourse. \n\nIn 2025, the office participated in Concentrico 10, the annual festival held in Spain exploring themes of urban regeneration and climate responsiveness.",
+      "title": ".",
+      "content": "Borneo is a collective design studio working between Berlin and Rome.\n\nThe collective operates at the intersection of theoretical speculation and hands-on practice, pursuing a design culture rooted in pursuing a design culture rooted in experimentation, research on climate adaptation, and active engagement with communities and territories. Through participatory processes, material workshps, and interdisciplinary exchange, Borneo explores new spatial possibilities approaching each project as both a built intervention and a critical inquiry.\n\nThe studio's members are actively engaged in research and teaching. Among its ongoing initiatives, Borneo leads Simeri Laboratorio Urbano, an experimental summer school dedicated to territorial regeneration, and Botanica Urbana, a platform examining the evolving relationship between nature and the contemporary city.\n\nFollowing its selection through a public competition, the studio is currently engaged in the redevelopment of the Livorno Market Area. This project embodies the commitment to sustainable urban transformation and context-sensitive design.\n\nIn 2024, Borneo's work was presented at the Tallinn Architecture Biennale (TAB), affirming the studio's place within international architectural discourse. \n\nIn 2025, the office participated in Concentrico 10, the annual festival held in Spain exploring themes of urban regeneration and climate responsiveness.",
       "background": "#fafaf8",
-      "image": ""
+      "image": "",
+      "titleFont": "Inter",
+      "titleWeight": "600",
+      "bodyAlign": "justify"
     },
     "contatti": {
       "title": "Contatti",
@@ -137,5 +140,7 @@
   "showInfo": true,
   "showProgress": false,
   "showNav": true,
-  "showIndex": false
+  "showIndex": false,
+  "showName": true,
+  "showTag": true
 }
