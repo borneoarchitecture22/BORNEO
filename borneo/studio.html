@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo — Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&family=EB+Garamond:ital,wght@0,400;1,400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--white:#fafaf8;--black:#0d0d0b;--grey:#9e9b96;}
@@ -56,12 +56,23 @@ async function load(){
       else{a.textContent=item.label;}
       nav.appendChild(a);
     });
-    const fd=(data.site&&data.site.fontDisplay)||'Cormorant';
-    document.getElementById('page-title').style.fontFamily=`'${fd}',serif`;
     document.body.style.background=(data.pages&&data.pages.studio&&data.pages.studio.background)||'#fafaf8';
     const s=data.pages&&data.pages.studio||{};
-    if(s.title)document.getElementById('page-title').textContent=s.title;
-    if(s.content)document.getElementById('page-body').textContent=s.content;
+    const t=document.getElementById('page-title');
+    const b=document.getElementById('page-body');
+    if(s.title)t.textContent=s.title;
+    if(s.content)b.textContent=s.content;
+    // typography
+    t.style.fontFamily=`'${s.titleFont||((data.site&&data.site.fontDisplay)||'Cormorant')}',serif`;
+    t.style.fontWeight=s.titleWeight||300;
+    t.style.color=s.titleColor||'#0d0d0b';
+    t.style.textAlign=s.titleAlign||'left';
+    b.style.fontFamily=`'${s.bodyFont||'Jost'}',sans-serif`;
+    b.style.fontSize=(s.bodySize||15)+'px';
+    b.style.fontWeight=s.bodyWeight||300;
+    b.style.color=s.bodyColor||'#4a4845';
+    b.style.lineHeight=s.bodyLineHeight||1.85;
+    b.style.textAlign=s.bodyAlign||'left';
     if(s.image){document.getElementById('page-img-wrap').style.display='block';document.getElementById('page-img').src=s.image;}
     else{document.getElementById('page-wrap').style.gridTemplateColumns='1fr';document.getElementById('page-content-wrap').style.maxWidth='680px';document.getElementById('page-content-wrap').style.margin='0 auto';}
   }catch(e){console.error(e);}

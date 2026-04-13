@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo — Contatti</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--white:#fafaf8;--black:#0d0d0b;--grey:#9e9b96;}
@@ -54,16 +54,32 @@ async function load(){
       else{a.textContent=item.label;}
       nav.appendChild(a);
     });
-    const fd=(data.site&&data.site.fontDisplay)||'Cormorant';
-    document.getElementById('page-title').style.fontFamily=`'${fd}',serif`;
     document.body.style.background=(data.pages&&data.pages.contatti&&data.pages.contatti.background)||'#fafaf8';
     const c=data.pages&&data.pages.contatti||{};
-    if(c.title)document.getElementById('page-title').textContent=c.title;
-    if(c.content)document.getElementById('contact-body').textContent=c.content;
+    const t=document.getElementById('page-title');
+    const cb=document.getElementById('contact-body');
+    if(c.title)t.textContent=c.title;
+    if(c.content)cb.textContent=c.content;
+    // typography — title
+    t.style.fontFamily=`'${c.titleFont||((data.site&&data.site.fontDisplay)||'Cormorant')}',serif`;
+    t.style.fontWeight=c.titleWeight||300;
+    t.style.color=c.titleColor||'#0d0d0b';
+    t.style.textAlign=c.titleAlign||'left';
+    // typography — body
+    cb.style.fontFamily=`'${c.bodyFont||'Jost'}',sans-serif`;
+    cb.style.fontSize=(c.bodySize||14)+'px';
+    cb.style.fontWeight=c.bodyWeight||300;
+    cb.style.color=c.bodyColor||'#4a4845';
+    cb.style.lineHeight=c.bodyLineHeight||1.85;
+    cb.style.textAlign=c.bodyAlign||'left';
+    // contact info rows
     const info=document.getElementById('contact-info');
-    if(c.email){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Email</span><span class="contact-value"><a href="mailto:${c.email}">${c.email}</a></span>`;info.appendChild(d);}
-    if(c.phone){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Telefono</span><span class="contact-value">${c.phone}</span>`;info.appendChild(d);}
-    if(c.address){const d=document.createElement('div');d.className='contact-row';d.innerHTML=`<span class="contact-label">Indirizzo</span><span class="contact-value">${c.address}</span>`;info.appendChild(d);}
+    const iFont=c.infoFont||'Jost';
+    const iSize=(c.infoSize||13)+'px';
+    const iAlign=c.infoAlign||'left';
+    if(c.email){const d=document.createElement('div');d.className='contact-row';d.style.fontFamily=`'${iFont}',sans-serif`;d.style.fontSize=iSize;d.style.textAlign=iAlign;d.innerHTML=`<span class="contact-label">Email</span><span class="contact-value"><a href="mailto:${c.email}">${c.email}</a></span>`;info.appendChild(d);}
+    if(c.phone){const d=document.createElement('div');d.className='contact-row';d.style.fontFamily=`'${iFont}',sans-serif`;d.style.fontSize=iSize;d.style.textAlign=iAlign;d.innerHTML=`<span class="contact-label">Telefono</span><span class="contact-value">${c.phone}</span>`;info.appendChild(d);}
+    if(c.address){const d=document.createElement('div');d.className='contact-row';d.style.fontFamily=`'${iFont}',sans-serif`;d.style.fontSize=iSize;d.style.textAlign=iAlign;d.innerHTML=`<span class="contact-label">Indirizzo</span><span class="contact-value">${c.address}</span>`;info.appendChild(d);}
   }catch(e){console.error(e);}
 }
 load();
