@@ -98,13 +98,13 @@
         "visible": false
       },
       {
-        "label": ".",
+        "label": "about",
         "icon": "",
         "href": "studio.html",
         "visible": true
       },
       {
-        "label": "Contatti",
+        "label": "contact",
         "icon": "",
         "href": "contatti.html",
         "visible": true
@@ -124,12 +124,14 @@
       "bodyAlign": "justify"
     },
     "contatti": {
-      "title": "Contatti",
+      "title": "..",
       "content": "",
       "background": "#fafaf8",
       "email": "contact@borneoarchitecture.com",
       "phone": "",
-      "address": ""
+      "address": "",
+      "titleFont": "Inter",
+      "titleWeight": "200"
     }
   },
   "logoLayout": "tc",
