@@ -25,8 +25,8 @@
       "value": "#ffffff"
     },
     "backgroundImage": "",
-    "fontDisplay": "EB Garamond",
-    "fontBody": "EB Garamond",
+    "fontDisplay": "Inter",
+    "fontBody": "Inter",
     "imageStyle": {
       "maxWidth": 200,
       "borderWidth": 0,
