@@ -351,6 +351,8 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
             <button class="pos-btn" data-v="bc">↓ Basso centro</button>
             <button class="pos-btn active" data-v="br">↘ Basso dx</button>
           </div>
+          <div class="st">Pagine singoli progetti</div>
+          <div class="sr"><span class="slb">Click apre progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-proj-pages" checked><span style="font-size:10px">Attivo</span></label></div></div>
           <div class="st">Transizione</div>
           <div class="sr"><span class="slb">Tipo</span><div class="sc"><select id="s-tr"><option value="clip">Tenda</option><option value="fade">Dissolvenza</option><option value="slide">Scivolata</option><option value="scale">Zoom</option></select></div></div>
           <div class="sr"><span class="slb">Velocità</span><div class="sc"><input type="range" id="s-spd" min="0.3" max="1.5" step="0.1"><span class="rv2" id="s-spd-v">0.7s</span></div></div>
@@ -446,7 +448,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -508,6 +510,7 @@ async function loadContent(){
   if(!C.cursor)C.cursor='';
   if(!C.pages)C.pages=DC().pages;
   if(!C.site.transition)C.site.transition='clip';
+  if(C.site.projectPagesEnabled===undefined)C.site.projectPagesEnabled=false;
   if(!C.site.transitionSpeed)C.site.transitionSpeed=0.72;
   C.projects.forEach(p=>{if(!p.imageStyle)p.imageStyle={frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};});
   const draft=loadDraftData();
@@ -796,7 +799,7 @@ function populateSettings(){
     const val=C[key+'Layout']||{logo:'tl',nav:'tr',info:'bl',progress:'br'}[key];
     document.querySelectorAll(`#grid-${key} .pos-btn`).forEach(btn=>btn.classList.toggle('active',btn.dataset.v===val));
   });
-  sV('s-tr',S.transition||'clip');sR('s-spd',S.transitionSpeed||0.72,'s');
+  document.getElementById('s-proj-pages').checked=S.projectPagesEnabled!==false;sV('s-tr',S.transition||'clip');sR('s-spd',S.transitionSpeed||0.72,'s');
   const st=S.imageStyle;
   sR('s-iw',st.maxWidth,'px');sR('s-ir',st.borderRadius,'px');sR('s-ibw',st.borderWidth,'px');
   sV('s-ibc',st.borderColor);document.getElementById('s-ish').checked=st.shadow;
@@ -835,6 +838,7 @@ bV('l-btn-bc',v=>{C.landing.button.borderColor=v;updateLandingPreview();});
 bV('s-bg-c',v=>{C.site.background.value=v;updateSitePreview();});
 bV('s-fd',v=>{C.site.fontDisplay=v;updateSitePreview();});
 bV('s-fb',v=>{C.site.fontBody=v;});
+bCk('s-proj-pages',v=>{C.site.projectPagesEnabled=v;});
 bV('s-tr',v=>{C.site.transition=v;});
 bR('s-spd','s',v=>{C.site.transitionSpeed=v;});
 bR('s-iw','px',v=>{C.site.imageStyle.maxWidth=v;applyCarouselStyles();});
