@@ -93,7 +93,7 @@
         "href": "#"
       },
       {
-        "label": "Studio",
+        "label": "About",
         "icon": "",
         "href": "studio.html"
       },
@@ -129,5 +129,5 @@
   "showLogo": true,
   "showInfo": true,
   "showProgress": false,
-  "showNav": false
+  "showNav": true
 }
