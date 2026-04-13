@@ -39,7 +39,7 @@
     "projectPagesEnabled": false,
     "titleFont": "Inter",
     "titleSize": 22,
-    "titleWeight": 400,
+    "titleWeight": 100,
     "titleColor": "#0d0d0b"
   },
   "projects": [
@@ -228,5 +228,5 @@
   "showNav": true,
   "showIndex": false,
   "showName": true,
-  "showTag": true
+  "showTag": false
 }
