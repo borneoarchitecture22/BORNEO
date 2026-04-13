@@ -415,7 +415,7 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="st-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
           <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="st-body-color" value="#4a4845"></div></div>
           <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="st-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="st-body-lh-v">1.85</span></div></div>
-          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="st-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato</option></select></div></div>
+          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="st-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato sx</option><option value="justify-right">Giustificato dx</option></select></div></div>
         </div>
         <div class="pp" style="background:#f5f3ef;">
           <div class="pfl">Anteprima Studio</div>
@@ -446,7 +446,7 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="ct-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
           <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="ct-body-color" value="#4a4845"></div></div>
           <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="ct-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="ct-body-lh-v">1.85</span></div></div>
-          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="ct-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato</option></select></div></div>
+          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="ct-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato sx</option><option value="justify-right">Giustificato dx</option></select></div></div>
           <div class="st">Dati di contatto</div>
           <div class="pf" style="margin-bottom:12px;"><label>Email</label><input id="ct-email" type="email" placeholder="info@borneo.it"></div>
           <div class="pf" style="margin-bottom:12px;"><label>Telefono</label><input id="ct-phone" placeholder="+39 000 000 0000"></div>
@@ -1154,8 +1154,10 @@ function updateStudioPreview(){
     b.style.fontWeight=st.bodyWeight||300;
     b.style.color=st.bodyColor||'#4a4845';
     b.style.lineHeight=st.bodyLineHeight||1.85;
-    b.style.textAlign=st.bodyAlign||'left';
-    b.style.maxWidth=st.bodyAlign==='justify'||st.bodyAlign==='left'?'44ch':'none';
+    const bAlign=st.bodyAlign||'left';
+    b.style.textAlign=bAlign==='justify-right'?'justify':bAlign;
+    b.style.textAlignLast=bAlign==='justify-right'?'right':'';
+    b.style.maxWidth=(bAlign==='justify'||bAlign==='justify-right'||bAlign==='left')?'44ch':'none';
   }
 }
 
@@ -1180,7 +1182,9 @@ function updateContattiPreview(){
     b.style.fontWeight=ct.bodyWeight||300;
     b.style.color=ct.bodyColor||'#4a4845';
     b.style.lineHeight=ct.bodyLineHeight||1.85;
-    b.style.textAlign=ct.bodyAlign||'left';
+    const ctAlign=ct.bodyAlign||'left';
+    b.style.textAlign=ctAlign==='justify-right'?'justify':ctAlign;
+    b.style.textAlignLast=ctAlign==='justify-right'?'right':'';
   }
   const info=document.getElementById('sp-ct-info');
   if(info){
