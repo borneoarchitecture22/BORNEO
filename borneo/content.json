@@ -34,7 +34,7 @@
       "borderRadius": 0,
       "shadow": true
     },
-    "transition": "slide",
+    "transition": "fade",
     "transitionSpeed": 0.6,
     "projectPagesEnabled": false,
     "titleFont": "Inter",
