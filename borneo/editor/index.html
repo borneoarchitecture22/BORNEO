@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo — Editor</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Inter:wght@200;300;400;500&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;--br:#e2dfd9;--hv:#f0ede8;--red:#c0392b;--grn:#27ae60;}
@@ -309,6 +309,11 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="st">Font</div>
           <div class="sr"><span class="slb">Titoli</span><div class="sc"><select id="s-fd"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option></select></div></div>
           <div class="sr"><span class="slb">Testo</span><div class="sc"><select id="s-fb"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="EB Garamond">EB Garamond</option><option value="Cormorant">Cormorant</option></select></div></div>
+          <div class="st">Titolo nel carosello</div>
+          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="s-tf"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
+          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="s-ts" min="10" max="60" step="1"><span class="rv2" id="s-ts-v">22px</span></div></div>
+          <div class="sr"><span class="slb">Peso</span><div class="sc"><select id="s-tw"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+          <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-tc" value="#0d0d0b"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="s-tc"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="s-tc"></div><div class="sw" style="background:#9e9b96" data-c="#9e9b96" data-t="s-tc"></div></div></div></div>
           <div class="st">Visibilità elementi</div>
           <div class="sr"><span class="slb">Logo</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-logo" checked><span style="font-size:10px">Visibile</span></label></div></div>
           <div class="sr"><span class="slb">Nome progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-info" checked><span style="font-size:10px">Visibile</span></label></div></div>
@@ -448,7 +453,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#'},{label:'Studio',icon:'',href:'studio.html'},{label:'Contatti',icon:'',href:'contatti.html'}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showInfo:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:''},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:''}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -511,6 +516,11 @@ async function loadContent(){
   if(!C.pages)C.pages=DC().pages;
   if(!C.site.transition)C.site.transition='clip';
   if(C.site.projectPagesEnabled===undefined)C.site.projectPagesEnabled=false;
+  if(!C.site.titleFont)C.site.titleFont='Cormorant';
+  if(!C.site.titleSize)C.site.titleSize=22;
+  if(!C.site.titleWeight)C.site.titleWeight=300;
+  if(!C.site.titleColor)C.site.titleColor='#0d0d0b';
+  C.nav.items.forEach(item=>{if(item.visible===undefined)item.visible=true;});
   if(!C.site.transitionSpeed)C.site.transitionSpeed=0.72;
   C.projects.forEach(p=>{if(!p.imageStyle)p.imageStyle={frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};});
   const draft=loadDraftData();
@@ -799,7 +809,11 @@ function populateSettings(){
     const val=C[key+'Layout']||{logo:'tl',nav:'tr',info:'bl',progress:'br'}[key];
     document.querySelectorAll(`#grid-${key} .pos-btn`).forEach(btn=>btn.classList.toggle('active',btn.dataset.v===val));
   });
-  document.getElementById('s-proj-pages').checked=S.projectPagesEnabled!==false;sV('s-tr',S.transition||'clip');sR('s-spd',S.transitionSpeed||0.72,'s');
+  document.getElementById('s-proj-pages').checked=S.projectPagesEnabled!==false;
+  sV('s-tf',S.titleFont||'Cormorant');
+  sR('s-ts',S.titleSize||22,'px');
+  sV('s-tw',S.titleWeight||300);
+  sV('s-tc',S.titleColor||'#0d0d0b');sV('s-tr',S.transition||'clip');sR('s-spd',S.transitionSpeed||0.72,'s');
   const st=S.imageStyle;
   sR('s-iw',st.maxWidth,'px');sR('s-ir',st.borderRadius,'px');sR('s-ibw',st.borderWidth,'px');
   sV('s-ibc',st.borderColor);document.getElementById('s-ish').checked=st.shadow;
@@ -839,6 +853,10 @@ bV('s-bg-c',v=>{C.site.background.value=v;updateSitePreview();});
 bV('s-fd',v=>{C.site.fontDisplay=v;updateSitePreview();});
 bV('s-fb',v=>{C.site.fontBody=v;});
 bCk('s-proj-pages',v=>{C.site.projectPagesEnabled=v;});
+bV('s-tf',v=>{C.site.titleFont=v;updateSitePreview();});
+bR('s-ts','px',v=>{C.site.titleSize=v;updateSitePreview();});
+bV('s-tw',v=>{C.site.titleWeight=parseInt(v);updateSitePreview();});
+bV('s-tc',v=>{C.site.titleColor=v;updateSitePreview();});
 bV('s-tr',v=>{C.site.transition=v;});
 bR('s-spd','s',v=>{C.site.transitionSpeed=v;});
 bR('s-iw','px',v=>{C.site.imageStyle.maxWidth=v;applyCarouselStyles();});
@@ -935,7 +953,10 @@ function applyCarouselStyles(){
   const bgSrc=staged.bg_site?staged.bg_site.dataUrl:(S.backgroundImage?rawU(S.backgroundImage):'');
   if(bgSrc){spp.style.backgroundImage=`url('${bgSrc}')`;spp.style.backgroundSize='cover';}
   else{spp.style.backgroundImage='none';spp.style.background=S.background?.value||'#fafaf8';}
-  document.getElementById('spftn').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
+  document.getElementById('spftn').style.fontFamily=`'${S.titleFont||S.fontDisplay||'Cormorant'}',sans-serif`;
+  document.getElementById('spftn').style.fontSize=(S.titleSize||22)*0.65+'px';
+  document.getElementById('spftn').style.fontWeight=S.titleWeight||300;
+  document.getElementById('spftn').style.color=S.titleColor||'#0d0d0b';
   document.getElementById('spnl').style.fontFamily=`'${S.fontDisplay||'Cormorant'}',serif`;
   // logo position in preview
   const spnav=document.getElementById('spnav');
@@ -992,13 +1013,20 @@ function renderNavItems(){
     const row=document.createElement('div');row.className='ni-row';
     const stgIc=staged[`icon_${i}`];
     const icSrc=stgIc?stgIc.dataUrl:(item.icon?rawU(item.icon):'');
-    row.innerHTML=`<div class="ni-icon" data-ni="${i}">${icSrc?`<img src="${icSrc}" alt="">`:'+' }</div><input class="ni-label" data-ni="${i}" data-f="label" value="${item.label||''}" placeholder="Label"><input class="ni-href" data-ni="${i}" data-f="href" value="${item.href||''}" placeholder="href">`;
+    const isVis=item.visible!==false;
+    row.innerHTML=`<div class="ni-icon" data-ni="${i}">${icSrc?`<img src="${icSrc}" alt="">`:'+' }</div><input class="ni-label" data-ni="${i}" data-f="label" value="${item.label||''}" placeholder="Label"><input class="ni-href" data-ni="${i}" data-f="href" value="${item.href||''}" placeholder="href"><label style="display:flex;align-items:center;gap:4px;cursor:pointer;flex-shrink:0;"><input type="checkbox" data-ni="${i}" data-f="visible" ${isVis?'checked':''}><span style="font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--g)">On</span></label>`;
     row.querySelector('.ni-icon').addEventListener('click',()=>{iconTarget=i;document.getElementById('fi-icon').click();});
     container.appendChild(row);
   });
 }
 document.getElementById('nav-mode').addEventListener('change',e=>{C.nav.layout=e.target.value;});
-document.getElementById('nav-items').addEventListener('input',e=>{const ni=e.target.dataset.ni,f=e.target.dataset.f;if(ni!=null&&f){C.nav.items[parseInt(ni)][f]=e.target.value;}});
+document.getElementById('nav-items').addEventListener('input',e=>{
+  const ni=e.target.dataset.ni,f=e.target.dataset.f;
+  if(ni==null||!f)return;
+  const idx=parseInt(ni);
+  if(e.target.type==='checkbox'&&f==='visible'){C.nav.items[idx].visible=e.target.checked;}
+  else{C.nav.items[idx][f]=e.target.value;}
+});
 document.getElementById('fi-icon').addEventListener('change',e=>{
   const file=e.target.files[0];if(!file||iconTarget===null)return;
   const reader=new FileReader();
