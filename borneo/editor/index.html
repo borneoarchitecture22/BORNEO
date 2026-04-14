@@ -262,10 +262,17 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
             </div>
           </div>
         </div>
-        <!-- PREVIEW -->
-        <div class="pvp">
-          <div class="pvl">Anteprima live</div>
-          <div id="ppw"></div>
+        <!-- PREVIEW — iframe del sito reale scalato -->
+        <div class="pvp" style="overflow:hidden;">
+          <div class="pvl">Anteprima reale (scala 50%)</div>
+          <div style="flex:1;position:relative;width:100%;overflow:hidden;">
+            <iframe id="proj-preview-frame" src="../index.html"
+              style="position:absolute;top:0;left:0;width:1440px;height:900px;border:none;transform-origin:top left;pointer-events:none;"
+              scrolling="no"></iframe>
+          </div>
+          <div style="padding:6px 16px;border-top:1px solid var(--br);flex-shrink:0;background:var(--w);">
+            <span style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--g);">Pubblica per aggiornare l'anteprima</span>
+          </div>
         </div>
       </div>
     </div>
@@ -370,13 +377,16 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <div class="sr"><span class="slb">Colore bordo</span><div class="sc"><input type="color" id="s-ibc"></div></div>
           <div class="sr"><span class="slb">Ombra</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-ish" checked><span style="font-size:10px">Attiva</span></label></div></div>
         </div>
-        <div class="pp">
-          <div class="pfl">Carosello live — usa ‹ ›</div>
-          <div id="spp">
-            <div id="spnav"><span id="spnl">Borneo</span><span style="font-size:7px;letter-spacing:.13em;text-transform:uppercase;color:#9e9b96">Progetti</span></div>
-            <div id="spst"></div>
-            <div id="spft"><div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-bottom:2px" id="spidx">01/01</div><div id="spftn">Progetto</div><div style="font-size:7px;letter-spacing:.1em;text-transform:uppercase;color:#9e9b96;margin-top:2px" id="spftag">Tipologia — 2024</div></div>
-            <button id="sppv">‹</button><button id="spnx">›</button>
+        <div class="pp" style="flex-direction:column;overflow:hidden;">
+          <div class="pfl">Anteprima sito reale</div>
+          <div style="flex:1;position:relative;overflow:hidden;width:100%;">
+            <iframe id="site-preview-frame" src="../index.html"
+              style="position:absolute;top:0;left:0;width:1440px;height:900px;border:none;transform-origin:top left;pointer-events:none;"
+              scrolling="no"></iframe>
+          </div>
+          <div style="padding:8px 16px;border-top:1px solid var(--br);display:flex;align-items:center;gap:12px;flex-shrink:0;background:var(--w);">
+            <span style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);">Per vedere le modifiche pubblica e aggiorna ↗ Sito</span>
+            <button class="bs" id="btn-refresh-preview" style="margin-left:auto;">↺ Aggiorna</button>
           </div>
         </div>
       </div>
