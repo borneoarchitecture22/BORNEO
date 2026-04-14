@@ -59,8 +59,8 @@
         "borderColor": "#0d0d0b",
         "shadow": true,
         "maxWidth": 640,
-        "frameWidth": 920,
-        "frameHeight": 900,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionY": 46,
         "positionX": 50
       }
@@ -82,7 +82,7 @@
         "shadow": true,
         "maxWidth": 640,
         "positionX": 18,
-        "frameHeight": 780,
+        "frameHeight": 630,
         "frameWidth": 800,
         "positionY": 42
       }
@@ -98,8 +98,8 @@
       "image": "images/p1776099564034.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 500,
-        "frameHeight": 390,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
@@ -119,8 +119,8 @@
       "image": "images/p1776099728218.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 700,
-        "frameHeight": 510,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
@@ -140,8 +140,8 @@
       "image": "images/p1776099834996.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 420,
-        "frameHeight": 400,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
@@ -161,8 +161,8 @@
       "image": "images/p1776099930572.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 860,
-        "frameHeight": 840,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
