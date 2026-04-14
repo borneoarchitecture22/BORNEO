@@ -487,14 +487,14 @@ const IDB={
 
 // ── DEBOUNCE ──────────────────────────────────────
 function debounce(fn, ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
-// rAF-throttled preview — updates at max 60fps while dragging, no redundant calls
+// rAF-throttled preview — max 60fps, no redundant calls
 let _rafPending=false;
 const dPreview=()=>{
   if(_rafPending)return;
   _rafPending=true;
   requestAnimationFrame(()=>{
-    if(selIdx!==null)updateProjPreview();
     _rafPending=false;
+    if(selIdx!==null)updateProjPreview();
   });
 };
 
@@ -698,7 +698,11 @@ function selectProject(idx){
     el.src=src;if(isV){el.muted=true;el.loop=true;el.autoplay=true;}
     area.insertBefore(el,area.firstChild);
   }
-  renderSidebar();updateProjPreview();
+  // Update only the active state in sidebar — no full rebuild
+  document.querySelectorAll('#proj-list .pi').forEach((el,i)=>{
+    el.classList.toggle('active', i===selIdx);
+  });
+  updateProjPreview();
 }
 
 // ── IMAGE STYLE CONTROLS ─────────────────────────
@@ -732,7 +736,7 @@ function updateProjPreview(){
   if(selIdx===null)return;
   const stage=document.getElementById('proj-preview-stage');
   if(!stage)return;
-  _pan();
+  // Use cached panel size — updated on resize, not on every call
   const panW=_panW||500, panH=_panH||400;
 
   const p=C.projects[selIdx];
@@ -872,7 +876,14 @@ document.getElementById('fi').addEventListener('change',e=>{
       IDB.set(`media_${selIdx}`,du);
       if(isV){C.projects[selIdx].video=fn;C.projects[selIdx].image='';}
       else{C.projects[selIdx].image=fn;C.projects[selIdx].video='';}
-      selectProject(selIdx);buildCarousel();
+      // Update just this project's thumbnail in sidebar
+      const thumb=document.querySelector(`#proj-list .pi:nth-child(${selIdx+1}) .pt`);
+      if(thumb){
+        const el=isV?document.createElement('video'):document.createElement('img');
+        el.src=du;if(isV)el.muted=true;
+        thumb.innerHTML='';thumb.appendChild(el);
+      }
+      selectProject(selIdx);
     }
   };
   reader.readAsDataURL(file);
@@ -1218,6 +1229,11 @@ function toast(msg,err=false){const t=document.getElementById('toast');t.textCon
 initAuth();
 if(gR())document.getElementById('ghr').value=gR();
 if(gT())document.getElementById('ght').value=gT();
+// Prime panel size cache
+setTimeout(()=>{
+  const s=document.getElementById('proj-preview-stage');
+  if(s){_panW=s.offsetWidth||500;_panH=s.offsetHeight||400;_panT=Date.now();}
+},100);
 </script>
 </body>
 </html>
