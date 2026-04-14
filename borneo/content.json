@@ -674,6 +674,6 @@
   "showProgress": false,
   "showNav": true,
   "showIndex": false,
-  "showName": false,
+  "showName": true,
   "showTag": false
 }
