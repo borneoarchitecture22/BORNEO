@@ -83,7 +83,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -104,7 +104,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -146,7 +146,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -192,6 +192,48 @@
       }
     },
     {
+      "id": 1776179609163,
+      "title": "ALG",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776179632584.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 800,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false
+      }
+    },
+    {
+      "id": 1776179731963,
+      "title": "ALG",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776179756851.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 800,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
       "id": 1776156349322,
       "title": "MGT",
       "type": "Urban renovation",
@@ -230,7 +272,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -273,7 +315,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -294,7 +336,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -336,7 +378,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -378,7 +420,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -399,7 +441,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -420,7 +462,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -462,7 +504,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -483,7 +525,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -504,7 +546,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -525,7 +567,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -546,7 +588,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -567,7 +609,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     }
   ],
