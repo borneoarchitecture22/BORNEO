@@ -718,10 +718,22 @@ document.getElementById('pi-bc').addEventListener('input',e=>{if(selIdx!==null){
 document.getElementById('pi-sh').addEventListener('change',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.shadow=e.target.checked;dPreview();}});
 
 // ── PROJECT PREVIEW ───────────────────────────────
+// Cache panel size to avoid layout reflows on every rAF call
+let _panW=0,_panH=0,_panT=0;
+function _pan(){
+  const now=Date.now();
+  if(now-_panT<500)return;
+  const s=document.getElementById('proj-preview-stage');
+  if(s){_panW=s.offsetWidth||500;_panH=s.offsetHeight||400;_panT=now;}
+}
+window.addEventListener('resize',()=>{_panT=0;});
+
 function updateProjPreview(){
   if(selIdx===null)return;
   const stage=document.getElementById('proj-preview-stage');
   if(!stage)return;
+  _pan();
+  const panW=_panW||500, panH=_panH||400;
 
   const p=C.projects[selIdx];
   const st=p.imageStyle||{};
@@ -740,85 +752,83 @@ function updateProjPreview(){
   const isV=stg?stg.isVideo:!!p.video;
   const isPng=!isV&&(src.startsWith('data:image/png')||p.image?.toLowerCase().endsWith('.png'));
 
-  // ── VIRTUAL VIEWPORT ─────────────────────────────
-  // Simulate a 1200×750 viewport — same proportions as a laptop screen
-  // The site renders at full viewport; we replicate that here then scale down
-  const VW=1200, VH=750;
-  const panW=stage.offsetWidth||500;
-  const panH=stage.offsetHeight||400;
-  const scale=Math.min(panW/VW, panH/VH) * 0.92;
+  // Compute display size directly — no virtual viewport scaling overhead
+  const pad=28;
+  const scale=Math.min(1,(panW-pad*2)/fw,fh?(panH-pad*2)/fh:1);
+  const dispW=Math.round(fw*scale);
+  const dispH=fh?Math.round(fh*scale):null;
 
-  // Get or create viewport container (persists across updates)
-  let vp=stage.querySelector('.vp-sim');
-  if(!vp){
-    vp=document.createElement('div');
-    vp.className='vp-sim';
-    vp.style.cssText=`width:${VW}px;height:${VH}px;transform-origin:top left;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;`;
-    vp.style.background=C.site.background?.value||'#fafaf8';
-    stage.appendChild(vp);
-  }
-  vp.style.transform=`scale(${scale})`;
-  vp.style.background=C.site.backgroundImage?'':(C.site.background?.value||'#fafaf8');
-  // Center the scaled vp in the panel
-  stage.style.alignItems='flex-start';
-  stage.style.justifyContent='flex-start';
-  stage.style.paddingTop=Math.round((panH - VH*scale)/2)+'px';
-  stage.style.paddingLeft=Math.round((panW - VW*scale)/2)+'px';
-
-  // Get or create inner frame (persists — no reload flicker)
-  let inner=vp.querySelector('.si-frame');
+  // Reuse or create frame container
+  let inner=stage.querySelector('.si-frame');
   if(!inner){
     inner=document.createElement('div');
     inner.className='si-frame';
-    inner.style.cssText='position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;';
-    vp.appendChild(inner);
+    inner.style.cssText='display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;';
+    stage.appendChild(inner);
   }
 
-  // Apply frame styles (same as index.html .slide-inner)
-  const maxW=Math.min(fw, VW*0.88);
-  inner.style.width=fw+'px';
-  inner.style.maxWidth=VW*0.88+'px';
-  inner.style.borderRadius=radius+'px';
-  inner.style.border=bw>0?`${bw}px solid ${bc}`:'none';
-  inner.style.boxShadow=(shadow&&!isPng)?'0 20px 60px rgba(0,0,0,.1)':'none';
-  inner.style.maxHeight=fh?'none':VH*0.75+'px';
-  if(fh){inner.style.height=fh+'px';inner.style.maxHeight='none';}
-  else{inner.style.height='auto';}
+  // Only write styles that actually changed
+  const W=dispW+'px', BR=radius+'px';
+  const BRD=bw>0?`${bw}px solid ${bc}`:'none';
+  const SHD=(shadow&&!isPng)?'0 14px 40px rgba(0,0,0,.1)':'none';
+  if(inner.style.width!==W)inner.style.width=W;
+  if(inner.style.borderRadius!==BR)inner.style.borderRadius=BR;
+  if(inner.style.border!==BRD)inner.style.border=BRD;
+  if(inner.style.boxShadow!==SHD)inner.style.boxShadow=SHD;
+  if(dispH){
+    const H=dispH+'px';
+    if(inner.style.height!==H)inner.style.height=H;
+    inner.style.maxHeight='none';
+  } else {
+    inner.style.height='auto';
+    inner.style.maxHeight=(panH-pad*2)+'px';
+  }
 
   if(!src){
-    inner.innerHTML='<div style="width:100%;min-height:240px;background:#e8e6e1;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9e9b96">Nessuna immagine</span></div>';
+    if(!inner.querySelector('.no-img')){
+      inner.innerHTML='<div class="no-img" style="width:100%;min-height:160px;background:#e8e6e1;display:flex;align-items:center;justify-content:center;"><span style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#9e9b96">Nessuna immagine</span></div>';
+    }
     return;
   }
 
-  // Get or create media element — reuse same element to avoid reload flicker
+  // Reuse media element — recreate only if type changes
   const wantTag=isV?'VIDEO':'IMG';
   let media=inner.querySelector('img,video');
   if(!media||media.tagName!==wantTag){
     inner.innerHTML='';
-    media=document.createElement(isV?'video':'img');
+    media=isV?document.createElement('video'):document.createElement('img');
     if(isV){media.muted=true;media.loop=true;media.autoplay=true;media.playsInline=true;}
     media.draggable=false;
     inner.appendChild(media);
   }
 
-  // Only update src if changed (avoids reload)
-  if(media.src!==src){media.src=src;}
-
-  // Apply media styles — exact same CSS as index.html
-  if(isPng){
-    media.style.background='transparent';
-    media.style.filter=shadow?'drop-shadow(0 12px 40px rgba(0,0,0,.15))':'none';
-  } else {
-    media.style.background='transparent';
-    media.style.filter='none';
+  // Set src only when changed — avoids image reload on every slider move
+  if(media.getAttribute('data-src')!==src){
+    media.src=src;
+    media.setAttribute('data-src',src);
   }
 
-  if(fh){
-    media.style.cssText=`width:100%;height:100%;object-fit:cover;object-position:${posX}% ${posY}%;max-width:none;max-height:none;display:block;background:transparent;${isPng?'filter:drop-shadow(0 12px 40px rgba(0,0,0,.15));':''}`;
+  // Update only changed style properties — avoids forced style recalc
+  const MF=isPng&&shadow?'drop-shadow(0 8px 28px rgba(0,0,0,.14))':'none';
+  if(media.style.filter!==MF)media.style.filter=MF;
+  media.style.background='transparent';media.style.display='block';
+
+  if(dispH){
+    const OP=posX+'% '+posY+'%';
+    if(media.style.objectFit!=='cover')media.style.objectFit='cover';
+    if(media.style.objectPosition!==OP)media.style.objectPosition=OP;
+    if(media.style.width!=='100%')media.style.width='100%';
+    if(media.style.height!=='100%')media.style.height='100%';
+    media.style.maxWidth='none';media.style.maxHeight='none';
   } else {
-    media.style.cssText=`max-width:100%;max-height:${VH*0.75}px;width:auto;height:auto;object-fit:contain;display:block;background:transparent;${isPng&&shadow?'filter:drop-shadow(0 12px 40px rgba(0,0,0,.15));':''}`;
+    if(media.style.objectFit!=='contain')media.style.objectFit='contain';
+    if(media.style.width!=='auto')media.style.width='auto';
+    if(media.style.height!=='auto')media.style.height='auto';
+    media.style.maxWidth='100%';
+    media.style.maxHeight=(panH-pad*2)+'px';
   }
 }
+
 
 // ── FIELD SYNC ────────────────────────────────────
 ['pe-title','pe-type','pe-year','pe-location','pe-status','pe-desc'].forEach(id=>{
