@@ -47,13 +47,45 @@ async function load(){
   try{
     const r=await fetch('content.json?v='+Date.now());const data=await r.json();
     document.getElementById('page-logo').src=data.logo||'';
-    const nav=document.getElementById('page-nav'),navData=data.nav||{};
-    (navData.items||[]).forEach(item=>{
-      const a=document.createElement('a');a.href=item.href||'#';
-      if(navData.layout==='icons'&&item.icon){a.className='icon-link';const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);}
-      else{a.textContent=item.label;}
-      nav.appendChild(a);
-    });
+
+    function applyNav(navData){
+      const nav=document.getElementById('page-nav');
+      nav.innerHTML='';
+      const nd=navData||{};
+      const nFont=nd.font||'Jost';
+      const nSize=(nd.size||9)+'px';
+      const nWeight=nd.weight||300;
+      const nColor=nd.color||'#0d0d0b';
+      const nLS=(nd.letterSpacing!=null?nd.letterSpacing:0.18)+'em';
+      const nUpper=nd.uppercase!==false;
+      (nd.items||[{label:'← Progetti',href:'index.html',visible:true}]).forEach(item=>{
+        if(item.visible===false)return;
+        const a=document.createElement('a');
+        a.href=item.href||'#';
+        if(nd.layout==='icons'&&item.icon){
+          a.style.opacity='.45';
+          const img=document.createElement('img');
+          img.src=item.icon;img.alt=item.label;
+          img.style.cssText='width:22px;height:22px;object-fit:contain;mix-blend-mode:multiply;';
+          a.appendChild(img);
+        } else {
+          a.textContent=item.label;
+          a.style.fontFamily=`'${nFont}',sans-serif`;
+          a.style.fontSize=nSize;
+          a.style.fontWeight=nWeight;
+          a.style.color=nColor;
+          a.style.letterSpacing=nLS;
+          a.style.textTransform=nUpper?'uppercase':'none';
+          a.style.opacity='.45';
+          a.style.textDecoration='none';
+          a.style.transition='opacity .3s';
+          a.onmouseenter=()=>a.style.opacity='1';
+          a.onmouseleave=()=>a.style.opacity='.45';
+        }
+        nav.appendChild(a);
+      });
+    }
+    applyNav(data.nav);
     document.body.style.background=(data.pages&&data.pages.contatti&&data.pages.contatti.background)||'#fafaf8';
     const c=data.pages&&data.pages.contatti||{};
     const t=document.getElementById('page-title');
