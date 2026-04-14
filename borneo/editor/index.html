@@ -499,9 +499,15 @@ const dPreview=()=>{
 };
 
 // ── AUTH ──────────────────────────────────────────
-async function hp(pw){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-const HK='borneo_pw_hash';
-async function initAuth(){if(!localStorage.getItem(HK))localStorage.setItem(HK,await hp('borneo2024'));}
+// Simple password check — no crypto.subtle dependency
+const DEFAULT_PW='borneo2024';
+function checkPw(input){
+  const stored=localStorage.getItem('borneo_pw')||DEFAULT_PW;
+  return input===stored;
+}
+function initAuth(){
+  // nothing async needed
+}
 
 // ── GITHUB ────────────────────────────────────────
 const gR=()=>localStorage.getItem('gh_repo')||'';
@@ -534,23 +540,13 @@ document.querySelectorAll('.tt').forEach(btn=>{btn.addEventListener('click',()=>
 document.getElementById('btnl').addEventListener('click',async()=>{
   const btn=document.getElementById('btnl');
   const err=document.getElementById('pwe');
+  const input=document.getElementById('pwi').value;
+  if(!checkPw(input)){err.textContent='Password errata';return;}
+  err.textContent='';
   btn.disabled=true;btn.textContent='…';
-  try{
-    const h=await hp(document.getElementById('pwi').value);
-    const stored=localStorage.getItem(HK);
-    if(!stored){err.textContent='Ricarica la pagina e riprova';btn.disabled=false;btn.textContent='Accedi';return;}
-    if(h!==stored){err.textContent='Password errata';btn.disabled=false;btn.textContent='Accedi';return;}
-    err.textContent='';
-    if(!gR()||!gT()){show('ss');}
-    else{
-      try{await initAll();}catch(e){console.warn('initAll error (non-fatal):',e);}
-      show('se');
-    }
-  }catch(e){
-    err.textContent='Errore: '+e.message;
-    console.error(e);
-  }
+  try{await initAll();}catch(e){console.warn('initAll:',e);}
   btn.disabled=false;btn.textContent='Accedi';
+  if(!gR()||!gT())show('ss');else show('se');
 });
 document.getElementById('pwi').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btnl').click();});
 
@@ -1209,11 +1205,9 @@ document.getElementById('btn-logout')?.addEventListener('click',()=>{selIdx=null
 function toast(msg,err=false){const t=document.getElementById('toast');t.textContent=msg;t.className='show'+(err?' error':'');setTimeout(()=>t.className='',3500);}
 
 // ── INIT ──────────────────────────────────────────
-(async()=>{
-  await initAuth();
-  if(gR())document.getElementById('ghr').value=gR();
-  if(gT())document.getElementById('ght').value=gT();
-})();
+initAuth();
+if(gR())document.getElementById('ghr').value=gR();
+if(gT())document.getElementById('ght').value=gT();
 </script>
 </body>
 </html>
