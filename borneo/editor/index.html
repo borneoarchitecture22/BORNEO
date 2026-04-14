@@ -535,9 +535,25 @@ document.querySelectorAll('.tt').forEach(btn=>{btn.addEventListener('click',()=>
 
 // ── LOGIN ─────────────────────────────────────────
 document.getElementById('btnl').addEventListener('click',async()=>{
-  const h=await hp(document.getElementById('pwi').value);
-  if(h===localStorage.getItem(HK)){document.getElementById('pwe').textContent='';if(!gR()||!gT())show('ss');else{await initAll();show('se');}}
-  else document.getElementById('pwe').textContent='Password errata';
+  const btn=document.getElementById('btnl');
+  const err=document.getElementById('pwe');
+  btn.disabled=true;btn.textContent='…';
+  try{
+    const h=await hp(document.getElementById('pwi').value);
+    const stored=localStorage.getItem(HK);
+    if(!stored){err.textContent='Ricarica la pagina e riprova';btn.disabled=false;btn.textContent='Accedi';return;}
+    if(h!==stored){err.textContent='Password errata';btn.disabled=false;btn.textContent='Accedi';return;}
+    err.textContent='';
+    if(!gR()||!gT()){show('ss');}
+    else{
+      try{await initAll();}catch(e){console.warn('initAll error (non-fatal):',e);}
+      show('se');
+    }
+  }catch(e){
+    err.textContent='Errore: '+e.message;
+    console.error(e);
+  }
+  btn.disabled=false;btn.textContent='Accedi';
 });
 document.getElementById('pwi').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btnl').click();});
 
@@ -1274,9 +1290,11 @@ document.getElementById('btn-logout')?.addEventListener('click',()=>{selIdx=null
 function toast(msg,err=false){const t=document.getElementById('toast');t.textContent=msg;t.className='show'+(err?' error':'');setTimeout(()=>t.className='',3500);}
 
 // ── INIT ──────────────────────────────────────────
-initAuth();
-if(gR())document.getElementById('ghr').value=gR();
-if(gT())document.getElementById('ght').value=gT();
+(async()=>{
+  await initAuth();
+  if(gR())document.getElementById('ghr').value=gR();
+  if(gT())document.getElementById('ght').value=gT();
+})();
 </script>
 </body>
 </html>
