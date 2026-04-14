@@ -66,88 +66,45 @@
       }
     },
     {
-      "id": 1,
-      "title": "MDL",
-      "type": "Urban renovation",
-      "year": "2022",
-      "location": "Livorno - IT",
-      "status": "Ongoing",
-      "description": "Descrizione del progetto.",
-      "image": "images/p1775890380328.jpg",
-      "video": "",
-      "imageStyle": {
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false,
-        "maxWidth": 640,
-        "frameWidth": 820,
-        "frameHeight": 630,
-        "positionY": 46,
-        "positionX": 50
-      }
-    },
-    {
-      "id": 1776099820372,
-      "title": "CNC",
-      "type": "Temporary Garden/Pavilion",
-      "year": "2025",
-      "location": "Logrono - Es",
-      "status": "Ongoing",
-      "description": "",
-      "image": "images/p1776155823564.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 480,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 64,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776099496040,
-      "title": "TAB",
-      "type": "Temporary Pavillion",
-      "year": "2024",
-      "location": "Tallinn - EE",
+      "id": 1776173065837,
+      "title": "KSL",
+      "type": "",
+      "year": "2026",
+      "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1776155777153.jpg",
+      "image": "images/p1776173088072.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 820,
-        "frameHeight": 630,
-        "positionX": 44,
-        "positionY": 87,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776099686706,
-      "title": "KNG",
-      "type": "Temporary Pavilion",
-      "year": "2023",
-      "location": "Hamburg - De",
-      "status": "",
-      "description": "",
-      "image": "images/p1776099728218.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 440,
+        "frameWidth": 380,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": false
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173156652,
+      "title": "KSL",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173167988.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 380,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
       }
     },
     {
@@ -172,8 +129,198 @@
       }
     },
     {
+      "id": 1776099820372,
+      "title": "CNC",
+      "type": "Temporary Garden/Pavilion",
+      "year": "2025",
+      "location": "Logrono - Es",
+      "status": "Ongoing",
+      "description": "",
+      "image": "images/p1776155823564.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 480,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 64,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false
+      }
+    },
+    {
+      "id": 1776173205601,
+      "title": "CNC",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173255218.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 800,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173285418,
+      "title": "CNC",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173310548.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 400,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1,
+      "title": "MDL",
+      "type": "Urban renovation",
+      "year": "2022",
+      "location": "Livorno - IT",
+      "status": "Ongoing",
+      "description": "Descrizione del progetto.",
+      "image": "images/p1775890380328.jpg",
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false,
+        "maxWidth": 640,
+        "frameWidth": 820,
+        "frameHeight": 630,
+        "positionY": 46,
+        "positionX": 50
+      }
+    },
+    {
+      "id": 1776173342984,
+      "title": "MDL",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173400425.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 800,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173454598,
+      "title": "MDL",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173471065.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 400,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173454437,
+      "title": "TAB",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173719536.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 500,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173744164,
+      "title": "TAB",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776173783787.png",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 620,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776099496040,
+      "title": "TAB",
+      "type": "Temporary Pavillion",
+      "year": "2024",
+      "location": "Tallinn - EE",
+      "status": "",
+      "description": "",
+      "image": "images/p1776155777153.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 820,
+        "frameHeight": 630,
+        "positionX": 44,
+        "positionY": 87,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false
+      }
+    },
+    {
       "id": 1776156110122,
-      "title": "VILLA 1",
+      "title": "VILLA 01",
       "type": "Residential",
       "year": "2022",
       "location": "Giulianova - IT",
@@ -186,6 +333,48 @@
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 5,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776173838363,
+      "title": "VILLA 01",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776174014556.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 420,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776174064796,
+      "title": "VILLA 01",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776174106496.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 760,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
@@ -211,6 +400,27 @@
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
         "shadow": true
+      }
+    },
+    {
+      "id": 1776099686706,
+      "title": "KNG",
+      "type": "Temporary Pavilion",
+      "year": "2023",
+      "location": "Hamburg - De",
+      "status": "",
+      "description": "",
+      "image": "images/p1776099728218.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 440,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false
       }
     },
     {
@@ -268,6 +478,27 @@
       "imageStyle": {
         "frameWidth": 800,
         "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 50,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": true
+      }
+    },
+    {
+      "id": 1776174138545,
+      "title": "Nuovo progetto",
+      "type": "",
+      "year": "2026",
+      "location": "",
+      "status": "",
+      "description": "",
+      "image": "images/p1776174154100.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 640,
+        "frameHeight": null,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
