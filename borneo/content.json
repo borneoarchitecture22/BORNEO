@@ -192,27 +192,6 @@
       }
     },
     {
-      "id": 1776173285418,
-      "title": "CNC",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776173310548.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 400,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": true
-      }
-    },
-    {
       "id": 1776156349322,
       "title": "MGT",
       "type": "Urban renovation",
