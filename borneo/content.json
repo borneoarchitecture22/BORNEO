@@ -230,7 +230,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -434,8 +434,8 @@
       "image": "images/p1776175885002.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 640,
-        "frameHeight": null,
+        "frameWidth": 880,
+        "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
         "borderRadius": 0,
