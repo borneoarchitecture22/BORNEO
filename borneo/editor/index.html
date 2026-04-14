@@ -390,7 +390,14 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
           <span class="slb">Modalità</span>
           <div class="sc"><select id="nav-mode"><option value="text">Testo</option><option value="icons">Icone</option></select></div>
         </div>
-        <div class="sl2" style="margin-bottom:10px">Voci menu</div>
+        <div class="st" style="margin-top:0">Tipografia</div>
+        <div class="sr"><span class="slb">Font</span><div class="sc"><select id="nav-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option></select></div></div>
+        <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="nav-size" min="7" max="24" step="1"><span class="rv2" id="nav-size-v">9px</span></div></div>
+        <div class="sr"><span class="slb">Peso</span><div class="sc"><select id="nav-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
+        <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="nav-color" value="#0d0d0b"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="nav-color"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="nav-color"></div><div class="sw" style="background:#9e9b96" data-c="#9e9b96" data-t="nav-color"></div></div></div></div>
+        <div class="sr"><span class="slb">Letter spacing</span><div class="sc"><input type="range" id="nav-ls" min="0" max="0.5" step="0.01"><span class="rv2" id="nav-ls-v">0.18em</span></div></div>
+        <div class="sr"><span class="slb">Uppercase</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="nav-upper" checked><span style="font-size:10px">Attivo</span></label></div></div>
+        <div class="st">Voci menu</div>
         <div id="nav-items"></div>
       </div>
     </div>
@@ -502,7 +509,7 @@ const b64d=d=>d.split(',')[1];
 const rawU=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}?v=${Date.now()}`;
 
 // ── CONTENT ───────────────────────────────────────
-const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showIndex:false,showName:true,showTag:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:15,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left'},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:14,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left',infoFont:'Jost',infoSize:13,infoAlign:'left'}},projects:[]});
+const DC=()=>({logo:'images/logo.jpg',cursor:'',nav:{layout:'text',font:'Jost',size:9,weight:300,color:'#0d0d0b',letterSpacing:0.18,uppercase:true,items:[{label:'Progetti',icon:'',href:'#',visible:true},{label:'Studio',icon:'',href:'studio.html',visible:true},{label:'Contatti',icon:'',href:'contatti.html',visible:true}]},logoLayout:'tl',navLayout:'tr',infoLayout:'bl',progressLayout:'br',showLogo:true,showIndex:false,showName:true,showTag:true,showProgress:true,showNav:true,landing:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',showLogo:false,button:{text:'Entra',bgColor:'#0d0d0b',textColor:'#fafaf8',borderRadius:0,paddingX:48,paddingY:16,fontSize:11,letterSpacing:0.2,borderWidth:0,borderColor:'#0d0d0b'}},site:{background:{type:'color',value:'#fafaf8'},backgroundImage:'',fontDisplay:'Cormorant',fontBody:'Jost',projectPagesEnabled:false,titleFont:'Cormorant',titleSize:22,titleWeight:300,titleColor:'#0d0d0b',transition:'clip',transitionSpeed:0.72,imageStyle:{maxWidth:640,borderWidth:0,borderColor:'#0d0d0b',borderRadius:0,shadow:true}},pages:{studio:{title:'Studio',content:'',background:'#fafaf8',image:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:15,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left'},contatti:{title:'Contatti',content:'',background:'#fafaf8',email:'',phone:'',address:'',titleFont:'Cormorant',titleWeight:300,titleColor:'#0d0d0b',titleAlign:'left',bodyFont:'Jost',bodySize:14,bodyWeight:300,bodyColor:'#4a4845',bodyLineHeight:1.85,bodyAlign:'left',infoFont:'Jost',infoSize:13,infoAlign:'left'}},projects:[]});
 let C=DC();
 let selIdx=null;
 // File staging (IndexedDB keys):
@@ -553,6 +560,12 @@ async function initAll(){
 async function loadContent(){
   try{const f=await ghGet(rp('content.json'));C=JSON.parse(atob(f.content.replace(/\n/g,'')));}catch(e){C=DC();}
   if(!C.nav)C.nav=DC().nav;
+  if(!C.nav.font)C.nav.font='Jost';
+  if(C.nav.size===undefined)C.nav.size=9;
+  if(C.nav.weight===undefined)C.nav.weight=300;
+  if(!C.nav.color)C.nav.color='#0d0d0b';
+  if(C.nav.letterSpacing===undefined)C.nav.letterSpacing=0.18;
+  if(C.nav.uppercase===undefined)C.nav.uppercase=true;
   if(!C.logoLayout)C.logoLayout='tl';
   if(!C.navLayout)C.navLayout='tr';
   if(!C.infoLayout)C.infoLayout='bl';
@@ -1068,7 +1081,21 @@ function updateSitePreview(){applyCarouselStyles();}
 // ── NAV ITEMS ─────────────────────────────────────
 function renderNavItems(){
   const container=document.getElementById('nav-items');container.innerHTML='';
+  // populate typography controls
+  const nav=C.nav;
+  const nf=document.getElementById('nav-font');if(nf)nf.value=nav.font||'Jost';
+  const ns=document.getElementById('nav-size');if(ns){ns.value=nav.size||9;const nsl=document.getElementById('nav-size-v');if(nsl)nsl.textContent=(nav.size||9)+'px';}
+  const nw=document.getElementById('nav-weight');if(nw)nw.value=nav.weight||300;
+  const nc=document.getElementById('nav-color');if(nc)nc.value=nav.color||'#0d0d0b';
+  const nl=document.getElementById('nav-ls');if(nl){nl.value=nav.letterSpacing??0.18;const nll=document.getElementById('nav-ls-v');if(nll)nll.textContent=(nav.letterSpacing??0.18)+'em';}
+  const nu=document.getElementById('nav-upper');if(nu)nu.checked=nav.uppercase!==false;
   if(!C.nav)C.nav=DC().nav;
+  if(!C.nav.font)C.nav.font='Jost';
+  if(C.nav.size===undefined)C.nav.size=9;
+  if(C.nav.weight===undefined)C.nav.weight=300;
+  if(!C.nav.color)C.nav.color='#0d0d0b';
+  if(C.nav.letterSpacing===undefined)C.nav.letterSpacing=0.18;
+  if(C.nav.uppercase===undefined)C.nav.uppercase=true;
   document.getElementById('nav-mode').value=C.nav.layout||'text';
   C.nav.items.forEach((item,i)=>{
     const row=document.createElement('div');row.className='ni-row';
@@ -1081,6 +1108,15 @@ function renderNavItems(){
   });
 }
 document.getElementById('nav-mode').addEventListener('change',e=>{C.nav.layout=e.target.value;});
+// nav typography binds
+const _bNavV=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>fn(el.value));el?.addEventListener('change',()=>fn(el.value));};
+const _bNavR=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const v=parseFloat(el.value);fn(v);const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=v+(id==='nav-size'?'px':'em');});};
+_bNavV('nav-font',v=>{C.nav.font=v;});
+_bNavR('nav-size',v=>{C.nav.size=v;});
+_bNavV('nav-weight',v=>{C.nav.weight=parseInt(v);});
+_bNavV('nav-color',v=>{C.nav.color=v;});
+_bNavR('nav-ls',v=>{C.nav.letterSpacing=v;});
+document.getElementById('nav-upper')?.addEventListener('change',e=>{C.nav.uppercase=e.target.checked;});
 document.getElementById('nav-items').addEventListener('input',e=>{
   const ni=e.target.dataset.ni,f=e.target.dataset.f;
   if(ni==null||!f)return;
