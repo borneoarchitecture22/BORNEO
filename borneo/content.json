@@ -32,7 +32,7 @@
       "borderWidth": 0,
       "borderColor": "#0d0d0b",
       "borderRadius": 0,
-      "shadow": true
+      "shadow": false
     },
     "transition": "fade",
     "transitionSpeed": 0.6,
