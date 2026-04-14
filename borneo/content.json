@@ -193,7 +193,13 @@
         "href": "contatti.html",
         "visible": true
       }
-    ]
+    ],
+    "font": "Inter",
+    "size": 11,
+    "weight": 100,
+    "color": "#0d0d0b",
+    "letterSpacing": 0.18,
+    "uppercase": true
   },
   "footerLayout": "pos-bl",
   "cursor": "",
