@@ -44,28 +44,6 @@
   },
   "projects": [
     {
-      "id": 1,
-      "title": "MDL",
-      "type": "Urban renovation",
-      "year": "2022",
-      "location": "Livorno - IT",
-      "status": "Ongoing",
-      "description": "Descrizione del progetto.",
-      "image": "images/p1775890380328.jpg",
-      "video": "",
-      "imageStyle": {
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false,
-        "maxWidth": 640,
-        "frameWidth": 1120,
-        "frameHeight": 630,
-        "positionY": 46,
-        "positionX": 50
-      }
-    },
-    {
       "id": 1775225108692,
       "title": "KSL",
       "type": "Onsite P",
@@ -83,8 +61,51 @@
         "maxWidth": 640,
         "positionX": 18,
         "frameHeight": 630,
-        "frameWidth": 1060,
+        "frameWidth": 480,
         "positionY": 42
+      }
+    },
+    {
+      "id": 1,
+      "title": "MDL",
+      "type": "Urban renovation",
+      "year": "2022",
+      "location": "Livorno - IT",
+      "status": "Ongoing",
+      "description": "Descrizione del progetto.",
+      "image": "images/p1775890380328.jpg",
+      "video": "",
+      "imageStyle": {
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false,
+        "maxWidth": 640,
+        "frameWidth": 820,
+        "frameHeight": 630,
+        "positionY": 46,
+        "positionX": 50
+      }
+    },
+    {
+      "id": 1776099820372,
+      "title": "CNC",
+      "type": "Temporary Garden/Pavilion",
+      "year": "2025",
+      "location": "Logrono - Es",
+      "status": "Ongoing",
+      "description": "",
+      "image": "images/p1776155823564.jpg",
+      "video": "",
+      "imageStyle": {
+        "frameWidth": 480,
+        "frameHeight": 630,
+        "positionX": 50,
+        "positionY": 64,
+        "borderRadius": 0,
+        "borderWidth": 0,
+        "borderColor": "#0d0d0b",
+        "shadow": false
       }
     },
     {
@@ -98,7 +119,7 @@
       "image": "images/p1776155777153.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 820,
         "frameHeight": 630,
         "positionX": 44,
         "positionY": 87,
@@ -119,31 +140,10 @@
       "image": "images/p1776099728218.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 440,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776099820372,
-      "title": "CNC",
-      "type": "Temporary Garden/Pavilion",
-      "year": "2025",
-      "location": "Logrono - Es",
-      "status": "Ongoing",
-      "description": "",
-      "image": "images/p1776155823564.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 460,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 64,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
@@ -161,7 +161,7 @@
       "image": "images/p1776156031278.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 400,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 90,
@@ -182,7 +182,7 @@
       "image": "images/p1776156187085.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 460,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 5,
@@ -203,7 +203,7 @@
       "image": "images/p1776156303493.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 820,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
@@ -224,7 +224,7 @@
       "image": "images/p1776156368836.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 800,
+        "frameWidth": 420,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 47,
@@ -270,27 +270,6 @@
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": true
-      }
-    },
-    {
-      "id": 1776156852136,
-      "title": "TAB",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776156877850.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 800,
-        "frameHeight": 560,
-        "positionX": 50,
-        "positionY": 56,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
