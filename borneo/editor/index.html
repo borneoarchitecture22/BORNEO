@@ -536,6 +536,12 @@ let selIdx=null;
 // studio_img → 'studio_img', media_N → 'media_N', icon_N → 'icon_N'
 let staged={}; // key → {dataUrl, repoFn, isVideo}
 
+// ── MEDIA KEY by project ID ───────────────────────
+// Use stable project ID as key — not position index
+const mKey=pid=>`media_${pid}`;
+// Lookup staged by project object
+const stgFor=p=>staged[mKey(p.id)];
+
 // ── SCREENS ───────────────────────────────────────
 const show=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');};
 
@@ -635,10 +641,18 @@ async function restoreStagedFromIDB(){
   if(stImg&&C.pages?.studio?.image){staged.studio_img={dataUrl:stImg,repoFn:rp(C.pages.studio.image)};document.getElementById('st-img-th').style.backgroundImage=`url('${stImg}')`;}
   // Restore project media
   for(let i=0;i<C.projects.length;i++){
-    const md=await IDB.get(`media_${i}`);
+    const p=C.projects[i];
+    const key=mKey(p.id);
+    let md=await IDB.get(key);
+    // Migrate from old numeric key if needed
+    if(!md){
+      const oldKey=`media_${i}`;
+      md=await IDB.get(oldKey);
+      if(md){await IDB.set(key,md);await IDB.del(oldKey);}
+    }
     if(md){
-      const p=C.projects[i];const src=p.video||p.image||'';const isV=!!p.video;
-      staged[`media_${i}`]={dataUrl:md,repoFn:rp(src),isVideo:isV};
+      const src=p.video||p.image||'';const isV=!!p.video;
+      staged[key]={dataUrl:md,repoFn:rp(src),isVideo:isV};
     }
   }
   // Restore nav icons
@@ -658,7 +672,7 @@ function renderSidebar(){
     item.className='pi'+(i===selIdx?' active':'');
     item.dataset.idx=i;
     item.draggable=true;
-    const stg=staged[`media_${i}`];
+    const stg=stgFor(p);
     const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
     const isV=!stg&&p.video;
     const thumb=`<div class="pt">${src?(isV?`<video src="${src}" muted>`:`<img src="${src}" onerror="this.style.opacity=0" alt="">`):'<div style="width:100%;height:100%;background:#ddd"></div>'}</div>`;
@@ -669,7 +683,7 @@ function renderSidebar(){
     item.querySelector('.pi-del').addEventListener('click',e=>{
       e.stopPropagation();
       if(!confirm(`Eliminare "${p.title||'questo progetto'}"?`))return;
-      delete staged[`media_${i}`];IDB.del(`media_${i}`);
+      delete staged[mKey(p.id)];IDB.del(mKey(p.id));
       C.projects.splice(i,1);
       if(selIdx===i){selIdx=null;document.getElementById('main-empty').style.display='flex';document.getElementById('pe-wrap').style.display='none';}
       else if(selIdx>i)selIdx--;
@@ -692,22 +706,7 @@ function renderSidebar(){
       // Reorder projects array
       const moved=C.projects.splice(from,1)[0];
       C.projects.splice(to,0,moved);
-      // Reorder staged media
-      const movedStg=staged[`media_${from}`];
-      delete staged[`media_${from}`];
-      // Shift all staged indices
-      const newStaged={};
-      Object.keys(staged).forEach(k=>{
-        const m=k.match(/^media_(\d+)$/);
-        if(m){
-          let idx=parseInt(m[1]);
-          if(from<to){if(idx>from&&idx<=to)idx--;} else {if(idx>=to&&idx<from)idx++;}
-          newStaged[`media_${idx}`]=staged[k];
-        } else newStaged[k]=staged[k];
-      });
-      if(movedStg)newStaged[`media_${to}`]=movedStg;
-      Object.keys(staged).forEach(k=>delete staged[k]);
-      Object.assign(staged,newStaged);
+      // No staged remapping needed — keys are project IDs, not positions
       // Update selIdx
       if(selIdx===from)selIdx=to;
       else if(from<to&&selIdx>from&&selIdx<=to)selIdx--;
@@ -752,7 +751,7 @@ function selectProject(idx){
   // media area
   const area=document.getElementById('media-area');
   area.querySelectorAll('img,video').forEach(e=>e.remove());
-  const stg=staged[`media_${idx}`];
+  const stg=stgFor(p);
   const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
   if(src){
     const isV=stg?stg.isVideo:!!p.video;
@@ -804,7 +803,7 @@ function updateProjPreview(){
   const p=C.projects[selIdx];
   const st=p.imageStyle||{};
   const dSt=C.site.imageStyle||{};
-  const stg=staged[`media_${selIdx}`];
+  const stg=stgFor(p);
 
   const fw=st.frameWidth||dSt.maxWidth||640;
   const fh=st.frameHeight||null;
@@ -934,12 +933,13 @@ document.getElementById('fi').addEventListener('change',e=>{
     } else if((ft==='img'||ft==='vid')&&selIdx!==null){
       const isV=ft==='vid'||file.type.startsWith('video');
       const fn=`images/p${Date.now()}.${ext}`;
-      staged[`media_${selIdx}`]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
-      IDB.set(`media_${selIdx}`,du);
+      const _pid=C.projects[selIdx].id;
+      staged[mKey(_pid)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
+      IDB.set(mKey(_pid),du);
       if(isV){C.projects[selIdx].video=fn;C.projects[selIdx].image='';}
       else{C.projects[selIdx].image=fn;C.projects[selIdx].video='';}
       // Update just this project's thumbnail in sidebar
-      const thumb=document.querySelector(`#proj-list .pi:nth-child(${selIdx+1}) .pt`);
+      const thumb=document.querySelector(`#proj-list .pi[data-idx="${selIdx}"] .pt`);
       if(thumb){
         const el=isV?document.createElement('video'):document.createElement('img');
         el.src=du;if(isV)el.muted=true;
@@ -983,7 +983,8 @@ document.getElementById('btn-del').addEventListener('click',()=>{
   if(selIdx===null)return;
   const p=C.projects[selIdx];
   if(!confirm(`Eliminare "${p.title||'questo progetto'}"?`))return;
-  delete staged[`media_${selIdx}`];IDB.del(`media_${selIdx}`);
+  const _delpid=C.projects[selIdx].id;
+  delete staged[mKey(_delpid)];IDB.del(mKey(_delpid));
   C.projects.splice(selIdx,1);selIdx=null;
   document.getElementById('main-empty').style.display='flex';document.getElementById('pe-wrap').style.display='none';
   renderSidebar();
