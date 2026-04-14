@@ -577,7 +577,15 @@ function saveDraft(){try{localStorage.setItem(DK,JSON.stringify({content:C,saved
 function loadDraftData(){try{const r=localStorage.getItem(DK);if(!r)return null;const d=JSON.parse(r);if(Date.now()-d.savedAt>7*24*3600*1000){localStorage.removeItem(DK);return null;}return d;}catch(e){return null;}}
 function clearDraft(){localStorage.removeItem(DK);showDS('');}
 function showDS(m){const e=document.getElementById('ds');if(e)e.textContent=m;}
-function sched(){clearTimeout(draftTimer);draftTimer=setTimeout(saveDraft,1500);}
+let _lastDraftHash='';
+function sched(){
+  clearTimeout(draftTimer);
+  draftTimer=setTimeout(()=>{
+    // Skip if content hasn't changed (cheap check on project count + titles)
+    const h=C.projects.length+'|'+(C.projects.map(p=>p.title+p.year).join(','));
+    if(h!==_lastDraftHash){_lastDraftHash=h;saveDraft();}
+  },3000);
+}
 document.addEventListener('input',e=>{if(e.target.closest('#se'))sched();});
 document.addEventListener('change',e=>{if(e.target.closest('#se'))sched();});
 
@@ -665,59 +673,47 @@ async function restoreStagedFromIDB(){
 }
 
 // ── SIDEBAR ───────────────────────────────────────
+// Lazy thumbnail loader using IntersectionObserver
+let _thumbObs=null;
+function initThumbObserver(){
+  if(_thumbObs)return;
+  _thumbObs=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
+      const pt=entry.target;
+      const src=pt.dataset.src;
+      if(!src)return;
+      const isV=pt.dataset.video==='1';
+      const el=isV?document.createElement('video'):document.createElement('img');
+      el.src=src;if(isV)el.muted=true;
+      pt.innerHTML='';pt.appendChild(el);
+      _thumbObs.unobserve(pt);
+    });
+  },{rootMargin:'80px'});
+}
+
 function renderSidebar(){
-  const list=document.getElementById('proj-list');list.innerHTML='';
-  C.projects.forEach((p,i)=>{
-    const item=document.createElement('div');
-    item.className='pi'+(i===selIdx?' active':'');
-    item.dataset.idx=i;
-    item.draggable=true;
+  initThumbObserver();
+  const list=document.getElementById('proj-list');
+  // Build HTML string — much faster than createElement per item
+  const html=C.projects.map((p,i)=>{
     const stg=stgFor(p);
     const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
-    const isV=!stg&&p.video;
-    const thumb=`<div class="pt">${src?(isV?`<video src="${src}" muted>`:`<img src="${src}" onerror="this.style.opacity=0" alt="">`):'<div style="width:100%;height:100%;background:#ddd"></div>'}</div>`;
-    item.innerHTML=`<span class="pi-drag" title="Trascina per riordinare">⠿</span>${thumb}<div style="flex:1;min-width:0;"><div class="pn">${p.title||'Senza titolo'}</div><div class="py2">${p.year||''}</div></div><button class="pi-del" title="Elimina progetto" data-i="${i}">✕</button>`;
-    // Click on item body → select (not on delete button)
-    item.addEventListener('click',e=>{if(!e.target.classList.contains('pi-del'))selectProject(i);});
-    // Delete button
-    item.querySelector('.pi-del').addEventListener('click',e=>{
-      e.stopPropagation();
-      if(!confirm(`Eliminare "${p.title||'questo progetto'}"?`))return;
-      delete staged[mKey(p.id)];IDB.del(mKey(p.id));
-      C.projects.splice(i,1);
-      if(selIdx===i){selIdx=null;document.getElementById('main-empty').style.display='flex';document.getElementById('pe-wrap').style.display='none';}
-      else if(selIdx>i)selIdx--;
-      renderSidebar();
-    });
-    // Drag events
-    item.addEventListener('dragstart',e=>{
-      e.dataTransfer.effectAllowed='move';
-      e.dataTransfer.setData('text/plain',i);
-      setTimeout(()=>item.classList.add('dragging'),0);
-    });
-    item.addEventListener('dragend',()=>item.classList.remove('dragging'));
-    item.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';item.classList.add('drag-over');});
-    item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
-    item.addEventListener('drop',e=>{
-      e.preventDefault();item.classList.remove('drag-over');
-      const from=parseInt(e.dataTransfer.getData('text/plain'));
-      const to=parseInt(item.dataset.idx);
-      if(from===to)return;
-      // Reorder projects array
-      const moved=C.projects.splice(from,1)[0];
-      C.projects.splice(to,0,moved);
-      // No staged remapping needed — keys are project IDs, not positions
-      // Update selIdx
-      if(selIdx===from)selIdx=to;
-      else if(from<to&&selIdx>from&&selIdx<=to)selIdx--;
-      else if(from>to&&selIdx>=to&&selIdx<from)selIdx++;
-      renderSidebar();
-      if(selIdx!==null)selectProject(selIdx);
-    });
-    list.appendChild(item);
-  });
+    const isV=!stg&&!!p.video;
+    // Store src in data-src for lazy loading — no actual img tag yet
+    const thumbData=src?`data-src="${src.replace(/"/g,'&quot;')}" data-video="${isV?1:0}"`:'';
+    return `<div class="pi${i===selIdx?' active':''}" data-idx="${i}" draggable="true">` +
+      `<span class="pi-drag">⠿</span>` +
+      `<div class="pt" ${thumbData}></div>` +
+      `<div style="flex:1;min-width:0;"><div class="pn">${(p.title||'Senza titolo').replace(/</g,'&lt;')}</div><div class="py2">${(p.year||'').replace(/</g,'&lt;')}</div></div>` +
+      `<button class="pi-del" data-i="${i}">✕</button></div>`;
+  }).join('');
+  list.innerHTML=html;
+  // Observe all thumbnails for lazy loading
+  list.querySelectorAll('.pt[data-src]').forEach(pt=>_thumbObs.observe(pt));
   renderLogoPreview();
 }
+
 
 function renderLogoPreview(){
   const la=document.getElementById('logo-up');
@@ -725,6 +721,61 @@ function renderLogoPreview(){
   else if(C.logo){la.innerHTML=`<img src="${rawS(C.logo)}" onerror="this.parentElement.innerHTML='<span>Carica logo</span>'">`;}
   else la.innerHTML='<span>Carica logo</span>';
 }
+
+// ── SIDEBAR EVENT DELEGATION — set up once ────────
+(()=>{
+  const list=document.getElementById('proj-list');
+  let dragFrom=null;
+
+  list.addEventListener('click',e=>{
+    const del=e.target.closest('.pi-del');
+    if(del){
+      const i=parseInt(del.dataset.i);
+      const p=C.projects[i];
+      if(!p||!confirm(`Eliminare "${p.title||'questo progetto'}"?`))return;
+      delete staged[mKey(p.id)];IDB.del(mKey(p.id));
+      C.projects.splice(i,1);
+      if(selIdx===i){selIdx=null;document.getElementById('main-empty').style.display='flex';document.getElementById('pe-wrap').style.display='none';}
+      else if(selIdx>i)selIdx--;
+      renderSidebar();return;
+    }
+    const item=e.target.closest('.pi');
+    if(item&&!e.target.classList.contains('pi-drag'))selectProject(parseInt(item.dataset.idx));
+  });
+
+  list.addEventListener('dragstart',e=>{
+    const item=e.target.closest('.pi');if(!item)return;
+    dragFrom=parseInt(item.dataset.idx);
+    e.dataTransfer.effectAllowed='move';
+    e.dataTransfer.setData('text/plain',dragFrom);
+    setTimeout(()=>item.classList.add('dragging'),0);
+  });
+  list.addEventListener('dragend',e=>{
+    const item=e.target.closest('.pi');if(item)item.classList.remove('dragging');
+    list.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+  });
+  list.addEventListener('dragover',e=>{
+    e.preventDefault();e.dataTransfer.dropEffect='move';
+    const item=e.target.closest('.pi');
+    list.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    if(item)item.classList.add('drag-over');
+  });
+  list.addEventListener('drop',e=>{
+    e.preventDefault();
+    list.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    const item=e.target.closest('.pi');if(!item)return;
+    const to=parseInt(item.dataset.idx);
+    const from=dragFrom;
+    if(from===null||from===to)return;
+    const moved=C.projects.splice(from,1)[0];
+    C.projects.splice(to,0,moved);
+    if(selIdx===from)selIdx=to;
+    else if(from<to&&selIdx>from&&selIdx<=to)selIdx--;
+    else if(from>to&&selIdx>=to&&selIdx<from)selIdx++;
+    dragFrom=null;renderSidebar();
+    if(selIdx!==null)selectProject(selIdx);
+  });
+})();
 
 // ── SELECT PROJECT ────────────────────────────────
 function selectProject(idx){
