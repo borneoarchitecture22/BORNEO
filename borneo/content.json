@@ -57,7 +57,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true,
+        "shadow": false,
         "maxWidth": 640,
         "frameWidth": 800,
         "frameHeight": 630,
@@ -79,7 +79,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true,
+        "shadow": false,
         "maxWidth": 640,
         "positionX": 18,
         "frameHeight": 630,
@@ -95,17 +95,17 @@
       "location": "Tallinn - EE",
       "status": "",
       "description": "",
-      "image": "images/p1776155694438.jpg",
+      "image": "images/p1776155777153.jpg",
       "video": "",
       "imageStyle": {
-        "frameWidth": 560,
-        "frameHeight": 870,
+        "frameWidth": 800,
+        "frameHeight": 630,
         "positionX": 44,
         "positionY": 87,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -126,7 +126,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -137,17 +137,17 @@
       "location": "Logrono - Es",
       "status": "Ongoing",
       "description": "",
-      "image": "images/p1776099834996.jpg",
+      "image": "images/p1776155823564.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 800,
         "frameHeight": 630,
         "positionX": 50,
-        "positionY": 50,
+        "positionY": 64,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     },
     {
@@ -168,7 +168,7 @@
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
-        "shadow": true
+        "shadow": false
       }
     }
   ],
