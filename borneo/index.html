@@ -229,14 +229,28 @@ function applyFonts(D){
 function applyNav(D){
   const nav=document.getElementById('site-nav');nav.innerHTML='';
   const nd=D.nav||{layout:'text',items:[{label:'Progetti',href:'#'},{label:'Studio',href:'studio.html'},{label:'Contatti',href:'contatti.html'}]};
+  // nav typography
+  const nFont=nd.font||'Jost';
+  const nSize=(nd.size||9)+'px';
+  const nWeight=nd.weight||300;
+  const nColor=nd.color||'var(--b)';
+  const nLS=(nd.letterSpacing??0.18)+'em';
+  const nUpper=nd.uppercase!==false;
   nd.items.forEach(item=>{
-    if(item.visible===false)return; // skip hidden items
+    if(item.visible===false)return;
     const a=document.createElement('a');a.href=item.href||'#';
     if(nd.layout==='icons'&&item.icon){
       a.className='il-link';
       const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);
     } else {
-      a.className='tl-link';a.textContent=item.label;
+      a.className='tl-link';
+      a.textContent=item.label;
+      a.style.fontFamily=`'${nFont}',sans-serif`;
+      a.style.fontSize=nSize;
+      a.style.fontWeight=nWeight;
+      a.style.color=nColor;
+      a.style.letterSpacing=nLS;
+      a.style.textTransform=nUpper?'uppercase':'none';
     }
     nav.appendChild(a);
   });
