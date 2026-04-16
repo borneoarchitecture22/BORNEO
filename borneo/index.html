@@ -305,14 +305,17 @@ function buildSlides(){
   const stage=document.getElementById('stage');stage.innerHTML='';
   P.forEach((p,i)=>{
     const st=p.imageStyle||{},dSt=SS.imageStyle||{};
-    const fw=st.frameWidth||dSt.maxWidth||640;
-    const fh=st.frameHeight||null;
+    const fw=st.frameWidth||dSt.maxWidth||1440;
+    const fh=st.frameHeight||630; // default 630px for carousel
     const radius=st.borderRadius!=null?st.borderRadius:(dSt.borderRadius||0);
     const bw=st.borderWidth!=null?st.borderWidth:(dSt.borderWidth||0);
     const bc=st.borderColor||dSt.borderColor||'transparent';
     const shadow=st.shadow!=null?st.shadow:(dSt.shadow!==false);
     const posX=st.positionX!=null?st.positionX:50;
     const posY=st.positionY!=null?st.positionY:50;
+    // Use first image block if available, fall back to p.image
+    const _firstBlock=p.blocks?.find(b=>b.type==='image'&&(b.src||b.video));
+    if(_firstBlock){p={...p,image:_firstBlock.src||p.image,video:_firstBlock.video||p.video,imageStyle:{...(_firstBlock.imageStyle||{})}};} 
     const isPng=p.image&&/\.png$/i.test(p.image);
 
     const slide=document.createElement('div');
@@ -321,7 +324,7 @@ function buildSlides(){
 
     const inner=document.createElement('div');
     inner.className='slide-inner';
-    inner.style.width=fw+'px';inner.style.maxWidth='88vw';
+    inner.style.width=fw+'px';inner.style.maxWidth=fh?'100vw':'88vw';
     inner.style.borderRadius=radius+'px';
     inner.style.border=bw>0?`${bw}px solid ${bc}`:'none';
     inner.style.boxShadow=(shadow&&!isPng)?'0 20px 60px rgba(0,0,0,.1)':'none';
