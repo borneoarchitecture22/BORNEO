@@ -95,6 +95,21 @@
             "borderColor": "#0d0d0b",
             "shadow": false
           }
+        },
+        {
+          "type": "image",
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": true
+          }
         }
       ]
     },
