@@ -100,6 +100,22 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
 .pf input:focus,.pf textarea:focus{border-bottom-color:var(--b);}
 .pf textarea{resize:vertical;height:60px;line-height:1.6;}
 .pf.full{grid-column:1/-1;}
+/* Blocks editor */
+.blocks-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.block-item{border:1px solid var(--br);background:var(--w);border-radius:2px;overflow:hidden;}
+.block-hdr{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer;user-select:none;}
+.block-hdr:hover{background:var(--hv);}
+.block-drag-h{color:var(--br);font-size:13px;cursor:grab;flex-shrink:0;}
+.block-type-badge{font-size:7px;letter-spacing:.16em;text-transform:uppercase;background:var(--hv);padding:2px 6px;border-radius:1px;color:var(--g);}
+.block-title{flex:1;font-size:11px;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.block-del{background:none;border:none;color:var(--br);cursor:pointer;font-size:11px;padding:0 2px;flex-shrink:0;}
+.block-del:hover{color:var(--red);}
+.block-body{padding:10px 12px;border-top:1px solid var(--br);display:none;}
+.block-body.open{display:block;}
+.block-thumb{width:100%;max-height:100px;object-fit:cover;display:block;margin-bottom:8px;background:var(--hv);}
+.ba-row{display:flex;gap:8px;margin-top:8px;}
+.ba-sm{flex:1;background:none;border:1px dashed var(--br);padding:7px;font-family:"Jost",sans-serif;font-size:8px;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;color:var(--g);}
+.ba-sm:hover{border-color:var(--b);color:var(--b);}
 /* Preview panels */
 .pvp{flex:1;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f5f3ef;position:relative;}
 .pvl{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--g);background:rgba(245,243,239,.9);padding:3px 9px;z-index:5;pointer-events:none;}
@@ -229,32 +245,20 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
               <input class="pti" id="pe-title" placeholder="Nome progetto">
               <button class="bdel" id="btn-del">Elimina</button>
             </div>
-            <div class="ma" id="media-area">
-              <div class="ml">Immagine o video (PNG supportato)</div>
-              <div class="mov">
-                <button class="mb" id="btn-mi">📷 Immagine / PNG</button>
-                <button class="mb" id="btn-mv">🎬 Video</button>
-              </div>
-            </div>
-            <div>
-              <div class="sl2" style="margin-bottom:9px">Cornice e posizione</div>
-              <div class="isr">
-                <div class="isf"><label>Larghezza</label><div class="rr"><input type="range" id="pi-fw" min="100" max="1400" step="20" value="640"><span class="rv" id="pi-fw-v">640px</span></div></div>
-                <div class="isf"><label>Altezza (0=auto)</label><div class="rr"><input type="range" id="pi-fh" min="0" max="900" step="10" value="0"><span class="rv" id="pi-fh-v">auto</span></div></div>
-                <div class="isf"><label>Posizione X</label><div class="rr"><input type="range" id="pi-px" min="0" max="100" step="1" value="50"><span class="rv" id="pi-px-v">50%</span></div></div>
-                <div class="isf"><label>Posizione Y</label><div class="rr"><input type="range" id="pi-py" min="0" max="100" step="1" value="50"><span class="rv" id="pi-py-v">50%</span></div></div>
-                <div class="isf"><label>Arrotondamento</label><div class="rr"><input type="range" id="pi-r" min="0" max="120" step="1" value="0"><span class="rv" id="pi-r-v">0px</span></div></div>
-                <div class="isf"><label>Bordo</label><div class="rr"><input type="range" id="pi-bw" min="0" max="12" step="1" value="0"><span class="rv" id="pi-bw-v">0px</span></div></div>
-                <div class="isf"><label>Colore bordo</label><input type="color" id="pi-bc" value="#0d0d0b"></div>
-                <div class="isf"><label>Ombra</label><label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:4px;"><input type="checkbox" id="pi-sh" checked><span style="font-size:10px">Attiva</span></label></div>
-              </div>
-            </div>
-            <div class="pf2g">
+            <div class="pf2g" style="margin-bottom:4px;">
               <div class="pf"><label>Tipologia</label><input id="pe-type"></div>
               <div class="pf"><label>Anno</label><input id="pe-year"></div>
               <div class="pf"><label>Luogo</label><input id="pe-location"></div>
               <div class="pf"><label>Stato</label><input id="pe-status"></div>
-              <div class="pf full"><label>Descrizione</label><textarea id="pe-desc"></textarea></div>
+              <div class="pf full"><label>Descrizione (breve)</label><textarea id="pe-desc" style="height:48px;"></textarea></div>
+            </div>
+            <div>
+              <div class="sl2" style="margin-bottom:8px">Contenuto pagina progetto</div>
+              <div class="blocks-list" id="blocks-list"></div>
+              <div class="ba-row">
+                <button class="ba-sm" id="btn-add-img-block">+ Immagine</button>
+                <button class="ba-sm" id="btn-add-txt-block">+ Testo</button>
+              </div>
             </div>
           </div>
         </div>
@@ -788,50 +792,25 @@ function selectProject(idx){
   document.getElementById('pe-location').value=p.location||'';
   document.getElementById('pe-status').value=p.status||'';
   document.getElementById('pe-desc').value=p.description||'';
-  if(!p.imageStyle)p.imageStyle={frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};
-  const st=p.imageStyle;
-  sR('pi-fw',st.frameWidth||640,'px');
-  const fh=st.frameHeight||0;const fhEl=document.getElementById('pi-fh');
-  if(fhEl){fhEl.value=fh;document.getElementById('pi-fh-v').textContent=fh===0?'auto':fh+'px';}
-  sR('pi-px',st.positionX!=null?st.positionX:50,'%');
-  sR('pi-py',st.positionY!=null?st.positionY:50,'%');
-  sR('pi-r',st.borderRadius||0,'px');
-  sR('pi-bw',st.borderWidth||0,'px');
-  sV('pi-bc',st.borderColor||'#0d0d0b');
-  document.getElementById('pi-sh').checked=st.shadow!==false;
-  // media area
-  const area=document.getElementById('media-area');
-  area.querySelectorAll('img,video').forEach(e=>e.remove());
-  const stg=stgFor(p);
-  const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
-  if(src){
-    const isV=stg?stg.isVideo:!!p.video;
-    const el=isV?document.createElement('video'):document.createElement('img');
-    el.src=src;if(isV){el.muted=true;el.loop=true;el.autoplay=true;}
-    area.insertBefore(el,area.firstChild);
+  // Ensure blocks array exists
+  if(!p.blocks){
+    // Migrate: if has image/video, create first block from it
+    p.blocks=[];
+    const stg=stgFor(p);
+    if(stg||p.image||p.video){
+      p.blocks.push({type:'image',src:p.image||'',video:p.video||'',imageStyle:p.imageStyle||{frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true}});
+    }
   }
-  // Update only the active state in sidebar — no full rebuild
+  // Update active state in sidebar
   document.querySelectorAll('#proj-list .pi').forEach((el,i)=>{
     el.classList.toggle('active', i===selIdx);
   });
+  renderBlocks();
   updateProjPreview();
 }
 
 // ── IMAGE STYLE CONTROLS ─────────────────────────
-['pi-fw','pi-fh','pi-px','pi-py','pi-r','pi-bw'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('input',e=>{
-    if(selIdx===null)return;
-    const v=parseFloat(e.target.value);
-    const lbl=document.getElementById(id+'-v');
-    if(lbl){if(id==='pi-fh')lbl.textContent=v===0?'auto':v+'px';else if(id==='pi-px'||id==='pi-py')lbl.textContent=v+'%';else lbl.textContent=v+'px';}
-    if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};
-    const km={'pi-fw':'frameWidth','pi-fh':'frameHeight','pi-px':'positionX','pi-py':'positionY','pi-r':'borderRadius','pi-bw':'borderWidth'};
-    C.projects[selIdx].imageStyle[km[id]]=id==='pi-fh'&&v===0?null:v;
-    dPreview();
-  });
-});
-document.getElementById('pi-bc').addEventListener('input',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.borderColor=e.target.value;dPreview();}});
-document.getElementById('pi-sh').addEventListener('change',e=>{if(selIdx!==null){if(!C.projects[selIdx].imageStyle)C.projects[selIdx].imageStyle={};C.projects[selIdx].imageStyle.shadow=e.target.checked;dPreview();}});
+// image style controls moved to per-block
 
 // ── PROJECT PREVIEW ───────────────────────────────
 // Cache panel size to avoid layout reflows on every rAF call
@@ -956,11 +935,206 @@ function updateProjPreview(){
   });
 });
 
+// ── BLOCKS EDITOR ──────────────────────────────────
+let editingBlock=null; // {projIdx, blockIdx}
+let _blockFileTarget=null; // {projIdx, blockIdx, field}
+
+function defaultImgStyle(){
+  return {frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};
+}
+
+function renderBlocks(){
+  if(selIdx===null)return;
+  const p=C.projects[selIdx];
+  if(!p.blocks)p.blocks=[];
+  const list=document.getElementById('blocks-list');
+  if(!list)return;
+  list.innerHTML='';
+
+  p.blocks.forEach((b,bi)=>{
+    const item=document.createElement('div');
+    item.className='block-item';
+    item.dataset.bi=bi;
+    item.draggable=true;
+    const label=b.type==='text'?(b.content||'').substring(0,30)||'Testo':(b.src||b.video||'Immagine').split('/').pop().split('?')[0];
+    const stg=b.type!=='text'?staged[mKey(p.id)+'_b'+bi]:null;
+    const thumbSrc=stg?stg.dataUrl:(b.src?rawS(b.src):'');
+    const thumbHtml=b.type==='image'&&thumbSrc?`<img class="block-thumb" src="${thumbSrc}" alt="">`:'';
+
+    item.innerHTML=`
+      <div class="block-hdr" data-bi="${bi}">
+        <span class="block-drag-h">⠿</span>
+        <span class="block-type-badge">${b.type==='text'?'Testo':'Immagine'}</span>
+        <span class="block-title">${label.replace(/</g,'&lt;')}</span>
+        <button class="block-del" data-bi="${bi}">✕</button>
+      </div>
+      <div class="block-body" id="bb-${bi}">
+        ${thumbHtml}
+        ${b.type==='image'?renderBlockImageControls(bi,b):''}
+        ${b.type==='text'?renderBlockTextControls(bi,b):''}
+      </div>`;
+    list.appendChild(item);
+  });
+
+  // Drag to reorder blocks
+  let dragBi=null;
+  list.addEventListener('dragstart',e=>{
+    const item=e.target.closest('.block-item');if(!item)return;
+    dragBi=parseInt(item.dataset.bi);
+    setTimeout(()=>item.classList.add('dragging'),0);
+  });
+  list.addEventListener('dragend',e=>{
+    list.querySelectorAll('.dragging,.drag-over').forEach(el=>el.classList.remove('dragging','drag-over'));
+  });
+  list.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const item=e.target.closest('.block-item');
+    list.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    if(item)item.classList.add('drag-over');
+  });
+  list.addEventListener('drop',e=>{
+    e.preventDefault();
+    list.querySelectorAll('.drag-over').forEach(el=>el.classList.remove('drag-over'));
+    const item=e.target.closest('.block-item');if(!item||dragBi===null)return;
+    const to=parseInt(item.dataset.bi);
+    if(dragBi===to)return;
+    const moved=p.blocks.splice(dragBi,1)[0];
+    p.blocks.splice(to,0,moved);
+    dragBi=null;renderBlocks();
+  });
+
+  // Header click toggle
+  list.addEventListener('click',e=>{
+    const del=e.target.closest('.block-del');
+    if(del){
+      const bi2=parseInt(del.dataset.bi);
+      p.blocks.splice(bi2,1);
+      delete staged[mKey(p.id)+'_b'+bi2];
+      renderBlocks();return;
+    }
+    const hdr=e.target.closest('.block-hdr');
+    if(hdr){
+      const bi2=parseInt(hdr.dataset.bi);
+      const body=document.getElementById('bb-'+bi2);
+      if(body)body.classList.toggle('open');
+    }
+  });
+
+  // Wire all block controls
+  p.blocks.forEach((b,bi)=>{
+    if(b.type==='image'){
+      wireBlockImageControls(bi);
+    } else {
+      wireBlockTextControls(bi);
+    }
+  });
+}
+
+function renderBlockImageControls(bi,b){
+  const st=b.imageStyle||defaultImgStyle();
+  return `
+    <div style="display:flex;gap:7px;margin-bottom:8px;">
+      <button class="ba-sm" data-action="pick-img" data-bi="${bi}">📷 Cambia immagine</button>
+      <button class="ba-sm" data-action="pick-vid" data-bi="${bi}">🎬 Video</button>
+    </div>
+    <div class="isr">
+      <div class="isf"><label>Larghezza</label><div class="rr"><input type="range" class="b-fw" data-bi="${bi}" min="100" max="1400" step="20" value="${st.frameWidth||640}"><span class="rv b-fw-v">${st.frameWidth||640}px</span></div></div>
+      <div class="isf"><label>Altezza (0=auto)</label><div class="rr"><input type="range" class="b-fh" data-bi="${bi}" min="0" max="900" step="10" value="${st.frameHeight||0}"><span class="rv b-fh-v">${st.frameHeight?st.frameHeight+'px':'auto'}</span></div></div>
+      <div class="isf"><label>Posizione X</label><div class="rr"><input type="range" class="b-px" data-bi="${bi}" min="0" max="100" step="1" value="${st.positionX??50}"><span class="rv b-px-v">${st.positionX??50}%</span></div></div>
+      <div class="isf"><label>Posizione Y</label><div class="rr"><input type="range" class="b-py" data-bi="${bi}" min="0" max="100" step="1" value="${st.positionY??50}"><span class="rv b-py-v">${st.positionY??50}%</span></div></div>
+      <div class="isf"><label>Arrotondamento</label><div class="rr"><input type="range" class="b-r" data-bi="${bi}" min="0" max="120" step="1" value="${st.borderRadius||0}"><span class="rv b-r-v">${st.borderRadius||0}px</span></div></div>
+      <div class="isf"><label>Bordo</label><div class="rr"><input type="range" class="b-bw" data-bi="${bi}" min="0" max="12" step="1" value="${st.borderWidth||0}"><span class="rv b-bw-v">${st.borderWidth||0}px</span></div></div>
+      <div class="isf"><label>Colore bordo</label><input type="color" class="b-bc" data-bi="${bi}" value="${st.borderColor||'#0d0d0b'}"></div>
+      <div class="isf"><label>Ombra</label><label style="display:flex;align-items:center;gap:5px;cursor:pointer;margin-top:4px;"><input type="checkbox" class="b-sh" data-bi="${bi}" ${st.shadow!==false?'checked':''}><span style="font-size:10px">Attiva</span></label></div>
+    </div>`;
+}
+
+function renderBlockTextControls(bi,b){
+  const st=b.textStyle||{};
+  const content=(b.content||'').replace(/"/g,'&quot;');
+  return `
+    <textarea class="b-content" data-bi="${bi}" style="width:100%;height:100px;resize:vertical;border:none;border-bottom:1px solid var(--br);background:none;font-family:Jost,sans-serif;font-size:12px;outline:none;padding:4px 0;">${content}</textarea>
+    <div class="isr" style="margin-top:8px;">
+      <div class="isf"><label>Larghezza cornice</label><div class="rr"><input type="range" class="b-tw" data-bi="${bi}" min="200" max="1200" step="20" value="${st.frameWidth||600}"><span class="rv b-tw-v">${st.frameWidth||600}px</span></div></div>
+      <div class="isf"><label>Font size</label><div class="rr"><input type="range" class="b-ts" data-bi="${bi}" min="10" max="28" step="1" value="${st.size||14}"><span class="rv b-ts-v">${st.size||14}px</span></div></div>
+      <div class="isf"><label>Font</label><select class="b-tf" data-bi="${bi}" style="width:100%;padding:3px;border:1px solid var(--br);background:none;font-family:Jost,sans-serif;font-size:10px;"><option value="Jost" ${(st.font||'Jost')==='Jost'?'selected':''}>Jost</option><option value="Inter" ${st.font==='Inter'?'selected':''}>Inter</option><option value="Cormorant" ${st.font==='Cormorant'?'selected':''}>Cormorant</option><option value="EB Garamond" ${st.font==='EB Garamond'?'selected':''}>EB Garamond</option></select></div>
+      <div class="isf"><label>Allineamento</label><select class="b-ta" data-bi="${bi}" style="width:100%;padding:3px;border:1px solid var(--br);background:none;font-family:Jost,sans-serif;font-size:10px;"><option value="left" ${(!st.align||st.align==='left')?'selected':''}>Sinistra</option><option value="center" ${st.align==='center'?'selected':''}>Centro</option><option value="right" ${st.align==='right'?'selected':''}>Destra</option><option value="justify" ${st.align==='justify'?'selected':''}>Giustif. sx</option><option value="justify-right" ${st.align==='justify-right'?'selected':''}>Giustif. dx</option></select></div>
+      <div class="isf"><label>Colore</label><input type="color" class="b-tc" data-bi="${bi}" value="${st.color||'#4a4845'}"></div>
+    </div>`;
+}
+
+function wireBlockImageControls(bi){
+  const body=document.getElementById('bb-'+bi);if(!body)return;
+  const p=C.projects[selIdx];
+
+  // Image/video pick buttons
+  body.querySelectorAll('[data-action="pick-img"],[data-action="pick-vid"]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      _blockFileTarget={projIdx:selIdx,blockIdx:bi,isVideo:btn.dataset.action==='pick-vid'};
+      const fi=document.getElementById('fi');
+      fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';
+      fi.value='';fi.click();
+    });
+  });
+
+  const ensureSt=()=>{if(!p.blocks[bi].imageStyle)p.blocks[bi].imageStyle=defaultImgStyle();return p.blocks[bi].imageStyle;};
+
+  const mapR={'b-fw':'frameWidth','b-fh':'frameHeight','b-px':'positionX','b-py':'positionY','b-r':'borderRadius','b-bw':'borderWidth'};
+  body.querySelectorAll('input[type=range]').forEach(inp=>{
+    const cls=[...inp.classList].find(c=>mapR[c]);if(!cls)return;
+    inp.addEventListener('input',()=>{
+      const v=parseFloat(inp.value);
+      const vEl=inp.parentElement.querySelector('.rv');
+      if(vEl){
+        if(cls==='b-fh')vEl.textContent=v===0?'auto':v+'px';
+        else if(cls==='b-px'||cls==='b-py')vEl.textContent=v+'%';
+        else vEl.textContent=v+'px';
+      }
+      const st=ensureSt();
+      st[mapR[cls]]=cls==='b-fh'&&v===0?null:v;
+    });
+  });
+  body.querySelectorAll('.b-bc').forEach(inp=>inp.addEventListener('input',()=>{ensureSt().borderColor=inp.value;}));
+  body.querySelectorAll('.b-sh').forEach(inp=>inp.addEventListener('change',()=>{ensureSt().shadow=inp.checked;}));
+}
+
+function wireBlockTextControls(bi){
+  const body=document.getElementById('bb-'+bi);if(!body)return;
+  const p=C.projects[selIdx];
+  const ensureSt=()=>{if(!p.blocks[bi].textStyle)p.blocks[bi].textStyle={};return p.blocks[bi].textStyle;};
+
+  body.querySelectorAll('.b-content').forEach(ta=>ta.addEventListener('input',()=>{p.blocks[bi].content=ta.value;}));
+  body.querySelectorAll('.b-tw').forEach(inp=>inp.addEventListener('input',()=>{const v=parseFloat(inp.value);ensureSt().frameWidth=v;const vEl=inp.parentElement.querySelector('.rv');if(vEl)vEl.textContent=v+'px';}));
+  body.querySelectorAll('.b-ts').forEach(inp=>inp.addEventListener('input',()=>{const v=parseFloat(inp.value);ensureSt().size=v;const vEl=inp.parentElement.querySelector('.rv');if(vEl)vEl.textContent=v+'px';}));
+  body.querySelectorAll('.b-tf').forEach(sel=>sel.addEventListener('change',()=>{ensureSt().font=sel.value;}));
+  body.querySelectorAll('.b-ta').forEach(sel=>sel.addEventListener('change',()=>{ensureSt().align=sel.value;}));
+  body.querySelectorAll('.b-tc').forEach(inp=>inp.addEventListener('input',()=>{ensureSt().color=inp.value;}));
+}
+
+// Add block buttons
+document.getElementById('btn-add-img-block')?.addEventListener('click',()=>{
+  if(selIdx===null)return;
+  const p=C.projects[selIdx];
+  if(!p.blocks)p.blocks=[];
+  p.blocks.push({type:'image',src:'',video:'',imageStyle:defaultImgStyle()});
+  renderBlocks();
+  // Auto-open the new block
+  const last=document.getElementById('bb-'+(p.blocks.length-1));
+  if(last)last.classList.add('open');
+});
+document.getElementById('btn-add-txt-block')?.addEventListener('click',()=>{
+  if(selIdx===null)return;
+  const p=C.projects[selIdx];
+  if(!p.blocks)p.blocks=[];
+  p.blocks.push({type:'text',content:'',textStyle:{frameWidth:600,size:14,font:'Jost',color:'#4a4845',align:'left'}});
+  renderBlocks();
+  const last=document.getElementById('bb-'+(p.blocks.length-1));
+  if(last)last.classList.add('open');
+});
+
 // ── FILE PICKERS ──────────────────────────────────
 let ft=null,bgt=null,iconTarget=null;
 document.getElementById('logo-up').addEventListener('click',()=>{ft='logo';trigFi(false);});
-document.getElementById('btn-mi').addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='img';trigFi(false);});
-document.getElementById('btn-mv').addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='vid';trigFi(true);});
 document.getElementById('btn-l-bg').addEventListener('click',()=>{bgt='landing';document.getElementById('fi-bg').click();});
 document.getElementById('btn-s-bg').addEventListener('click',()=>{bgt='site';document.getElementById('fi-bg').click();});
 document.getElementById('btn-l-bg-clr').addEventListener('click',()=>{C.landing.backgroundImage='';delete staged.bg_landing;IDB.del('bg_landing');document.getElementById('l-bg-th').style.backgroundImage='';updateLandingPreview();});
@@ -985,8 +1159,9 @@ document.getElementById('fi').addEventListener('change',e=>{
       const isV=ft==='vid'||file.type.startsWith('video');
       const fn=`images/p${Date.now()}.${ext}`;
       const _pid=C.projects[selIdx].id;
-      staged[mKey(_pid)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
-      IDB.set(mKey(_pid),du);
+      const _pid2=C.projects[selIdx].id;
+      staged[mKey(_pid2)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
+      IDB.set(mKey(_pid2),du);
       if(isV){C.projects[selIdx].video=fn;C.projects[selIdx].image='';}
       else{C.projects[selIdx].image=fn;C.projects[selIdx].video='';}
       // Update just this project's thumbnail in sidebar
