@@ -245,6 +245,12 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
               <input class="pti" id="pe-title" placeholder="Nome progetto">
               <button class="bdel" id="btn-del">Elimina</button>
             </div>
+            <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+              <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--g);">
+                <input type="checkbox" id="pe-show-hero" checked>
+                Mostra titolo in cima alla pagina progetto
+              </label>
+            </div>
             <div class="pf2g" style="margin-bottom:4px;">
               <div class="pf"><label>Tipologia</label><input id="pe-type"></div>
               <div class="pf"><label>Anno</label><input id="pe-year"></div>
@@ -792,6 +798,7 @@ function selectProject(idx){
   document.getElementById('pe-location').value=p.location||'';
   document.getElementById('pe-status').value=p.status||'';
   document.getElementById('pe-desc').value=p.description||'';
+  document.getElementById('pe-show-hero').checked=p.showHero!==false;
   // Ensure blocks array exists
   if(!p.blocks){
     // Migrate: if has image/video, create first block from it
@@ -926,6 +933,10 @@ function updateProjPreview(){
 
 
 // ── FIELD SYNC ────────────────────────────────────
+document.getElementById('pe-show-hero')?.addEventListener('change',e=>{
+  if(selIdx===null)return;
+  C.projects[selIdx].showHero=e.target.checked;
+});
 ['pe-title','pe-type','pe-year','pe-location','pe-status','pe-desc'].forEach(id=>{
   document.getElementById(id)?.addEventListener('input',e=>{
     if(selIdx===null)return;
@@ -940,7 +951,8 @@ let editingBlock=null; // {projIdx, blockIdx}
 let _blockFileTarget=null; // {projIdx, blockIdx, field}
 
 function defaultImgStyle(){
-  return {frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true};
+  // Default: full-width carousel frame, 630px height
+  return {frameWidth:1440,frameHeight:630,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:false};
 }
 
 function renderBlocks(){
