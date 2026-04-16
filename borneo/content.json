@@ -63,7 +63,40 @@
         "frameHeight": 630,
         "frameWidth": 480,
         "positionY": 42
-      }
+      },
+      "blocks": [
+        {
+          "type": "image",
+          "src": "images/p1775890456114.jpg",
+          "video": "",
+          "imageStyle": {
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false,
+            "maxWidth": 640,
+            "positionX": 18,
+            "frameHeight": 630,
+            "frameWidth": 480,
+            "positionY": 42
+          }
+        },
+        {
+          "type": "image",
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ]
     },
     {
       "id": 1776173065837,
