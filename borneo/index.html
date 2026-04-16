@@ -65,7 +65,7 @@ nav a.il-link img{width:22px;height:22px;object-fit:contain;mix-blend-mode:multi
 #proj-info-wrap.br{bottom:32px;right:48px;text-align:right;}
 .proj-index{font-size:9px;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:var(--g);}
 .proj-name{font-size:22px;font-weight:300;letter-spacing:.02em;line-height:1;cursor:none;}
-.proj-name a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s;}
+.proj-name a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .3s;cursor:none;pointer-events:auto;}
 .proj-name a:hover{border-bottom-color:currentColor;}
 .proj-tag{font-size:9px;font-weight:200;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-top:2px;}
 
@@ -341,7 +341,7 @@ function buildSlides(){
       ph.style.cssText='width:100%;min-height:240px;background:#e8e6e1;display:flex;align-items:center;justify-content:center;';
       ph.innerHTML='<span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#9e9b96">Nessuna immagine</span>';
       inner.appendChild(ph);slide.appendChild(inner);stage.appendChild(slide);
-      inner.addEventListener('click',e=>{if(SS.projectPagesEnabled!==false){e.stopPropagation();openProject(i);}});return;
+      // image click: navigate carousel only (no project open)
     }
 
     if(fh){
@@ -351,7 +351,7 @@ function buildSlides(){
     }
 
     inner.appendChild(media);
-    inner.addEventListener('click',e=>{if(SS.projectPagesEnabled!==false){e.stopPropagation();openProject(i);}});
+    // image click handled by stage (carousel navigation)
     slide.appendChild(inner);
     stage.appendChild(slide);
   });
