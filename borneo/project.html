@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;--ease:cubic-bezier(0.76,0,0.24,1);}
+html{scroll-behavior:smooth;}
+body{background:var(--w);color:var(--b);font-family:'Jost',sans-serif;min-height:100vh;cursor:none;}
+#cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--b);border-radius:50%;transition:width .2s,height .2s;}
+#cursor.expand{width:40px;height:40px;background:transparent;border:1px solid var(--b);}
+
+/* ── HEADER ── */
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:flex-start;justify-content:space-between;padding:32px 48px 0;}
+.logo-img{height:30px;width:auto;display:block;mix-blend-mode:multiply;}
+nav{display:flex;gap:28px;align-items:center;}
+nav a{color:var(--b);text-decoration:none;opacity:.45;transition:opacity .3s;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;}
+nav a:hover{opacity:1;}
+nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:multiply;}
+
+/* ── HERO ── */
+.proj-hero{padding:120px 48px 0;max-width:1200px;margin:0 auto;}
+.proj-meta{display:flex;align-items:baseline;gap:32px;margin-bottom:12px;}
+.proj-type{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);}
+.proj-year{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);}
+.proj-title{font-family:'Cormorant',serif;font-size:clamp(40px,6vw,80px);font-weight:300;line-height:1.02;letter-spacing:-.01em;margin-bottom:48px;}
+.proj-desc{font-size:14px;font-weight:300;line-height:1.85;color:#4a4845;max-width:44ch;white-space:pre-wrap;}
+.proj-details{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px 32px;margin-top:40px;padding-top:32px;border-top:1px solid #e2dfd9;}
+.proj-detail dt{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:4px;}
+.proj-detail dd{font-size:12px;font-weight:300;}
+
+/* ── BLOCKS ── */
+.blocks{max-width:1200px;margin:80px auto 120px;padding:0 48px;}
+.block{display:flex;align-items:flex-start;margin-bottom:80px;gap:0;}
+.block.left{justify-content:flex-start;}
+.block.right{justify-content:flex-end;}
+.block-inner{position:relative;overflow:hidden;}
+.block-inner img,.block-inner video{display:block;background:transparent;}
+/* text block */
+.block-text{font-size:14px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;}
+
+@media(max-width:768px){
+  header{padding:24px;}
+  .proj-hero{padding:100px 24px 0;}
+  .blocks{padding:0 24px;margin:60px auto 80px;}
+  .block{flex-direction:column!important;}
+}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<header>
+  <a href="index.html" style="cursor:none;display:block;"><img class="logo-img" src="" alt="Borneo" id="page-logo"></a>
+  <nav id="page-nav"></nav>
+</header>
+
+<div class="proj-hero">
+  <div class="proj-meta">
+    <span class="proj-type" id="p-type"></span>
+    <span class="proj-year" id="p-year"></span>
+    <span class="proj-type" id="p-location"></span>
+  </div>
+  <h1 class="proj-title" id="p-title"></h1>
+  <p class="proj-desc" id="p-desc"></p>
+  <dl class="proj-details" id="p-details"></dl>
+</div>
+
+<div class="blocks" id="blocks"></div>
+
+<script>
+const cur=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('expand'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('expand'));
+});
+
+async function load(){
+  // Get project ID from URL
+  const params=new URLSearchParams(location.search);
+  const pid=params.get('id');
+
+  let D;
+  try{const r=await fetch('content.json?v='+Date.now());D=await r.json();}catch(e){return;}
+
+  // Apply site bg
+  const bg=(D.site?.background?.value)||'#fafaf8';
+  document.body.style.background=bg;
+
+  // Logo
+  document.getElementById('page-logo').src=D.logo||'';
+  document.title='Borneo'+(D.title?' — '+D.title:'');
+
+  // Nav
+  applyNav(D.nav);
+
+  // Find project
+  const p=pid?D.projects.find(x=>String(x.id)===pid):D.projects[0];
+  if(!p)return;
+
+  document.title='Borneo — '+(p.title||'');
+
+  // Apply title font
+  const fd=D.site?.fontDisplay||'Cormorant';
+  document.getElementById('p-title').style.fontFamily=`'${fd}',serif`;
+
+  // Hero
+  document.getElementById('p-title').textContent=p.title||'';
+  document.getElementById('p-type').textContent=p.type||'';
+  document.getElementById('p-year').textContent=p.year||'';
+  document.getElementById('p-location').textContent=p.location||'';
+  document.getElementById('p-desc').textContent=p.description||'';
+
+  // Details
+  const det=document.getElementById('p-details');
+  [['Tipologia',p.type],['Anno',p.year],['Luogo',p.location],['Stato',p.status]]
+    .filter(([,v])=>v)
+    .forEach(([k,v])=>{
+      const div=document.createElement('div');div.className='proj-detail';
+      div.innerHTML=`<dt>${k}</dt><dd>${v}</dd>`;det.appendChild(div);
+    });
+  if(!det.children.length)det.style.display='none';
+
+  // Blocks
+  const blocks=document.getElementById('blocks');
+  const blist=p.blocks||[];
+
+  // Fallback: if no blocks but has image, show single block
+  if(!blist.length&&(p.image||p.video)){
+    blist.push({type:'image',src:p.image||'',video:p.video||'',imageStyle:p.imageStyle||{}});
+  }
+
+  blist.forEach((b,i)=>{
+    const side=i%2===0?'left':'right';
+    const wrap=document.createElement('div');
+    wrap.className=`block ${side}`;
+
+    if(b.type==='text'){
+      const st=b.textStyle||{};
+      const fw=st.frameWidth||600;
+      const inner=document.createElement('div');
+      inner.className='block-inner block-text';
+      inner.style.width=fw+'px';
+      inner.style.maxWidth='90vw';
+      inner.style.fontFamily=`'${st.font||'Jost'}',sans-serif`;
+      inner.style.fontSize=(st.size||14)+'px';
+      inner.style.fontWeight=st.weight||300;
+      inner.style.color=st.color||'#4a4845';
+      inner.style.lineHeight=st.lineHeight||1.85;
+      inner.style.textAlign=st.align||'left';
+      if(st.align==='justify-right'){inner.style.textAlign='justify';inner.style.textAlignLast='right';}
+      inner.textContent=b.content||'';
+      wrap.appendChild(inner);
+    } else {
+      // image or video
+      const st=b.imageStyle||{};
+      const dSt=D.site?.imageStyle||{};
+      const fw=st.frameWidth||dSt.maxWidth||640;
+      const fh=st.frameHeight||null;
+      const radius=st.borderRadius!=null?st.borderRadius:(dSt.borderRadius||0);
+      const bw2=st.borderWidth!=null?st.borderWidth:(dSt.borderWidth||0);
+      const bc=st.borderColor||dSt.borderColor||'transparent';
+      const shadow=st.shadow!=null?st.shadow:(dSt.shadow!==false);
+      const posX=st.positionX!=null?st.positionX:50;
+      const posY=st.positionY!=null?st.positionY:50;
+      const src=b.src||b.image||'';
+      const vid=b.video||'';
+      const isPng=src&&/\.png$/i.test(src);
+
+      const inner=document.createElement('div');
+      inner.className='block-inner';
+      inner.style.width=fw+'px';
+      inner.style.maxWidth='92vw';
+      inner.style.borderRadius=radius+'px';
+      inner.style.border=bw2>0?`${bw2}px solid ${bc}`:'none';
+      inner.style.boxShadow=(shadow&&!isPng)?'0 20px 60px rgba(0,0,0,.08)':'none';
+      if(fh)inner.style.height=fh+'px';
+
+      let media;
+      if(vid){
+        media=document.createElement('video');
+        media.src=vid;media.autoplay=true;media.muted=true;media.loop=true;media.playsInline=true;
+      } else if(src){
+        media=document.createElement('img');
+        media.src=src;media.alt=p.title||'';media.draggable=false;
+        media.style.background='transparent';
+        if(isPng&&shadow)media.style.filter='drop-shadow(0 12px 40px rgba(0,0,0,.1))';
+      } else return;
+
+      if(fh){
+        media.style.cssText=`width:100%;height:100%;object-fit:cover;object-position:${posX}% ${posY}%;display:block;`;
+      } else {
+        media.style.cssText=`width:100%;height:auto;display:block;background:transparent;`;
+      }
+      inner.appendChild(media);
+      wrap.appendChild(inner);
+    }
+    blocks.appendChild(wrap);
+  });
+}
+
+function applyNav(nd){
+  const nav=document.getElementById('page-nav');nav.innerHTML='';
+  if(!nd)return;
+  const nFont=nd.font||'Jost',nSize=(nd.size||9)+'px',nWeight=nd.weight||300;
+  const nColor=nd.color||'#0d0d0b',nLS=(nd.letterSpacing??0.18)+'em';
+  const nUpper=nd.uppercase!==false;
+  (nd.items||[]).forEach(item=>{
+    if(item.visible===false)return;
+    const a=document.createElement('a');a.href=item.href||'#';
+    if(nd.layout==='icons'&&item.icon){
+      a.className='icon-link';const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);
+    } else {
+      a.textContent=item.label;
+      Object.assign(a.style,{fontFamily:`'${nFont}',sans-serif`,fontSize:nSize,fontWeight:nWeight,color:nColor,letterSpacing:nLS,textTransform:nUpper?'uppercase':'none'});
+    }
+    nav.appendChild(a);
+  });
+}
+
+load();
+</script>
+</body>
+</html>
