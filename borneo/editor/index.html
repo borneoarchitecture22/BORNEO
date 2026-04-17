@@ -1167,22 +1167,32 @@ document.getElementById('fi').addEventListener('change',e=>{
       const fn=`images/logo.${ext}`;
       staged.logo={dataUrl:du,repoFn:rp(fn)};C.logo=fn;
       IDB.set('logo',du);renderLogoPreview();
-    } else if((ft==='img'||ft==='vid')&&selIdx!==null){
+    } else if(_blockFileTarget!==null){
+      // Block-level image/video upload
+      const {projIdx,blockIdx,isVideo}=_blockFileTarget;_blockFileTarget=null;
+      const fn=`images/b${Date.now()}.${ext}`;
+      const key=mKey(C.projects[projIdx].id)+'_b'+blockIdx;
+      staged[key]={dataUrl:du,repoFn:rp(fn),isVideo};
+      IDB.set(key,du);
+      const b=C.projects[projIdx].blocks[blockIdx];
+      if(isVideo){b.video=fn;b.src='';}else{b.src=fn;b.video='';}
+      renderBlocks();
+      // Update sidebar thumbnail if it's the first block
+      if(blockIdx===0){
+        C.projects[projIdx].image=isVideo?'':fn;
+        const thumb=document.querySelector(`#proj-list .pi[data-idx="${projIdx}"] .pt`);
+        if(thumb){const el=isVideo?document.createElement('video'):document.createElement('img');el.src=du;if(isVideo)el.muted=true;thumb.innerHTML='';thumb.appendChild(el);}
+      }
+    } else if(selIdx!==null){
       const isV=ft==='vid'||file.type.startsWith('video');
       const fn=`images/p${Date.now()}.${ext}`;
       const _pid=C.projects[selIdx].id;
-      const _pid2=C.projects[selIdx].id;
-      staged[mKey(_pid2)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
-      IDB.set(mKey(_pid2),du);
+      staged[mKey(_pid)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
+      IDB.set(mKey(_pid),du);
       if(isV){C.projects[selIdx].video=fn;C.projects[selIdx].image='';}
       else{C.projects[selIdx].image=fn;C.projects[selIdx].video='';}
-      // Update just this project's thumbnail in sidebar
       const thumb=document.querySelector(`#proj-list .pi[data-idx="${selIdx}"] .pt`);
-      if(thumb){
-        const el=isV?document.createElement('video'):document.createElement('img');
-        el.src=du;if(isV)el.muted=true;
-        thumb.innerHTML='';thumb.appendChild(el);
-      }
+      if(thumb){const el=isV?document.createElement('video'):document.createElement('img');el.src=du;if(isV)el.muted=true;thumb.innerHTML='';thumb.appendChild(el);}
       selectProject(selIdx);
     }
   };
