@@ -79,7 +79,8 @@
             "frameHeight": 630,
             "frameWidth": 480,
             "positionY": 42
-          }
+          },
+          "bid": "1775225108692_0"
         },
         {
           "type": "image",
@@ -94,7 +95,8 @@
             "borderWidth": 0,
             "borderColor": "#0d0d0b",
             "shadow": false
-          }
+          },
+          "bid": "1775225108692_1"
         },
         {
           "type": "image",
@@ -109,7 +111,8 @@
             "borderWidth": 0,
             "borderColor": "#0d0d0b",
             "shadow": true
-          }
+          },
+          "bid": "1775225108692_2"
         }
       ]
     },
