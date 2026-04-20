@@ -551,6 +551,7 @@ let staged={}; // key → {dataUrl, repoFn, isVideo}
 const mKey=pid=>`media_${pid}`;
 // Lookup staged by project object
 const stgFor=p=>staged[mKey(p.id)];
+const bKey=(p,b,bi)=>mKey(p.id)+'_b'+(b?.bid||bi);
 
 // ── SCREENS ───────────────────────────────────────
 const show=id=>{document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');};
@@ -657,7 +658,7 @@ async function restoreStagedFromIDB(){
   // Restore studio img
   const stImg=await IDB.get('studio_img');
   if(stImg&&C.pages?.studio?.image){staged.studio_img={dataUrl:stImg,repoFn:rp(C.pages.studio.image)};document.getElementById('st-img-th').style.backgroundImage=`url('${stImg}')`;}
-  // Restore project media
+  // Restore project media (main + blocks)
   for(let i=0;i<C.projects.length;i++){
     const p=C.projects[i];
     const key=mKey(p.id);
@@ -671,6 +672,19 @@ async function restoreStagedFromIDB(){
     if(md){
       const src=p.video||p.image||'';const isV=!!p.video;
       staged[key]={dataUrl:md,repoFn:rp(src),isVideo:isV};
+    }
+    // Restore block images
+    const blocks=p.blocks||[];
+    for(let bi=0;bi<blocks.length;bi++){
+      const b=blocks[bi];
+      if(b.type==='text')continue;
+      if(!b.bid)b.bid=p.id+'_'+bi; // assign stable bid to old data
+      const bkey=bKey(p,b,bi);
+      const bmd=await IDB.get(bkey);
+      if(bmd){
+        const src=b.src||b.video||'';const isV=!!b.video;
+        staged[bkey]={dataUrl:bmd,repoFn:rp(src),isVideo:isV};
+      }
     }
   }
   // Restore nav icons
@@ -805,7 +819,7 @@ function selectProject(idx){
     p.blocks=[];
     const stg=stgFor(p);
     if(stg||p.image||p.video){
-      p.blocks.push({type:'image',src:p.image||'',video:p.video||'',imageStyle:p.imageStyle||{frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true}});
+      p.blocks.push({type:'image',bid:p.id+'_0',src:p.image||'',video:p.video||'',imageStyle:p.imageStyle||{frameWidth:640,frameHeight:null,positionX:50,positionY:50,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:true}});
     }
   }
   // Update active state in sidebar
@@ -969,7 +983,7 @@ function renderBlocks(){
     item.dataset.bi=bi;
     item.draggable=true;
     const label=b.type==='text'?(b.content||'').substring(0,30)||'Testo':(b.src||b.video||'Immagine').split('/').pop().split('?')[0];
-    const stg=b.type!=='text'?staged[mKey(p.id)+'_b'+bi]:null;
+    const stg=b.type!=='text'?staged[bKey(p,b,bi)]:null;
     const thumbSrc=stg?stg.dataUrl:(b.src?rawS(b.src):'');
     const thumbHtml=b.type==='image'&&thumbSrc?`<img class="block-thumb" src="${thumbSrc}" alt="">`:'';
 
@@ -1021,7 +1035,7 @@ function renderBlocks(){
     if(del){
       const bi2=parseInt(del.dataset.bi);
       p.blocks.splice(bi2,1);
-      delete staged[mKey(p.id)+'_b'+bi2];
+      const _delb=p.blocks[bi2];delete staged[bKey(p,_delb,bi2)];IDB.del(bKey(p,_delb,bi2));
       renderBlocks();return;
     }
     const hdr=e.target.closest('.block-hdr');
@@ -1082,7 +1096,7 @@ function wireBlockImageControls(bi){
   // Image/video pick buttons
   body.querySelectorAll('[data-action="pick-img"],[data-action="pick-vid"]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      _blockFileTarget={projIdx:selIdx,blockIdx:bi,isVideo:btn.dataset.action==='pick-vid'};
+      _blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:b.bid,isVideo:btn.dataset.action==='pick-vid'};
       const fi=document.getElementById('fi');
       fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';
       fi.value='';fi.click();
@@ -1128,7 +1142,7 @@ document.getElementById('btn-add-img-block')?.addEventListener('click',()=>{
   if(selIdx===null)return;
   const p=C.projects[selIdx];
   if(!p.blocks)p.blocks=[];
-  p.blocks.push({type:'image',src:'',video:'',imageStyle:defaultImgStyle()});
+  p.blocks.push({type:'image',bid:Date.now(),src:'',video:'',imageStyle:defaultImgStyle()});
   renderBlocks();
   // Auto-open the new block
   const last=document.getElementById('bb-'+(p.blocks.length-1));
@@ -1138,7 +1152,7 @@ document.getElementById('btn-add-txt-block')?.addEventListener('click',()=>{
   if(selIdx===null)return;
   const p=C.projects[selIdx];
   if(!p.blocks)p.blocks=[];
-  p.blocks.push({type:'text',content:'',textStyle:{frameWidth:600,size:14,font:'Jost',color:'#4a4845',align:'left'}});
+  p.blocks.push({type:'text',bid:Date.now()+1,content:'',textStyle:{frameWidth:600,size:14,font:'Jost',color:'#4a4845',align:'left'}});
   renderBlocks();
   const last=document.getElementById('bb-'+(p.blocks.length-1));
   if(last)last.classList.add('open');
@@ -1171,7 +1185,9 @@ document.getElementById('fi').addEventListener('change',e=>{
       // Block-level image/video upload
       const {projIdx,blockIdx,isVideo}=_blockFileTarget;_blockFileTarget=null;
       const fn=`images/b${Date.now()}.${ext}`;
-      const key=mKey(C.projects[projIdx].id)+'_b'+blockIdx;
+      const _b=C.projects[projIdx].blocks[blockIdx];
+      if(!_b.bid)_b.bid=Date.now();
+      const key=mKey(C.projects[projIdx].id)+'_b'+_b.bid;
       staged[key]={dataUrl:du,repoFn:rp(fn),isVideo};
       IDB.set(key,du);
       const b=C.projects[projIdx].blocks[blockIdx];
