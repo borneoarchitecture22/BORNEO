@@ -1096,13 +1096,16 @@ function wireBlockImageControls(bi){
   // Image/video pick buttons
   body.querySelectorAll('[data-action="pick-img"],[data-action="pick-vid"]').forEach(btn=>{
     btn.addEventListener('click',()=>{
-      _blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:b.bid,isVideo:btn.dataset.action==='pick-vid'};
+      const _b=p.blocks[bi];
+      _blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:_b?.bid,isVideo:btn.dataset.action==='pick-vid'};
       const fi=document.getElementById('fi');
       fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';
       fi.value='';fi.click();
     });
   });
 
+  // Ensure bid exists (for blocks created before this fix)
+  if(!p.blocks[bi].bid)p.blocks[bi].bid=Date.now()+bi;
   const ensureSt=()=>{if(!p.blocks[bi].imageStyle)p.blocks[bi].imageStyle=defaultImgStyle();return p.blocks[bi].imageStyle;};
 
   const mapR={'b-fw':'frameWidth','b-fh':'frameHeight','b-px':'positionX','b-py':'positionY','b-r':'borderRadius','b-bw':'borderWidth'};
