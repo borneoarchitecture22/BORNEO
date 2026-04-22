@@ -1133,6 +1133,7 @@ function wireBlockImageControls(bi){
   body.querySelectorAll('[data-action="pick-img"],[data-action="pick-vid"]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const _b=p.blocks[bi];
+      ft=null; // reset ft so fi handler uses _blockFileTarget branch
       _blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:_b?.bid,isVideo:btn.dataset.action==='pick-vid'};
       const fi=document.getElementById('fi');
       fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';
@@ -1199,9 +1200,9 @@ document.getElementById('btn-add-txt-block')?.addEventListener('click',()=>{
 
 // ── FILE PICKERS ──────────────────────────────────
 let ft=null,bgt=null,iconTarget=null;
-document.getElementById('logo-up').addEventListener('click',()=>{ft='logo';trigFi(false);});
-document.getElementById('btn-cover-img')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover';trigFi(false);});
-document.getElementById('btn-cover-vid')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover-vid';trigFi(true);});
+document.getElementById('logo-up').addEventListener('click',()=>{ft='logo';_blockFileTarget=null;trigFi(false);});
+document.getElementById('btn-cover-img')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover';_blockFileTarget=null;trigFi(false);});
+document.getElementById('btn-cover-vid')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover-vid';_blockFileTarget=null;trigFi(true);});
 document.getElementById('btn-l-bg').addEventListener('click',()=>{bgt='landing';document.getElementById('fi-bg').click();});
 document.getElementById('btn-s-bg').addEventListener('click',()=>{bgt='site';document.getElementById('fi-bg').click();});
 document.getElementById('btn-l-bg-clr').addEventListener('click',()=>{C.landing.backgroundImage='';delete staged.bg_landing;IDB.del('bg_landing');document.getElementById('l-bg-th').style.backgroundImage='';updateLandingPreview();});
