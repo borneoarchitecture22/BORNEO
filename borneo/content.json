@@ -51,7 +51,7 @@
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1775890456114.jpg",
+      "image": "images/b1776854972847.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -67,54 +67,22 @@
       "blocks": [
         {
           "type": "image",
-          "src": "images/p1775890456114.jpg",
+          "bid": 1776854935880,
+          "src": "images/b1776854972847.jpg",
           "video": "",
           "imageStyle": {
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false,
-            "maxWidth": 640,
-            "positionX": 18,
+            "frameWidth": 1440,
             "frameHeight": 630,
-            "frameWidth": 480,
-            "positionY": 42
-          },
-          "bid": "1775225108692_0"
-        },
-        {
-          "type": "image",
-          "src": "",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
             "positionX": 50,
             "positionY": 50,
             "borderRadius": 0,
             "borderWidth": 0,
             "borderColor": "#0d0d0b",
             "shadow": false
-          },
-          "bid": "1775225108692_1"
-        },
-        {
-          "type": "image",
-          "src": "",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": true
-          },
-          "bid": "1775225108692_2"
+          }
         }
-      ]
+      ],
+      "showHero": false
     },
     {
       "id": 1776099820372,
