@@ -39,15 +39,14 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
 /* Image side — fixed width, full proportional height */
 .block-row .img-side{
   flex-shrink:0;
-  overflow:hidden;
-  position:relative;
+  overflow:visible;
 }
 .block-row .img-side img,
 .block-row .img-side video{
   width:100%;
-  height:100%;
-  object-fit:cover;
+  height:auto;
   display:block;
+  object-fit:contain;
 }
 /* Text side — fills remaining space */
 .block-row .text-side{
@@ -76,7 +75,7 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
   header{padding:24px;}
   .proj-hero{padding:80px 24px 40px;}
   .block-row{flex-direction:column;}
-  .block-row .img-side{width:100%!important;height:280px;}
+  .block-row .img-side{width:100%!important;}
   .block-row .text-side{padding:32px 24px;}
   .block-text-solo{padding:32px 24px;}
 }
@@ -158,7 +157,7 @@ async function load(){
     const st=b.imageStyle||{};
     const dSt=D.site?.imageStyle||{};
     // Width: use frameWidth from block, default 50vw
-    const imgW=st.frameWidth||Math.round(window.innerWidth*0.5);
+    // Always 50% viewport width — height is natural (auto)
     const posX=st.positionX??50;
     const posY=st.positionY??50;
     const radius=st.borderRadius||0;
@@ -179,8 +178,8 @@ async function load(){
     // Image side
     const imgDiv=document.createElement('div');
     imgDiv.className='img-side';
-    imgDiv.style.width=imgW+'px';
-    imgDiv.style.maxWidth='85vw';
+    imgDiv.style.width='50vw';
+    imgDiv.style.maxWidth='100vw';
     if(radius)imgDiv.style.borderRadius=radius+'px';
     if(bw>0)imgDiv.style.border=`${bw}px solid ${bc}`;
     if(shadow&&!isPng)imgDiv.style.boxShadow='0 8px 40px rgba(0,0,0,.1)';
@@ -197,17 +196,11 @@ async function load(){
       // empty block — skip row
       return;
     }
-    media.style.objectPosition=posX+'% '+posY+'%';
-    imgDiv.appendChild(media);
-
-    // Height: natural proportions — image is NOT cropped, fills width naturally
-    // We let the image determine the height of the row via its natural aspect ratio
-    // But we also need object-fit:cover and the container to have a defined height
-    // Solution: use a min-height from the image's natural ratio if available,
-    // otherwise let the image flow at width:100%, height:auto
+    // Natural proportions: width fills the 50vw container, height is automatic
     media.style.width='100%';
-    media.style.height='auto'; // natural height
-    media.style.objectFit='contain'; // show full image, no crop
+    media.style.height='auto';
+    media.style.display='block';
+    imgDiv.appendChild(media);
 
     // Empty text side (fills remaining space, shows background)
     const textDiv=document.createElement('div');
