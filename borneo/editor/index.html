@@ -245,6 +245,16 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
               <input class="pti" id="pe-title" placeholder="Nome progetto">
               <button class="bdel" id="btn-del">Elimina</button>
             </div>
+            <div style="margin-bottom:12px;">
+              <div class="sl2" style="margin-bottom:6px">Immagine copertina (carosello)</div>
+              <div class="ma" id="cover-area" style="aspect-ratio:16/9;">
+                <div class="ml">Carica copertina</div>
+                <div class="mov">
+                  <button class="mb" id="btn-cover-img">📷 Immagine</button>
+                  <button class="mb" id="btn-cover-vid">🎬 Video</button>
+                </div>
+              </div>
+            </div>
             <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
               <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--g);">
                 <input type="checkbox" id="pe-show-hero" checked>
@@ -551,6 +561,7 @@ let staged={}; // key → {dataUrl, repoFn, isVideo}
 const mKey=pid=>`media_${pid}`;
 // Lookup staged by project object
 const stgFor=p=>staged[mKey(p.id)];
+const coverKey=p=>mKey(p.id)+'_cover';
 const bKey=(p,b,bi)=>mKey(p.id)+'_b'+(b?.bid||bi);
 
 // ── SCREENS ───────────────────────────────────────
@@ -687,6 +698,16 @@ async function restoreStagedFromIDB(){
       }
     }
   }
+  // Restore cover images
+  for(let i=0;i<C.projects.length;i++){
+    const p=C.projects[i];
+    const key=coverKey(p);
+    const cd=await IDB.get(key);
+    if(cd){
+      const src=p.coverVideo||p.coverImage||'';const isV=!!p.coverVideo;
+      staged[key]={dataUrl:cd,repoFn:rp(src),isVideo:isV};
+    }
+  }
   // Restore nav icons
   for(let i=0;i<(C.nav?.items?.length||0);i++){
     const ic=await IDB.get(`icon_${i}`);
@@ -721,9 +742,10 @@ function renderSidebar(){
   const list=document.getElementById('proj-list');
   // Build HTML string — much faster than createElement per item
   const html=C.projects.map((p,i)=>{
-    const stg=stgFor(p);
-    const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
-    const isV=!stg&&!!p.video;
+    const cstg=staged[coverKey(p)];
+    const stg=cstg||stgFor(p);
+    const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):(p.image?rawS(p.image):'')));
+    const isV=!cstg&&!stgFor(p)&&(!!p.coverVideo||!!p.video);
     // Store src in data-src for lazy loading — no actual img tag yet
     const thumbData=src?`data-src="${src.replace(/"/g,'&quot;')}" data-video="${isV?1:0}"`:'';
     return `<div class="pi${i===selIdx?' active':''}" data-idx="${i}" draggable="true">` +
@@ -813,6 +835,19 @@ function selectProject(idx){
   document.getElementById('pe-status').value=p.status||'';
   document.getElementById('pe-desc').value=p.description||'';
   document.getElementById('pe-show-hero').checked=p.showHero!==false;
+  // Populate cover area
+  const coverArea=document.getElementById('cover-area');
+  if(coverArea){
+    coverArea.querySelectorAll('img,video').forEach(e=>e.remove());
+    const cstg=staged[coverKey(p)];
+    const csrc=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):''));
+    if(csrc){
+      const isV=cstg?cstg.isVideo:!!p.coverVideo;
+      const el=isV?document.createElement('video'):document.createElement('img');
+      el.src=csrc;if(isV){el.muted=true;el.loop=true;el.autoplay=true;}
+      coverArea.insertBefore(el,coverArea.firstChild);
+    }
+  }
   // Ensure blocks array exists
   if(!p.blocks){
     // Migrate: if has image/video, create first block from it
@@ -864,8 +899,9 @@ function updateProjPreview(){
   const shadow=st.shadow!=null?st.shadow:(dSt.shadow!==false);
   const posX=st.positionX!=null?st.positionX:50;
   const posY=st.positionY!=null?st.positionY:50;
-  const src=stg?stg.dataUrl:(p.video?rawS(p.video):(p.image?rawS(p.image):''));
-  const isV=stg?stg.isVideo:!!p.video;
+  const cstg=staged[coverKey(p)];
+  const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):(p.video?rawS(p.video):(p.image?rawS(p.image):''))));
+  const isV=cstg?cstg.isVideo:!!(p.coverVideo||p.video);
   const isPng=!isV&&(src.startsWith('data:image/png')||p.image?.toLowerCase().endsWith('.png'));
 
   // Compute display size directly — no virtual viewport scaling overhead
@@ -1164,6 +1200,8 @@ document.getElementById('btn-add-txt-block')?.addEventListener('click',()=>{
 // ── FILE PICKERS ──────────────────────────────────
 let ft=null,bgt=null,iconTarget=null;
 document.getElementById('logo-up').addEventListener('click',()=>{ft='logo';trigFi(false);});
+document.getElementById('btn-cover-img')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover';trigFi(false);});
+document.getElementById('btn-cover-vid')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover-vid';trigFi(true);});
 document.getElementById('btn-l-bg').addEventListener('click',()=>{bgt='landing';document.getElementById('fi-bg').click();});
 document.getElementById('btn-s-bg').addEventListener('click',()=>{bgt='site';document.getElementById('fi-bg').click();});
 document.getElementById('btn-l-bg-clr').addEventListener('click',()=>{C.landing.backgroundImage='';delete staged.bg_landing;IDB.del('bg_landing');document.getElementById('l-bg-th').style.backgroundImage='';updateLandingPreview();});
@@ -1184,6 +1222,27 @@ document.getElementById('fi').addEventListener('change',e=>{
       const fn=`images/logo.${ext}`;
       staged.logo={dataUrl:du,repoFn:rp(fn)};C.logo=fn;
       IDB.set('logo',du);renderLogoPreview();
+    } else if(ft==='cover'||ft==='cover-vid'){
+      if(selIdx===null)return;
+      const isV=ft==='cover-vid';
+      const fn=`images/cover_${Date.now()}.${ext}`;
+      const p=C.projects[selIdx];
+      const key=coverKey(p);
+      staged[key]={dataUrl:du,repoFn:rp(fn),isVideo:isV};
+      IDB.set(key,du);
+      if(isV){p.coverVideo=fn;p.coverImage='';}
+      else{p.coverImage=fn;p.coverVideo='';}
+      // Update cover preview area
+      const area=document.getElementById('cover-area');
+      if(area){
+        area.querySelectorAll('img,video').forEach(e=>e.remove());
+        const el=isV?document.createElement('video'):document.createElement('img');
+        el.src=du;if(isV){el.muted=true;el.loop=true;el.autoplay=true;}
+        area.insertBefore(el,area.firstChild);
+      }
+      // Update sidebar thumbnail
+      const thumb=document.querySelector(`#proj-list .pi[data-idx="${selIdx}"] .pt`);
+      if(thumb){const el2=isV?document.createElement('video'):document.createElement('img');el2.src=du;if(isV)el2.muted=true;thumb.innerHTML='';thumb.appendChild(el2);}
     } else if(_blockFileTarget!==null){
       // Block-level image/video upload
       const {projIdx,blockIdx,isVideo}=_blockFileTarget;_blockFileTarget=null;
