@@ -130,9 +130,7 @@ async function load(){
   const blist=p.blocks||[];
 
   // Fallback: if no blocks but has image/video, show single image block
-  if(!blist.length&&(p.image||p.video)){
-    blist.push({type:'image',src:p.image||'',video:p.video||'',imageStyle:p.imageStyle||{}});
-  }
+  // No fallback to cover image — blocks are independent from carousel
 
   if(!blist.length){container.style.paddingBottom='80px';return;}
 
