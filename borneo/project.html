@@ -32,37 +32,26 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
 /* Each block row — full width, no padding */
 .block-row{
   width:100%;
-  display:flex;         /* image left or right */
-  align-items:stretch;
-  margin-bottom:4px;    /* small gap between blocks */
+  display:flex;
+  align-items:flex-start; /* image determines row height */
+  margin-bottom:4px;
 }
-/* Image side — fixed width, full proportional height */
+/* Image side — 50vw, natural height */
 .block-row .img-side{
+  width:50vw;
   flex-shrink:0;
-  overflow:visible;
+  overflow:hidden;
 }
 .block-row .img-side img,
 .block-row .img-side video{
   width:100%;
   height:auto;
   display:block;
-  object-fit:contain;
 }
-/* Text side — fills remaining space */
+/* Empty text side — same height as image via JS, or just space */
 .block-row .text-side{
   flex:1;
-  display:flex;
-  align-items:center;
-  padding:60px 48px;
   min-width:0;
-}
-.block-row .text-side .text-inner{
-  max-width:44ch;
-  font-size:14px;
-  font-weight:300;
-  line-height:1.85;
-  color:#4a4845;
-  white-space:pre-wrap;
 }
 
 /* Standalone text block (no paired image) */
@@ -178,8 +167,6 @@ async function load(){
     // Image side
     const imgDiv=document.createElement('div');
     imgDiv.className='img-side';
-    imgDiv.style.width='50vw';
-    imgDiv.style.maxWidth='100vw';
     if(radius)imgDiv.style.borderRadius=radius+'px';
     if(bw>0)imgDiv.style.border=`${bw}px solid ${bc}`;
     if(shadow&&!isPng)imgDiv.style.boxShadow='0 8px 40px rgba(0,0,0,.1)';
