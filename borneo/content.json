@@ -51,7 +51,7 @@
       "location": "Kassel - DE",
       "status": "Built",
       "description": "",
-      "image": "images/b1776854972847.jpg",
+      "image": "images/b1776877066977.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -67,8 +67,8 @@
       "blocks": [
         {
           "type": "image",
-          "bid": 1776872320955,
-          "src": "",
+          "bid": 1776877061890,
+          "src": "images/b1776877066977.jpg",
           "video": "",
           "imageStyle": {
             "frameWidth": 1440,
@@ -83,27 +83,11 @@
         },
         {
           "type": "image",
-          "bid": 1776872678635,
-          "src": "",
+          "bid": 1776877069390,
+          "src": "images/b1776877075283.jpg",
           "video": "",
           "imageStyle": {
             "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1776872733520,
-          "src": "",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1400,
             "frameHeight": 630,
             "positionX": 50,
             "positionY": 50,
@@ -115,7 +99,7 @@
         }
       ],
       "showHero": false,
-      "coverImage": "images/cover_1776875432084.jpg",
+      "coverImage": "images/cover_1776877050810.jpg",
       "coverVideo": ""
     },
     {
