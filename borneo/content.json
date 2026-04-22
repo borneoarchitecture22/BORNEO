@@ -117,48 +117,6 @@
       ]
     },
     {
-      "id": 1776173065837,
-      "title": "KSL",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776179480763.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 340,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776173744164,
-      "title": "KSL",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175375868.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 360,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
       "id": 1776099820372,
       "title": "CNC",
       "type": "Temporary Garden/Pavilion",
@@ -177,48 +135,6 @@
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
         "shadow": false
-      }
-    },
-    {
-      "id": 1776156110122,
-      "title": "CNC",
-      "type": "",
-      "year": "",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776156187085.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 800,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 5,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776173838363,
-      "title": "CNC",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776174014556.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 420,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": true
       }
     },
     {
@@ -243,48 +159,6 @@
       }
     },
     {
-      "id": 1776179609163,
-      "title": "ALG",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776179632584.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 800,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776179731963,
-      "title": "ALG",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776179756851.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 800,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": true
-      }
-    },
-    {
       "id": 1776156349322,
       "title": "MGT",
       "type": "Urban renovation",
@@ -299,27 +173,6 @@
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 47,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776176011165,
-      "title": "MGT",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776176038748.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 860,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
@@ -349,48 +202,6 @@
       }
     },
     {
-      "id": 1776173342984,
-      "title": "MDL",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175454241.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 780,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776173454598,
-      "title": "MDL",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175482438.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 400,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
       "id": 1776099496040,
       "title": "TAB",
       "type": "Temporary Pavillion",
@@ -405,48 +216,6 @@
         "frameHeight": 630,
         "positionX": 44,
         "positionY": 87,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776173156652,
-      "title": "TAB",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776173167988.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 800,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776099686706,
-      "title": "TAB",
-      "type": "Temporary Pavilion",
-      "year": "2023",
-      "location": "Hamburg - De",
-      "status": "",
-      "description": "",
-      "image": "images/p1776099728218.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 620,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
         "borderRadius": 0,
         "borderWidth": 0,
         "borderColor": "#0d0d0b",
@@ -496,90 +265,6 @@
       }
     },
     {
-      "id": 1776175876833,
-      "title": "KNG",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175885002.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 880,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776175949933,
-      "title": "KNG",
-      "type": "",
-      "year": "2023",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175973453.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 420,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": true
-      }
-    },
-    {
-      "id": 1776174064796,
-      "title": "VILLA 01",
-      "type": "Residential",
-      "year": "2022",
-      "location": "Giulianova - IT",
-      "status": "Built",
-      "description": "",
-      "image": "images/p1776175571030.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 460,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776173454437,
-      "title": "Villa 01",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776175736967.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 400,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
       "id": 1776175762617,
       "title": "Villa 01",
       "type": "",
@@ -591,48 +276,6 @@
       "video": "",
       "imageStyle": {
         "frameWidth": 780,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776156269271,
-      "title": "Villa 02",
-      "type": "Residential",
-      "year": "2026",
-      "location": "Giulianova - IT",
-      "status": "Project",
-      "description": "",
-      "image": "images/p1776156303493.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 820,
-        "frameHeight": 630,
-        "positionX": 50,
-        "positionY": 50,
-        "borderRadius": 0,
-        "borderWidth": 0,
-        "borderColor": "#0d0d0b",
-        "shadow": false
-      }
-    },
-    {
-      "id": 1776174138545,
-      "title": "Villa 02",
-      "type": "",
-      "year": "2026",
-      "location": "",
-      "status": "",
-      "description": "",
-      "image": "images/p1776174681943.jpg",
-      "video": "",
-      "imageStyle": {
-        "frameWidth": 820,
         "frameHeight": 630,
         "positionX": 50,
         "positionY": 50,
