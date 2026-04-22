@@ -46,10 +46,10 @@
     {
       "id": 1775225108692,
       "title": "KSL",
-      "type": "Onsite P",
+      "type": "Onsite Construction",
       "year": "2025",
-      "location": "",
-      "status": "",
+      "location": "Kassel - DE",
+      "status": "Built",
       "description": "",
       "image": "images/b1776854972847.jpg",
       "video": "",
@@ -67,8 +67,8 @@
       "blocks": [
         {
           "type": "image",
-          "bid": 1776854935880,
-          "src": "images/b1776854972847.jpg",
+          "bid": 1776872320955,
+          "src": "",
           "video": "",
           "imageStyle": {
             "frameWidth": 1440,
@@ -80,9 +80,43 @@
             "borderColor": "#0d0d0b",
             "shadow": false
           }
+        },
+        {
+          "type": "image",
+          "bid": 1776872678635,
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1776872733520,
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1400,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
         }
       ],
-      "showHero": false
+      "showHero": false,
+      "coverImage": "images/cover_1776872733564.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776099820372,
