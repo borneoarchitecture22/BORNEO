@@ -38,9 +38,17 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
 }
 /* Image side — 50vw, natural height */
 .block-row .img-side{
-  width:50vw;
+  width:42vw;
   flex-shrink:0;
   overflow:hidden;
+}
+/* Left image: margin-right creates gap from center */
+.block-row.left .img-side{
+  margin-left:6vw;
+}
+/* Right image: margin-left creates gap from center */
+.block-row.right .img-side{
+  margin-right:6vw;
 }
 .block-row .img-side img,
 .block-row .img-side video{
@@ -48,7 +56,6 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
   height:auto;
   display:block;
 }
-/* Empty text side — same height as image via JS, or just space */
 .block-row .text-side{
   flex:1;
   min-width:0;
