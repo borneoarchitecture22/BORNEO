@@ -744,7 +744,7 @@ function renderSidebar(){
   const html=C.projects.map((p,i)=>{
     const cstg=staged[coverKey(p)];
     const stg=cstg||stgFor(p);
-    const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):(p.image?rawS(p.image):'')));
+    const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):'')); // cover only
     const isV=!cstg&&!stgFor(p)&&(!!p.coverVideo||!!p.video);
     // Store src in data-src for lazy loading — no actual img tag yet
     const thumbData=src?`data-src="${src.replace(/"/g,'&quot;')}" data-video="${isV?1:0}"`:'';
@@ -900,7 +900,7 @@ function updateProjPreview(){
   const posX=st.positionX!=null?st.positionX:50;
   const posY=st.positionY!=null?st.positionY:50;
   const cstg=staged[coverKey(p)];
-  const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):(p.video?rawS(p.video):(p.image?rawS(p.image):''))));
+  const src=cstg?cstg.dataUrl:(p.coverVideo?rawS(p.coverVideo):(p.coverImage?rawS(p.coverImage):'')); // cover only
   const isV=cstg?cstg.isVideo:!!(p.coverVideo||p.video);
   const isPng=!isV&&(src.startsWith('data:image/png')||p.image?.toLowerCase().endsWith('.png'));
 
