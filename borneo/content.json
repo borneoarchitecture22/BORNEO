@@ -96,6 +96,22 @@
             "borderColor": "#0d0d0b",
             "shadow": false
           }
+        },
+        {
+          "type": "image",
+          "bid": 1776926263928,
+          "src": "images/b1776926271696.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
         }
       ],
       "showHero": false,
