@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borneo — About</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;}
+html,body{background:var(--w);color:var(--b);font-family:'Inter',sans-serif;min-height:100vh;cursor:none;}
+#cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);width:7px;height:7px;background:var(--b);border-radius:50%;transition:width .18s,height .18s,background .18s;}
+#cursor.grow{width:44px;height:44px;background:transparent;border:1px solid var(--b);}
+
+header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:center;padding:32px 0 0;}
+header a{cursor:none;display:block;text-decoration:none;}
+.logo-img{height:28px;width:auto;display:block;mix-blend-mode:multiply;}
+.logo-text{font-size:11px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--b);}
+
+.page{max-width:640px;margin:0 auto;padding:120px 48px 120px;}
+
+.section{margin-bottom:72px;}
+.section-label{font-size:9px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:20px;}
+.body-text{font-size:14px;font-weight:300;line-height:1.9;color:var(--b);white-space:pre-wrap;}
+
+.contacts{display:flex;flex-direction:column;gap:14px;}
+.contact-row{display:flex;gap:24px;align-items:baseline;}
+.contact-label{font-size:9px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--g);width:72px;flex-shrink:0;}
+.contact-value{font-size:13px;font-weight:300;color:var(--b);}
+.contact-value a{color:var(--b);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s;}
+.contact-value a:hover{border-bottom-color:var(--b);}
+
+@media(max-width:600px){.page{padding:100px 24px 80px;}}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<header>
+  <a href="index.html" id="logo-link">
+    <img class="logo-img" id="logo-img" src="" alt="Borneo" style="display:none;">
+    <span class="logo-text" id="logo-text" style="display:none;">Borneo</span>
+  </a>
+</header>
+
+<div class="page">
+  <div class="section" id="about-section" style="display:none;">
+    <div class="section-label">Studio</div>
+    <div class="body-text" id="about-text"></div>
+  </div>
+  <div class="section" id="contacts-section" style="display:none;">
+    <div class="section-label">Contatti</div>
+    <div class="contacts" id="contacts-list"></div>
+  </div>
+</div>
+
+<script>
+const cur=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';});
+document.querySelectorAll('a').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('grow'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('grow'));
+});
+
+async function load(){
+  try{
+    const r=await fetch('content.json?v='+Date.now());
+    const D=await r.json();
+    document.body.style.background=(D.site?.background?.value)||'#fafaf8';
+
+    // Logo
+    const li=document.getElementById('logo-img');
+    const lt=document.getElementById('logo-text');
+    if(D.logo){li.src=D.logo;li.style.display='block';}
+    else{lt.style.display='block';}
+
+    // Studio/about text
+    const studio=D.pages?.studio;
+    if(studio?.content){
+      document.getElementById('about-text').textContent=studio.content;
+      document.getElementById('about-section').style.display='block';
+    }
+
+    // Contacts
+    const ct=D.pages?.contatti;
+    if(ct){
+      const list=document.getElementById('contacts-list');
+      [['Email',ct.email,'mailto:'+ct.email],['Tel',ct.phone,''],['Indirizzo',ct.address,'']].forEach(([lbl,val,href])=>{
+        if(!val)return;
+        const row=document.createElement('div');row.className='contact-row';
+        const v=href?`<a href="${href}">${val}</a>`:val;
+        row.innerHTML=`<span class="contact-label">${lbl}</span><span class="contact-value">${v}</span>`;
+        list.appendChild(row);
+      });
+      if(list.children.length)document.getElementById('contacts-section').style.display='block';
+    }
+  }catch(e){document.getElementById('logo-text').style.display='block';}
+}
+load();
+</script>
+</body>
+</html>

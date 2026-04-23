@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Borneo</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700&family=Playfair+Display:ital,wght@0,400;1,400&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;}
 html{scroll-behavior:smooth;}
-body{background:var(--w);color:var(--b);font-family:'Jost',sans-serif;min-height:100vh;cursor:none;}
+body{background:var(--w);color:var(--b);font-family:'Inter',sans-serif;min-height:100vh;cursor:none;}
 #cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);width:8px;height:8px;background:var(--b);border-radius:50%;transition:width .18s,height .18s;}
 #cursor.expand{width:36px;height:36px;background:transparent;border:1px solid var(--b);}
 header{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:flex-start;justify-content:space-between;padding:32px 48px 0;background:transparent;}
@@ -23,7 +23,7 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
 .proj-hero{padding:110px 48px 60px;max-width:900px;}
 .proj-meta{display:flex;gap:24px;margin-bottom:10px;}
 .proj-meta span{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--g);}
-.proj-title{font-family:'Cormorant',serif;font-size:clamp(32px,4.5vw,68px);font-weight:300;line-height:1.04;margin-bottom:28px;}
+.proj-title{font-family:'Inter',sans-serif;font-size:clamp(32px,4.5vw,68px);font-weight:300;line-height:1.04;margin-bottom:28px;}
 .proj-desc{font-size:14px;font-weight:300;line-height:1.8;color:#4a4845;max-width:42ch;white-space:pre-wrap;}
 
 /* ── BLOCKS ── */
@@ -220,7 +220,7 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 function applyNav(nd){
   const nav=document.getElementById('page-nav');nav.innerHTML='';
   if(!nd)return;
-  const nFont=nd.font||'Jost',nSize=(nd.size||9)+'px',nWeight=nd.weight||300;
+  const nFont='Inter',nSize=(nd.size||9)+'px',nWeight=nd.weight||300;
   const nColor=nd.color||'#0d0d0b',nLS=(nd.letterSpacing??0.18)+'em',nUpper=nd.uppercase!==false;
   (nd.items||[]).forEach(item=>{
     if(item.visible===false)return;
