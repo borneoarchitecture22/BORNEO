@@ -313,10 +313,10 @@ function buildSlides(){
     const shadow=st.shadow!=null?st.shadow:(dSt.shadow!==false);
     const posX=st.positionX!=null?st.positionX:50;
     const posY=st.positionY!=null?st.positionY:50;
-    // Use first image block if available, fall back to p.image
-    const _firstBlock=p.blocks?.find(b=>b.type==='image'&&(b.src||b.video));
-    if(_firstBlock){p={...p,image:_firstBlock.src||p.image,video:_firstBlock.video||p.video,imageStyle:{...(_firstBlock.imageStyle||{})}};} 
-    const isPng=p.image&&/\.png$/i.test(p.image);
+    // Carousel uses ONLY coverImage/coverVideo — no fallback to project blocks
+    const _img=p.coverImage||'';
+    const _vid=p.coverVideo||'';
+    const isPng=_img&&/\.png$/i.test(_img);
 
     const slide=document.createElement('div');
     slide.className='slide'+(i===0?' active':'');
@@ -332,12 +332,12 @@ function buildSlides(){
     else{inner.style.maxHeight='75vh';}
 
     let media;
-    if(p.video){
+    if(_vid){
       media=document.createElement('video');
-      media.src=p.video;media.autoplay=true;media.muted=true;media.loop=true;media.playsInline=true;
-    } else if(p.image){
+      media.src=_vid;media.autoplay=true;media.muted=true;media.loop=true;media.playsInline=true;
+    } else if(_img){
       media=document.createElement('img');
-      media.src=p.image;media.alt=p.title;media.draggable=false;
+      media.src=_img;media.alt=p.title;media.draggable=false;
       if(isPng){media.style.background='transparent';if(shadow)media.style.filter='drop-shadow(0 12px 40px rgba(0,0,0,.15))';}
     } else {
       const ph=document.createElement('div');
