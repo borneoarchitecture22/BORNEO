@@ -216,8 +216,8 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
     <div class="tbr">
       <span id="ds"></span>
       <span class="pst" id="pst"></span>
-      <button class="bs" id="btnpl">↗ Landing</button>
-      <button class="bs" id="btnps">↗ Sito</button>
+      <button class="bs" id="btnpl">↗ Carosello</button>
+      <button class="bs" id="btnps">↗ About</button>
       <button class="bs" id="btncfg">Config</button>
       <button class="bpub" id="btnpub">↑ Pubblica</button>
     </div>
@@ -394,7 +394,7 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
               scrolling="no"></iframe>
           </div>
           <div style="padding:8px 16px;border-top:1px solid var(--br);display:flex;align-items:center;gap:12px;flex-shrink:0;background:var(--w);">
-            <span style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);">Per vedere le modifiche pubblica e aggiorna ↗ Sito</span>
+            <span style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);">Per vedere le modifiche pubblica e aggiorna ↗ About</span>
             <button class="bs" id="btn-refresh-preview" style="margin-left:auto;">↺ Aggiorna</button>
           </div>
         </div>
@@ -1609,8 +1609,8 @@ document.getElementById('btnpub').addEventListener('click',async()=>{
 });
 
 // ── TOPBAR ────────────────────────────────────────
-document.getElementById('btnpl')?.addEventListener('click',()=>window.open('../landing.html','_blank'));
-document.getElementById('btnps')?.addEventListener('click',()=>window.open('../index.html','_blank'));
+document.getElementById('btnpl')?.addEventListener('click',()=>window.open('../index.html','_blank'));
+document.getElementById('btnps')?.addEventListener('click',()=>window.open('../about.html','_blank'));
 document.getElementById('btncfg')?.addEventListener('click',()=>show('ss'));
 document.getElementById('btn-logout')?.addEventListener('click',()=>{selIdx=null;show('sl');});
 
