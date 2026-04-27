@@ -619,7 +619,7 @@
     "uppercase": true
   },
   "footerLayout": "pos-bl",
-  "cursor": "",
+  "cursor": "images/cursor.png",
   "pages": {
     "studio": {
       "title": ".",
