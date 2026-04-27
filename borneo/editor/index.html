@@ -723,20 +723,17 @@ document.getElementById('btn-del')?.addEventListener('click',()=>{
 });
 
 // ── IMAGE COMPRESSION ─────────────────────────────
-// Resize + compress before upload: max 1920px, JPEG 82%
-// Covers get max 1440px (used at 630px height), blocks max 1920px
-async function compress(dataUrl, maxW, maxH, quality=0.82){
+// Aggressive resize + compress before upload
+async function compress(dataUrl, maxW, maxH, quality=0.78){
   return new Promise(res=>{
-    // Skip compression for videos
     if(!dataUrl.startsWith('data:image'))return res(dataUrl);
     const img=new Image();
     img.onload=()=>{
       let w=img.naturalWidth,h=img.naturalHeight;
       const ratio=Math.min(1,maxW/w,maxH/h);
-      if(ratio>=1&&dataUrl.startsWith('data:image/jpeg')){return res(dataUrl);} // already small
       w=Math.round(w*ratio);h=Math.round(h*ratio);
       const c=document.createElement('canvas');c.width=w;c.height=h;
-      const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);
+      c.getContext('2d').drawImage(img,0,0,w,h);
       res(c.toDataURL('image/jpeg',quality));
     };
     img.onerror=()=>res(dataUrl);
@@ -758,10 +755,10 @@ document.getElementById('fi')?.addEventListener('change',e=>{
     // Compress: covers 1440px, blocks 1920px, logos 400px
     let du=raw;
     if(!isVideo){
-      if(ft==='logo') du=await compress(raw,400,200,0.90);
-      else if(ft==='cover'||ft==='cover-vid') du=await compress(raw,1440,1440,0.82);
-      else if(_blockFileTarget!==null) du=await compress(raw,1920,1920,0.82);
-      else du=await compress(raw,1920,1920,0.82);
+      if(ft==='logo') du=await compress(raw,320,160,0.88);
+      else if(ft==='cover'||ft==='cover-vid') du=await compress(raw,1200,1200,0.78);
+      else if(_blockFileTarget!==null) du=await compress(raw,1400,1400,0.78);
+      else du=await compress(raw,1400,1400,0.78);
     }
     // Force .jpg extension for compressed images
     const finalExt=(!isVideo&&!raw.startsWith('data:image/png'))?'jpg':ext;
@@ -875,14 +872,19 @@ document.getElementById('btnpub')?.addEventListener('click',async()=>{
   const btn=document.getElementById('btnpub'),st2=document.getElementById('pst');
   btn.disabled=true;st2.className='pst';st2.textContent='Pubblicazione…';
   try{
-    for(const[key,sf]of Object.entries(staged)){
+    const keys=Object.keys(staged);
+    for(let i=0;i<keys.length;i++){
+      const sf=staged[keys[i]];
       if(!sf.repoFn)continue;
-      st2.textContent=`Upload…`;
-      await ghPut(sf.repoFn,b64d(sf.dataUrl),await getSha(sf.repoFn),`Update ${key}`);
+      st2.textContent=`File ${i+1}/${keys.length}…`;
+      await ghPut(sf.repoFn,b64d(sf.dataUrl),await getSha(sf.repoFn),`Update ${keys[i]}`);
     }
     st2.textContent='Contenuti…';
     await ghPut(rp('content.json'),b64s(JSON.stringify(C,null,2)),await getSha(rp('content.json')),'Update content');
-    staged={};clearDraft();
+    // Clear staged AND IDB so nothing gets re-uploaded next session
+    for(const key of keys)await IDB.del(key);
+    staged={};
+    clearDraft();
     st2.className='pst ok';st2.textContent='✓ Live in ~30s';toast('Pubblicato!');
     setTimeout(()=>st2.textContent='',8000);
   }catch(e){st2.className='pst err';st2.textContent='✗ '+e.message;toast(e.message,true);}
