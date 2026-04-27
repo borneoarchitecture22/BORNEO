@@ -45,6 +45,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
   pointer-events:none;opacity:0;
 }
 .slide.active{pointer-events:auto;z-index:10;opacity:1;}
+.slide.first-load{animation:fadeSlide .9s cubic-bezier(0.4,0,0.2,1) both;}
+@keyframes fadeSlide{from{opacity:0}to{opacity:1}}
 .slide-img{
   display:block;
   height:630px;
@@ -92,6 +94,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
 #zone-right{right:0;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #logo-wrap{top:22px;}
+  #title-wrap{bottom:24px;}
+  .slide-img{height:auto!important;width:90vw!important;max-height:62vh;}
+  .slide-placeholder{width:90vw;height:auto;min-height:260px;}
+  #zone-left,#zone-right{width:50%;}
+}
 </style>
 
 <script>
@@ -235,6 +246,12 @@ function buildSlides(){
     }
     stage.appendChild(slide);
   });
+  // Fade in first slide elegantly
+  const firstSlide=stage.querySelector('.slide.active');
+  if(firstSlide){
+    firstSlide.classList.add('first-load');
+    firstSlide.addEventListener('animationend',()=>firstSlide.classList.remove('first-load'),{once:true});
+  }
   // Preload first image immediately for fast display
   const firstImg=stage.querySelector('.slide img');
   if(firstImg)firstImg.loading='eager';

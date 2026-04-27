@@ -75,6 +75,22 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
   .block-row .text-side{padding:32px 24px;}
   .block-text-solo{padding:32px 24px;}
 }
+
+/* ── MOBILE — linear layout ── */
+@media(max-width:768px){
+  header{padding:22px 20px 0;}
+  .proj-hero{padding:80px 20px 32px;}
+  .block-row{
+    flex-direction:column!important;  /* always stack vertically */
+  }
+  .block-row .img-side{
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;             /* remove L/R margins */
+  }
+  .block-row .text-side{display:none;} /* hide empty space on mobile */
+  .block-text-solo{padding:28px 20px;}
+}
 </style>
 </head>
 <body>
