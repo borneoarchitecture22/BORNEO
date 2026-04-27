@@ -126,7 +126,7 @@
       "location": "Logrono - Es",
       "status": "Ongoing",
       "description": "",
-      "image": "images/p1776155823564.jpg",
+      "image": "images/b1777280120786.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 480,
@@ -138,7 +138,43 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777280104517,
+          "src": "images/b1777280120786.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777280122266,
+          "src": "images/b1777280138514.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
+      "showHero": false,
+      "coverImage": "images/cover_1777280087715.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776099909021,
@@ -148,7 +184,7 @@
       "location": "Allgau - De",
       "status": "Ongoing",
       "description": "",
-      "image": "images/p1776156031278.jpg",
+      "image": "images/b1777280174863.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 400,
@@ -160,7 +196,59 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777280154099,
+          "src": "images/b1777280174863.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777280176066,
+          "src": "images/b1777280191745.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777280193333,
+          "src": "images/b1777280202103.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 1440,
+            "frameHeight": 630,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
+      "showHero": false,
+      "coverImage": "images/cover_1777280154293.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776156349322,
@@ -182,7 +270,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1,
@@ -205,7 +294,8 @@
         "positionY": 46,
         "positionX": 50
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1776099496040,
@@ -227,7 +317,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1776156577770,
@@ -249,7 +340,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1776174693893,
@@ -271,7 +363,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1776175762617,
@@ -293,7 +386,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     },
     {
       "id": 1776175800699,
@@ -315,7 +409,8 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": []
+      "blocks": [],
+      "showHero": false
     }
   ],
   "nav": {
@@ -357,7 +452,8 @@
       "image": "",
       "titleFont": "Inter",
       "titleWeight": "600",
-      "bodyAlign": "justify"
+      "bodyAlign": "justify",
+      "bodyFont": "Inter"
     },
     "contatti": {
       "title": "..",
