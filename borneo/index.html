@@ -201,6 +201,23 @@ async function load(){
     }
 
     P=D.projects||[];
+    // Custom cursor
+    if(D.cursor){
+      const ci=document.getElementById('cursor');
+      if(ci){
+        ci.innerHTML='';
+        const img=document.createElement('img');
+        img.src=D.cursor;
+        img.style.cssText='width:32px;height:32px;object-fit:contain;display:block;pointer-events:none;';
+        ci.appendChild(img);
+        // Reset cursor element style for image mode
+        ci.style.width='32px';
+        ci.style.height='32px';
+        ci.style.borderRadius='0';
+        ci.style.background='transparent';
+        ci.style.border='none';
+      }
+    }
     buildSlides();
     if(P.length){
     updateTitle(0);
