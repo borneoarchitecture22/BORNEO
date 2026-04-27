@@ -206,17 +206,14 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
       <span class="tl">Borneo</span><span class="tbg">Editor</span>
       <div class="tabs">
         <button class="tt active" data-tab="projects">Progetti</button>
-        <button class="tt" data-tab="landing">Landing</button>
-        <button class="tt" data-tab="site">Sito</button>
-        <button class="tt" data-tab="nav">Menu</button>
-        <button class="tt" data-tab="studio">Studio</button>
-        <button class="tt" data-tab="contatti">Contatti</button>
+        <button class="tt" data-tab="site">Carosello</button>
+        <button class="tt" data-tab="about">About</button>
       </div>
     </div>
     <div class="tbr">
       <span id="ds"></span>
       <span class="pst" id="pst"></span>
-      <button class="bs" id="btnpl">↗ Carosello</button>
+      <button class="bs" id="btnpl">↗ Sito</button>
       <button class="bs" id="btnps">↗ About</button>
       <button class="bs" id="btncfg">Config</button>
       <button class="bpub" id="btnpub">↑ Pubblica</button>
@@ -286,207 +283,42 @@ body{font-family:'Jost',sans-serif;background:var(--w);color:var(--b);overflow:h
       </div>
     </div>
 
-    <!-- LANDING -->
-    <div class="tp" id="tab-landing">
-      <div class="ssl">
-        <div class="sp">
-          <div class="st">Sfondo</div>
-          <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="l-bg-c"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="l-bg-c"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="l-bg-c"></div><div class="sw" style="background:#1a1a2e" data-c="#1a1a2e" data-t="l-bg-c"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="l-bg-c"></div><div class="sw" style="background:#2c3e50" data-c="#2c3e50" data-t="l-bg-c"></div></div></div></div>
-          <div class="sr"><span class="slb">Immagine sfondo</span><div class="sc"><div class="ur"><button class="bu" id="btn-l-bg">Carica</button><div class="bgt" id="l-bg-th"></div><button class="bcl" id="btn-l-bg-clr">✕</button></div></div></div>
-          <div class="sr"><span class="slb">Mostra logo</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="l-logo"><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="st">Bottone</div>
-          <div class="sr"><span class="slb">Testo</span><div class="sc"><input type="text" id="l-btn-txt" value="Entra"></div></div>
-          <div class="sr"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="l-btn-bg"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="l-btn-bg"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="l-btn-bg"></div></div></div></div>
-          <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="l-btn-tc"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="l-btn-tc"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="l-btn-tc"></div></div></div></div>
-          <div class="sr"><span class="slb">Arrotondamento</span><div class="sc"><input type="range" id="l-btn-r" min="0" max="40"><span class="rv2" id="l-btn-r-v">0px</span></div></div>
-          <div class="sr"><span class="slb">Padding H</span><div class="sc"><input type="range" id="l-btn-px" min="12" max="120" step="4"><span class="rv2" id="l-btn-px-v">48px</span></div></div>
-          <div class="sr"><span class="slb">Padding V</span><div class="sc"><input type="range" id="l-btn-py" min="6" max="40" step="2"><span class="rv2" id="l-btn-py-v">16px</span></div></div>
-          <div class="sr"><span class="slb">Font size</span><div class="sc"><input type="range" id="l-btn-fs" min="8" max="28"><span class="rv2" id="l-btn-fs-v">11px</span></div></div>
-          <div class="sr"><span class="slb">Lettering</span><div class="sc"><input type="range" id="l-btn-ls" min="0" max="0.6" step="0.02"><span class="rv2" id="l-btn-ls-v">0.2em</span></div></div>
-          <div class="sr"><span class="slb">Bordo</span><div class="sc"><input type="range" id="l-btn-bw" min="0" max="5"><span class="rv2" id="l-btn-bw-v">0px</span></div></div>
-          <div class="sr"><span class="slb">Colore bordo</span><div class="sc"><input type="color" id="l-btn-bc"></div></div>
-        </div>
-        <div class="pp">
-          <div class="pfl">Anteprima live</div>
-          <div id="lpp"><div id="lbg"></div><div id="llg" style="display:none">Borneo</div><button id="lbt">Entra</button></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SITO -->
+    <!-- CAROSELLO TAB — solo font titolo -->
     <div class="tp" id="tab-site">
-      <div class="ssl">
-        <div class="sp">
-          <div class="st">Sfondo</div>
-          <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-bg-c"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="s-bg-c"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="s-bg-c"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="s-bg-c"></div><div class="sw" style="background:#1a1a2e" data-c="#1a1a2e" data-t="s-bg-c"></div></div></div></div>
-          <div class="sr"><span class="slb">Immagine sfondo</span><div class="sc"><div class="ur"><button class="bu" id="btn-s-bg">Carica</button><div class="bgt" id="s-bg-th"></div><button class="bcl" id="btn-s-bg-clr">✕</button></div></div></div>
-          <div class="st">Cursore personalizzato</div>
-          <div class="sr"><span class="slb">Immagine cursore</span><div class="sc"><div class="ur"><button class="bu" id="btn-cur">Carica</button><div class="bgt" id="cur-th"></div><button class="bcl" id="btn-cur-clr">✕</button></div></div></div>
-          <div class="st">Font</div>
-          <div class="sr"><span class="slb">Titoli</span><div class="sc"><select id="s-fd"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option></select></div></div>
-          <div class="sr"><span class="slb">Testo</span><div class="sc"><select id="s-fb"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="EB Garamond">EB Garamond</option><option value="Cormorant">Cormorant</option></select></div></div>
-          <div class="st">Titolo nel carosello</div>
-          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="s-tf"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
-          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="s-ts" min="10" max="60" step="1"><span class="rv2" id="s-ts-v">22px</span></div></div>
-          <div class="sr"><span class="slb">Peso</span><div class="sc"><select id="s-tw"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-          <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-tc" value="#0d0d0b"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="s-tc"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="s-tc"></div><div class="sw" style="background:#9e9b96" data-c="#9e9b96" data-t="s-tc"></div></div></div></div>
-          <div class="st">Visibilità elementi</div>
-          <div class="sr"><span class="slb">Logo</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-logo" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Numeratore (01/02)</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-index"><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Nome progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-name" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Tipologia — Anno</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-tag" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Numeratore</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-progress" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="sr"><span class="slb">Menu navigazione</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="vis-nav" checked><span style="font-size:10px">Visibile</span></label></div></div>
-          <div class="st">Posizioni elementi</div>
-          <div class="sl2" style="margin-bottom:6px">Logo</div>
-          <div class="pos-grid" id="grid-logo">
-            <button class="pos-btn active" data-v="tl">↖ Alto sx</button>
-            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
-            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
-            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
-            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
-            <button class="pos-btn" data-v="br">↘ Basso dx</button>
-          </div>
-          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Menu (Studio/Contatti)</div>
-          <div class="pos-grid" id="grid-nav">
-            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
-            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
-            <button class="pos-btn active" data-v="tr">↗ Alto dx</button>
-            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
-            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
-            <button class="pos-btn" data-v="br">↘ Basso dx</button>
-          </div>
-          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Nome progetto</div>
-          <div class="pos-grid" id="grid-info">
-            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
-            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
-            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
-            <button class="pos-btn active" data-v="bl">↙ Basso sx</button>
-            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
-            <button class="pos-btn" data-v="br">↘ Basso dx</button>
-          </div>
-          <div class="sl2" style="margin-bottom:6px;margin-top:12px">Barra avanzamento</div>
-          <div class="pos-grid" id="grid-progress">
-            <button class="pos-btn" data-v="tl">↖ Alto sx</button>
-            <button class="pos-btn" data-v="tc">↑ Alto centro</button>
-            <button class="pos-btn" data-v="tr">↗ Alto dx</button>
-            <button class="pos-btn" data-v="bl">↙ Basso sx</button>
-            <button class="pos-btn" data-v="bc">↓ Basso centro</button>
-            <button class="pos-btn active" data-v="br">↘ Basso dx</button>
-          </div>
-          <div class="st">Pagine singoli progetti</div>
-          <div class="sr"><span class="slb">Click apre progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-proj-pages" checked><span style="font-size:10px">Attivo</span></label></div></div>
-          <div class="st">Transizione</div>
-          <div class="sr"><span class="slb">Tipo</span><div class="sc"><select id="s-tr"><option value="clip">Tenda</option><option value="fade">Dissolvenza</option><option value="slide">Scivolata</option><option value="scale">Zoom</option></select></div></div>
-          <div class="sr"><span class="slb">Velocità</span><div class="sc"><input type="range" id="s-spd" min="0.3" max="1.5" step="0.1"><span class="rv2" id="s-spd-v">0.7s</span></div></div>
-          <div class="st">Immagini default</div>
-          <div class="sr"><span class="slb">Larghezza</span><div class="sc"><input type="range" id="s-iw" min="200" max="1200" step="20"><span class="rv2" id="s-iw-v">640px</span></div></div>
-          <div class="sr"><span class="slb">Arrotondamento</span><div class="sc"><input type="range" id="s-ir" min="0" max="24"><span class="rv2" id="s-ir-v">0px</span></div></div>
-          <div class="sr"><span class="slb">Bordo</span><div class="sc"><input type="range" id="s-ibw" min="0" max="8"><span class="rv2" id="s-ibw-v">0px</span></div></div>
-          <div class="sr"><span class="slb">Colore bordo</span><div class="sc"><input type="color" id="s-ibc"></div></div>
-          <div class="sr"><span class="slb">Ombra</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-ish" checked><span style="font-size:10px">Attiva</span></label></div></div>
-        </div>
-        <div class="pp" style="flex-direction:column;overflow:hidden;">
-          <div class="pfl">Anteprima sito reale</div>
-          <div style="flex:1;position:relative;overflow:hidden;width:100%;">
-            <iframe id="site-preview-frame" src="../index.html"
-              style="position:absolute;top:0;left:0;width:1440px;height:900px;border:none;transform-origin:top left;pointer-events:none;"
-              scrolling="no"></iframe>
-          </div>
-          <div style="padding:8px 16px;border-top:1px solid var(--br);display:flex;align-items:center;gap:12px;flex-shrink:0;background:var(--w);">
-            <span style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--g);">Per vedere le modifiche pubblica e aggiorna ↗ About</span>
-            <button class="bs" id="btn-refresh-preview" style="margin-left:auto;">↺ Aggiorna</button>
-          </div>
-        </div>
+      <div class="mp" style="max-width:480px;">
+        <div class="sl2" style="margin-bottom:16px">Carosello</div>
+        <div class="st">Sfondo</div>
+        <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-bg-c"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="s-bg-c"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="s-bg-c"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="s-bg-c"></div><div class="sw" style="background:#1a1a2e" data-c="#1a1a2e" data-t="s-bg-c"></div></div></div></div>
+        <div class="st">Titolo progetto (in basso)</div>
+        <div class="sr"><span class="slb">Font</span><div class="sc"><select id="s-tf"><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option></select></div></div>
+        <div class="st">Pagine singoli progetti</div>
+        <div class="sr"><span class="slb">Click su titolo apre progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-proj-pages" checked><span style="font-size:10px">Attivo</span></label></div></div>
       </div>
     </div>
 
-    <!-- MENU -->
-    <div class="tp" id="tab-nav">
-      <div class="mp" style="max-width:520px;">
-        <div class="sl2" style="margin-bottom:14px">Menu di navigazione</div>
-        <div class="sr" style="margin-bottom:18px;">
-          <span class="slb">Modalità</span>
-          <div class="sc"><select id="nav-mode"><option value="text">Testo</option><option value="icons">Icone</option></select></div>
-        </div>
-        <div class="st" style="margin-top:0">Tipografia</div>
-        <div class="sr"><span class="slb">Font</span><div class="sc"><select id="nav-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option></select></div></div>
-        <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="nav-size" min="7" max="24" step="1"><span class="rv2" id="nav-size-v">9px</span></div></div>
-        <div class="sr"><span class="slb">Peso</span><div class="sc"><select id="nav-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-        <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="nav-color" value="#0d0d0b"><div class="swatches"><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="nav-color"></div><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="nav-color"></div><div class="sw" style="background:#9e9b96" data-c="#9e9b96" data-t="nav-color"></div></div></div></div>
-        <div class="sr"><span class="slb">Letter spacing</span><div class="sc"><input type="range" id="nav-ls" min="0" max="0.5" step="0.01"><span class="rv2" id="nav-ls-v">0.18em</span></div></div>
-        <div class="sr"><span class="slb">Uppercase</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="nav-upper" checked><span style="font-size:10px">Attivo</span></label></div></div>
-        <div class="st">Voci menu</div>
-        <div id="nav-items"></div>
-      </div>
-    </div>
-
-    <!-- STUDIO -->
-    <div class="tp" id="tab-studio">
+    <!-- ABOUT TAB — testo + contatti unificati -->
+    <div class="tp" id="tab-about">
       <div class="ssl">
         <div class="sp">
-          <div class="st">Pagina Studio</div>
+          <div class="st">Testo About</div>
           <div class="sr"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="st-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="st-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="st-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="st-bg"></div></div></div></div>
-          <div class="sr"><span class="slb">Immagine</span><div class="sc"><div class="ur"><button class="bu" id="btn-st-img">Carica</button><div class="bgt" id="st-img-th"></div><button class="bcl" id="btn-st-img-clr">✕</button></div></div></div>
-          <div class="st">Titolo</div>
-          <div class="pf" style="margin-bottom:12px;"><label>Testo titolo</label><input id="st-title" value="Studio"></div>
-          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="st-title-font"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
-          <div class="sr"><span class="slb">Peso titolo</span><div class="sc"><select id="st-title-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-          <div class="sr"><span class="slb">Colore titolo</span><div class="sc"><input type="color" id="st-title-color" value="#0d0d0b"></div></div>
-          <div class="sr"><span class="slb">Allineamento titolo</span><div class="sc"><select id="st-title-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
-          <div class="st">Testo</div>
-          <div class="pf" style="margin-bottom:12px;"><label>Contenuto (a capo libero)</label><textarea id="st-content" style="height:160px;resize:vertical;"></textarea></div>
-          <div class="sr"><span class="slb">Font testo</span><div class="sc"><select id="st-body-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option><option value="Playfair Display">Playfair Display</option></select></div></div>
-          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="st-body-size" min="10" max="28" step="1"><span class="rv2" id="st-body-size-v">15px</span></div></div>
-          <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="st-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-          <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="st-body-color" value="#4a4845"></div></div>
+          <div class="pf" style="margin-bottom:12px;"><label>Testo (a capo libero)</label><textarea id="st-content" style="height:180px;resize:vertical;"></textarea></div>
+          <div class="sr"><span class="slb">Font</span><div class="sc"><select id="st-body-font"><option value="Inter">Inter</option><option value="Jost">Jost</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option></select></div></div>
+          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="st-body-size" min="10" max="28" step="1"><span class="rv2" id="st-body-size-v">14px</span></div></div>
+          <div class="sr"><span class="slb">Peso</span><div class="sc"><select id="st-body-weight"><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option></select></div></div>
+          <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="st-body-color" value="#0d0d0b"></div></div>
           <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="st-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="st-body-lh-v">1.85</span></div></div>
           <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="st-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato sx</option><option value="justify-right">Giustificato dx</option></select></div></div>
-        </div>
-        <div class="pp" style="background:#f5f3ef;">
-          <div class="pfl">Anteprima Studio</div>
-          <div id="studio-preview" style="width:100%;height:100%;overflow-y:auto;padding:48px 40px;display:flex;flex-direction:column;gap:24px;background:#fafaf8;">
-            <h1 id="sp-st-title" style="font-family:'Cormorant',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.05;">Studio</h1>
-            <p id="sp-st-body" style="font-family:'Jost',sans-serif;font-size:15px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;max-width:44ch;"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONTATTI -->
-    <div class="tp" id="tab-contatti">
-      <div class="ssl">
-        <div class="sp">
-          <div class="st">Pagina Contatti</div>
-          <div class="sr"><span class="slb">Sfondo</span><div class="sc"><input type="color" id="ct-bg"><div class="swatches"><div class="sw" style="background:#fafaf8;border:1px solid #ccc" data-c="#fafaf8" data-t="ct-bg"></div><div class="sw" style="background:#0d0d0b" data-c="#0d0d0b" data-t="ct-bg"></div><div class="sw" style="background:#f5f0e8" data-c="#f5f0e8" data-t="ct-bg"></div></div></div></div>
-          <div class="st">Titolo</div>
-          <div class="pf" style="margin-bottom:12px;"><label>Testo titolo</label><input id="ct-title" value="Contatti"></div>
-          <div class="sr"><span class="slb">Font titolo</span><div class="sc"><select id="ct-title-font"><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option><option value="DM Serif Display">DM Serif Display</option><option value="Inter">Inter</option><option value="Jost">Jost</option></select></div></div>
-          <div class="sr"><span class="slb">Peso titolo</span><div class="sc"><select id="ct-title-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-          <div class="sr"><span class="slb">Colore titolo</span><div class="sc"><input type="color" id="ct-title-color" value="#0d0d0b"></div></div>
-          <div class="sr"><span class="slb">Allineamento titolo</span><div class="sc"><select id="ct-title-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
-          <div class="st">Testo introduttivo</div>
-          <div class="pf" style="margin-bottom:12px;"><label>Contenuto</label><textarea id="ct-content" style="height:100px;resize:vertical;"></textarea></div>
-          <div class="sr"><span class="slb">Font testo</span><div class="sc"><select id="ct-body-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option></select></div></div>
-          <div class="sr"><span class="slb">Dimensione</span><div class="sc"><input type="range" id="ct-body-size" min="10" max="28" step="1"><span class="rv2" id="ct-body-size-v">14px</span></div></div>
-          <div class="sr"><span class="slb">Peso testo</span><div class="sc"><select id="ct-body-weight"><option value="100">100 Thin</option><option value="200">200 ExtraLight</option><option value="300" selected>300 Light</option><option value="400">400 Regular</option><option value="500">500 Medium</option><option value="600">600 SemiBold</option><option value="700">700 Bold</option></select></div></div>
-          <div class="sr"><span class="slb">Colore testo</span><div class="sc"><input type="color" id="ct-body-color" value="#4a4845"></div></div>
-          <div class="sr"><span class="slb">Interlinea</span><div class="sc"><input type="range" id="ct-body-lh" min="1.0" max="3.0" step="0.1"><span class="rv2" id="ct-body-lh-v">1.85</span></div></div>
-          <div class="sr"><span class="slb">Allineamento</span><div class="sc"><select id="ct-body-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option><option value="justify">Giustificato sx</option><option value="justify-right">Giustificato dx</option></select></div></div>
-          <div class="st">Dati di contatto</div>
+          <div class="st">Contatti</div>
           <div class="pf" style="margin-bottom:12px;"><label>Email</label><input id="ct-email" type="email" placeholder="info@borneo.it"></div>
           <div class="pf" style="margin-bottom:12px;"><label>Telefono</label><input id="ct-phone" placeholder="+39 000 000 0000"></div>
           <div class="pf" style="margin-bottom:12px;"><label>Indirizzo</label><input id="ct-address" placeholder="Via Roma 1, 00100 Roma"></div>
-          <div class="sr"><span class="slb">Font dati</span><div class="sc"><select id="ct-info-font"><option value="Jost">Jost</option><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="EB Garamond">EB Garamond</option></select></div></div>
-          <div class="sr"><span class="slb">Dimensione dati</span><div class="sc"><input type="range" id="ct-info-size" min="10" max="24" step="1"><span class="rv2" id="ct-info-size-v">13px</span></div></div>
-          <div class="sr"><span class="slb">Allineamento dati</span><div class="sc"><select id="ct-info-align"><option value="left">Sinistra</option><option value="center">Centro</option><option value="right">Destra</option></select></div></div>
         </div>
         <div class="pp" style="background:#f5f3ef;">
-          <div class="pfl">Anteprima Contatti</div>
-          <div id="contatti-preview" style="width:100%;height:100%;overflow-y:auto;padding:48px 40px;display:flex;flex-direction:column;gap:24px;background:#fafaf8;">
-            <h1 id="sp-ct-title" style="font-family:'Cormorant',serif;font-size:clamp(28px,4vw,48px);font-weight:300;line-height:1.05;">Contatti</h1>
-            <p id="sp-ct-body" style="font-family:'Jost',sans-serif;font-size:14px;font-weight:300;line-height:1.85;color:#4a4845;white-space:pre-wrap;"></p>
-            <div id="sp-ct-info" style="display:flex;flex-direction:column;gap:10px;"></div>
+          <div class="pfl">Anteprima About</div>
+          <div id="about-preview" style="width:100%;height:100%;overflow-y:auto;padding:60px 48px;background:#fafaf8;">
+            <p id="sp-about-text" style="font-family:'Inter',sans-serif;font-size:14px;font-weight:300;line-height:1.9;color:#0d0d0b;white-space:pre-wrap;text-align:justify;max-width:560px;"></p>
+            <div id="sp-about-contacts" style="margin-top:40px;display:flex;flex-direction:column;gap:12px;"></div>
           </div>
         </div>
       </div>
@@ -1461,6 +1293,50 @@ function renderNavItems(){
   });
 }
 document.getElementById('nav-mode').addEventListener('change',e=>{C.nav.layout=e.target.value;});
+// About tab binds
+function pStu(){if(!C.pages)C.pages={};if(!C.pages.studio)C.pages.studio={};}
+document.getElementById('st-content')?.addEventListener('input',e=>{pStu();C.pages.studio.content=e.target.value;updateAboutPreview();});
+document.getElementById('st-bg')?.addEventListener('input',e=>{pStu();C.pages.studio.background=e.target.value;updateAboutPreview();});
+['st-body-font','st-body-weight','st-body-color','st-body-align'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('change',e=>{pStu();const k=id.replace('st-body-','body'+(id.includes('font')?'Font':id.includes('weight')?'Weight':id.includes('color')?'Color':'Align'));C.pages.studio[k]=e.target.value;updateAboutPreview();});
+  document.getElementById(id)?.addEventListener('input',e=>{pStu();const k=id.replace('st-body-','body'+(id.includes('font')?'Font':id.includes('weight')?'Weight':id.includes('color')?'Color':'Align'));C.pages.studio[k]=e.target.value;updateAboutPreview();});
+});
+document.getElementById('st-body-size')?.addEventListener('input',e=>{pStu();C.pages.studio.bodySize=parseFloat(e.target.value);const l=document.getElementById('st-body-size-v');if(l)l.textContent=e.target.value+'px';updateAboutPreview();});
+document.getElementById('st-body-lh')?.addEventListener('input',e=>{pStu();C.pages.studio.bodyLineHeight=parseFloat(e.target.value);const l=document.getElementById('st-body-lh-v');if(l)l.textContent=e.target.value;updateAboutPreview();});
+function pCon(){if(!C.pages)C.pages={};if(!C.pages.contatti)C.pages.contatti={};}
+['ct-email','ct-phone','ct-address'].forEach(id=>document.getElementById(id)?.addEventListener('input',e=>{pCon();C.pages.contatti[id.replace('ct-','')]=e.target.value;updateAboutPreview();}));
+
+function updateAboutPreview(){
+  const st=C.pages?.studio||{};
+  const ct=C.pages?.contatti||{};
+  const prev=document.getElementById('about-preview');
+  if(!prev)return;
+  prev.style.background=st.background||'#fafaf8';
+  const tb=document.getElementById('sp-about-text');
+  if(tb){
+    tb.textContent=st.content||'';
+    tb.style.fontFamily=`'${st.bodyFont||'Inter'}',sans-serif`;
+    tb.style.fontSize=(st.bodySize||14)+'px';
+    tb.style.fontWeight=st.bodyWeight||300;
+    tb.style.color=st.bodyColor||'#0d0d0b';
+    tb.style.lineHeight=st.bodyLineHeight||1.9;
+    const al=st.bodyAlign||'justify';
+    tb.style.textAlign=al==='justify-right'?'justify':al;
+    tb.style.textAlignLast=al==='justify-right'?'right':'';
+  }
+  const ci=document.getElementById('sp-about-contacts');
+  if(ci){
+    ci.innerHTML='';
+    [['Email',ct.email,'mailto:'+(ct.email||'')],['Tel',ct.phone,''],['Indirizzo',ct.address,'']].forEach(([lbl,val,href])=>{
+      if(!val)return;
+      const d=document.createElement('div');
+      d.style.cssText='display:flex;gap:20px;font-size:12px;font-family:Inter,sans-serif;';
+      d.innerHTML=`<span style="color:#9e9b96;font-size:8px;letter-spacing:.18em;text-transform:uppercase;width:64px;flex-shrink:0;margin-top:2px">${lbl}</span><span>${val}</span>`;
+      ci.appendChild(d);
+    });
+  }
+}
+
 // nav typography binds
 const _bNavV=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>fn(el.value));el?.addEventListener('change',()=>fn(el.value));};
 const _bNavR=(id,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{const v=parseFloat(el.value);fn(v);const lbl=document.getElementById(id+'-v');if(lbl)lbl.textContent=v+(id==='nav-size'?'px':'em');});};
@@ -1487,16 +1363,19 @@ document.getElementById('fi-icon').addEventListener('change',e=>{
 // ── PAGES ─────────────────────────────────────────
 function populatePages(){
   const st=C.pages?.studio||{},ct=C.pages?.contatti||{};
-  sV('st-bg',st.background||'#fafaf8');sV('st-title',st.title||'Studio');sV('st-content',st.content||'');
-  if(st.image&&!staged.studio_img)document.getElementById('st-img-th').style.backgroundImage=`url('${rawU(st.image)}')`;
-  sV('st-title-font',st.titleFont||'Cormorant');sV('st-title-weight',st.titleWeight||300);sV('st-title-color',st.titleColor||'#0d0d0b');sV('st-title-align',st.titleAlign||'left');
-  sV('st-body-font',st.bodyFont||'Jost');sR('st-body-size',st.bodySize||15,'px');sV('st-body-weight',st.bodyWeight||300);sV('st-body-color',st.bodyColor||'#4a4845');sR('st-body-lh',st.bodyLineHeight||1.85,'');sV('st-body-align',st.bodyAlign||'left');
-  sV('ct-bg',ct.background||'#fafaf8');sV('ct-title',ct.title||'Contatti');sV('ct-content',ct.content||'');
-  sV('ct-email',ct.email||'');sV('ct-phone',ct.phone||'');sV('ct-address',ct.address||'');
-  sV('ct-title-font',ct.titleFont||'Cormorant');sV('ct-title-weight',ct.titleWeight||300);sV('ct-title-color',ct.titleColor||'#0d0d0b');sV('ct-title-align',ct.titleAlign||'left');
-  sV('ct-body-font',ct.bodyFont||'Jost');sR('ct-body-size',ct.bodySize||14,'px');sV('ct-body-weight',ct.bodyWeight||300);sV('ct-body-color',ct.bodyColor||'#4a4845');sR('ct-body-lh',ct.bodyLineHeight||1.85,'');sV('ct-body-align',ct.bodyAlign||'left');
-  sV('ct-info-font',ct.infoFont||'Jost');sR('ct-info-size',ct.infoSize||13,'px');sV('ct-info-align',ct.infoAlign||'left');
-  updateStudioPreview();updateContattiPreview();
+  // About tab
+  sV('st-bg',st.background||'#fafaf8');
+  sV('st-content',st.content||'');
+  sV('st-body-font',st.bodyFont||'Inter');
+  sR('st-body-size',st.bodySize||14,'px');
+  sV('st-body-weight',st.bodyWeight||300);
+  sV('st-body-color',st.bodyColor||'#0d0d0b');
+  sR('st-body-lh',st.bodyLineHeight||1.9,'');
+  sV('st-body-align',st.bodyAlign||'justify');
+  sV('ct-email',ct.email||'');
+  sV('ct-phone',ct.phone||'');
+  sV('ct-address',ct.address||'');
+  updateAboutPreview();
 }
 // Studio
 function pSt(){if(!C.pages)C.pages={};if(!C.pages.studio)C.pages.studio={};}
