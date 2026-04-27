@@ -72,7 +72,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
   animation:fadeUp .8s var(--ease) .2s both;
 }
 #proj-title{
-  font-size:11px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;
+  font-size:11px;font-weight:300;font-style:italic;letter-spacing:.12em;
   color:var(--b);text-decoration:none;
   pointer-events:auto;cursor:none;
   border-bottom:1px solid transparent;
@@ -92,6 +92,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 </style>
+
+<script>
+// Preload first cover immediately from cache — runs before content.json fetch
+(function(){
+  try{
+    var c=localStorage.getItem('borneo_first_cover');
+    if(c){var l=document.createElement('link');l.rel='preload';l.as='image';l.href=c;l.setAttribute('fetchpriority','high');document.head.appendChild(l);}
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="cursor"></div>
@@ -129,7 +139,10 @@ async function load(){
     SS=D.site||{};
 
     // Background
-    document.getElementById('bg').style.background=(SS.background?.value)||'#fafaf8';
+    const bgVal=(SS.background?.value)||'#fafaf8';
+  document.getElementById('bg').style.background=bgVal;
+  document.body.style.background=bgVal;
+  try{localStorage.setItem('borneo_bg',bgVal);}catch(e){}
     document.body.style.background=(SS.background?.value)||'#fafaf8';
 
     // Logo
@@ -146,7 +159,12 @@ async function load(){
 
     P=D.projects||[];
     buildSlides();
-    if(P.length)updateTitle(0);
+    if(P.length){
+    updateTitle(0);
+    // Cache first cover for instant preload on next visit
+    const firstCover=P[0]?.coverImage||P[0]?.image||'';
+    if(firstCover)try{localStorage.setItem('borneo_first_cover',firstCover);}catch(e){}
+  }
   }catch(e){
     // No content yet — show placeholder
     document.getElementById('logo-img').style.display='none';
@@ -224,6 +242,12 @@ function navigate(dir){
       curr.style.zIndex='';
       nxt.style.zIndex='';
       anim=false;
+      // Prefetch next image in background
+      if(P.length>1){
+        const ni=(cur+1)%P.length;
+        const nsrc=P[ni]?.coverImage||P[ni]?.image||'';
+        if(nsrc){const pl=document.createElement('link');pl.rel='prefetch';pl.as='image';pl.href=nsrc;document.head.appendChild(pl);}
+      }
     },speed*1000+60);
   }));
 }
