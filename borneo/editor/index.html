@@ -270,6 +270,8 @@ body{font-family:'Inter',sans-serif;background:var(--w);color:var(--b);height:10
         <div class="sr"><span class="slb">Colore</span><div class="sc"><input type="color" id="s-bg-c" value="#fafaf8"></div></div>
         <div class="st">Titolo progetto</div>
         <div class="sr"><span class="slb">Font</span><div class="sc"><select id="s-tf"><option value="Inter">Inter</option><option value="Cormorant">Cormorant</option><option value="Playfair Display">Playfair Display</option><option value="EB Garamond">EB Garamond</option></select></div></div>
+        <div class="st">Cursore personalizzato</div>
+        <div class="sr"><span class="slb">Immagine cursore</span><div class="sc"><div style="display:flex;align-items:center;gap:8px;"><button class="bs" id="btn-cur" style="padding:4px 9px;">Carica</button><div id="cur-th" style="width:36px;height:24px;border:1px solid var(--br);background-size:cover;background-position:center;flex-shrink:0;"></div><button style="background:none;border:none;font-size:9px;color:var(--g);cursor:pointer;" id="btn-cur-clr">✕</button></div></div></div>
         <div class="st">Pagine singoli progetti</div>
         <div class="sr"><span class="slb">Click su titolo apre progetto</span><div class="sc"><label style="display:flex;align-items:center;gap:5px;cursor:pointer;"><input type="checkbox" id="s-proj-pages"><span style="font-size:10px">Attivo</span></label></div></div>
       </div>
@@ -309,6 +311,7 @@ body{font-family:'Inter',sans-serif;background:var(--w);color:var(--b);height:10
 <div id="toast"></div>
 <input type="file" id="fi" accept="image/*,video/mp4,video/webm">
 <input type="file" id="fi-bg" accept="image/*">
+<input type="file" id="fi-cur" accept="image/*">
 
 <script>
 // ── INDEXEDDB ─────────────────────────────────────
@@ -338,6 +341,7 @@ const rawS=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}`;
 // ── DEFAULTS ──────────────────────────────────────
 const DC=()=>({
   logo:'',cursor:'',
+  cursor:'',
   site:{background:{value:'#fafaf8'},titleFont:'Inter',projectPagesEnabled:true,imageStyle:{maxWidth:640,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:false}},
   pages:{
     studio:{content:'',bodyFont:'Inter',bodySize:14,bodyWeight:300,bodyColor:'#0d0d0b',bodyLineHeight:1.9,bodyAlign:'justify'},
@@ -433,6 +437,9 @@ async function restoreStaged(){
   // Logo
   const ld=await IDB.get('logo');
   if(ld){staged.logo={dataUrl:ld,repoFn:rp(C.logo||'images/logo.jpg')};renderLogoPreview();}
+  // Cursor
+  const curd=await IDB.get('cursor');
+  if(curd&&C.cursor){staged.cursor={dataUrl:curd,repoFn:rp(C.cursor)};const ct=document.getElementById('cur-th');if(ct)ct.style.backgroundImage=`url('${curd}')`;}
   // Per project: cover + blocks
   for(let i=0;i<C.projects.length;i++){
     const p=C.projects[i];
@@ -741,6 +748,25 @@ async function compress(dataUrl, maxW, maxH, quality=0.78){
     img.src=dataUrl;
   });
 }
+
+document.getElementById('btn-cur')?.addEventListener('click',()=>{
+  const fi=document.getElementById('fi-cur');if(fi){fi.value='';fi.click();}
+});
+document.getElementById('btn-cur-clr')?.addEventListener('click',()=>{
+  C.cursor='';delete staged.cursor;IDB.del('cursor');
+  const ct=document.getElementById('cur-th');if(ct)ct.style.backgroundImage='';
+});
+document.getElementById('fi-cur')?.addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const du=ev.target.result,ext=file.name.split('.').pop().toLowerCase();
+    const fn=`images/cursor.${ext}`;
+    staged.cursor={dataUrl:du,repoFn:rp(fn)};C.cursor=fn;IDB.set('cursor',du);
+    const ct=document.getElementById('cur-th');if(ct)ct.style.backgroundImage=`url('${du}')`;
+  };
+  reader.readAsDataURL(file);
+});
 
 document.getElementById('logo-up')?.addEventListener('click',()=>{ft='logo';_blockFileTarget=null;const fi=document.getElementById('fi');fi.accept='image/*';fi.value='';fi.click();});
 document.getElementById('btn-cover-img')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover';_blockFileTarget=null;const fi=document.getElementById('fi');fi.accept='image/*';fi.value='';fi.click();});
