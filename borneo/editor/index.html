@@ -722,7 +722,28 @@ document.getElementById('btn-del')?.addEventListener('click',()=>{
   renderSidebar();
 });
 
-// ── FILE PICKERS ──────────────────────────────────
+// ── IMAGE COMPRESSION ─────────────────────────────
+// Resize + compress before upload: max 1920px, JPEG 82%
+// Covers get max 1440px (used at 630px height), blocks max 1920px
+async function compress(dataUrl, maxW, maxH, quality=0.82){
+  return new Promise(res=>{
+    // Skip compression for videos
+    if(!dataUrl.startsWith('data:image'))return res(dataUrl);
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.naturalWidth,h=img.naturalHeight;
+      const ratio=Math.min(1,maxW/w,maxH/h);
+      if(ratio>=1&&dataUrl.startsWith('data:image/jpeg')){return res(dataUrl);} // already small
+      w=Math.round(w*ratio);h=Math.round(h*ratio);
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);
+      res(c.toDataURL('image/jpeg',quality));
+    };
+    img.onerror=()=>res(dataUrl);
+    img.src=dataUrl;
+  });
+}
+
 document.getElementById('logo-up')?.addEventListener('click',()=>{ft='logo';_blockFileTarget=null;const fi=document.getElementById('fi');fi.accept='image/*';fi.value='';fi.click();});
 document.getElementById('btn-cover-img')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover';_blockFileTarget=null;const fi=document.getElementById('fi');fi.accept='image/*';fi.value='';fi.click();});
 document.getElementById('btn-cover-vid')?.addEventListener('click',e=>{e.stopPropagation();if(selIdx===null)return;ft='cover-vid';_blockFileTarget=null;const fi=document.getElementById('fi');fi.accept='video/mp4,video/webm';fi.value='';fi.click();});
@@ -730,21 +751,33 @@ document.getElementById('btn-cover-vid')?.addEventListener('click',e=>{e.stopPro
 document.getElementById('fi')?.addEventListener('change',e=>{
   const file=e.target.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=ev=>{
-    const du=ev.target.result,ext=file.name.split('.').pop().toLowerCase();
+  reader.onload=async ev=>{
+    const raw=ev.target.result;
+    const ext=file.name.split('.').pop().toLowerCase();
+    const isVideo=file.type.startsWith('video');
+    // Compress: covers 1440px, blocks 1920px, logos 400px
+    let du=raw;
+    if(!isVideo){
+      if(ft==='logo') du=await compress(raw,400,200,0.90);
+      else if(ft==='cover'||ft==='cover-vid') du=await compress(raw,1440,1440,0.82);
+      else if(_blockFileTarget!==null) du=await compress(raw,1920,1920,0.82);
+      else du=await compress(raw,1920,1920,0.82);
+    }
+    // Force .jpg extension for compressed images
+    const finalExt=(!isVideo&&!raw.startsWith('data:image/png'))?'jpg':ext;
     if(ft==='logo'){
-      const fn=`images/logo.${ext}`;staged.logo={dataUrl:du,repoFn:rp(fn)};C.logo=fn;IDB.set('logo',du);renderLogoPreview();
+      const fn=`images/logo.${finalExt}`;staged.logo={dataUrl:du,repoFn:rp(fn)};C.logo=fn;IDB.set('logo',du);renderLogoPreview();
     } else if(_blockFileTarget!==null){
-      const {projIdx,blockIdx,isVideo}=_blockFileTarget;_blockFileTarget=null;
-      const fn=`images/b${Date.now()}.${ext}`;const key=bKey(C.projects[projIdx],C.projects[projIdx].blocks[blockIdx],blockIdx);
-      staged[key]={dataUrl:du,repoFn:rp(fn),isVideo};IDB.set(key,du);
+      const {projIdx,blockIdx,isVideo:bIsVideo}=_blockFileTarget;_blockFileTarget=null;
+      const fn=`images/b${Date.now()}.${finalExt}`;const key=bKey(C.projects[projIdx],C.projects[projIdx].blocks[blockIdx],blockIdx);
+      staged[key]={dataUrl:du,repoFn:rp(fn),isVideo:bIsVideo};IDB.set(key,du);
       const b=C.projects[projIdx].blocks[blockIdx];
-      if(isVideo){b.video=fn;b.src='';}else{b.src=fn;b.video='';}
-      if(blockIdx===0)C.projects[projIdx].image=isVideo?'':fn;
+      if(bIsVideo){b.video=fn;b.src='';}else{b.src=fn;b.video='';}
+      if(blockIdx===0)C.projects[projIdx].image=bIsVideo?'':fn;
       renderBlocks();
     } else if(ft==='cover'||ft==='cover-vid'){
       if(selIdx===null)return;const p=C.projects[selIdx];
-      const isV=ft==='cover-vid';const fn=`images/c${Date.now()}.${ext}`;
+      const isV=ft==='cover-vid';const fn=`images/c${Date.now()}.${finalExt}`;
       staged[coverKey(p)]={dataUrl:du,repoFn:rp(fn),isVideo:isV};IDB.set(coverKey(p),du);
       if(isV){p.coverVideo=fn;p.coverImage='';}else{p.coverImage=fn;p.coverVideo='';}
       // update cover area preview
