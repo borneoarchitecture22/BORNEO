@@ -270,40 +270,7 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [
-        {
-          "type": "image",
-          "bid": 1777297780619,
-          "src": "images/b1777297791598.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777297793386,
-          "src": "images/b1777297801603.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/c1777298635191.jpg",
       "coverVideo": ""
@@ -329,56 +296,7 @@
         "positionY": 46,
         "positionX": 50
       },
-      "blocks": [
-        {
-          "type": "image",
-          "bid": 1777297808652,
-          "src": "images/b1777297817368.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777297819302,
-          "src": "images/b1777297828468.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777297831352,
-          "src": "images/b1777297840039.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/c1777298661596.jpg",
       "coverVideo": ""
@@ -403,56 +321,7 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [
-        {
-          "type": "image",
-          "bid": 1777298679213,
-          "src": "images/b1777298709451.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777298711596,
-          "src": "images/b1777298718996.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777298722279,
-          "src": "images/b1777298740820.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/c1777298676965.jpg",
       "coverVideo": ""
@@ -478,7 +347,9 @@
         "shadow": false
       },
       "blocks": [],
-      "showHero": false
+      "showHero": false,
+      "coverImage": "images/c1777298997870.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776174693893,
@@ -488,7 +359,7 @@
       "location": "Hamburg - DE",
       "status": "Built",
       "description": "",
-      "image": "images/p1776175938870.jpg",
+      "image": "images/b1777299104444.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 400,
@@ -501,7 +372,9 @@
         "shadow": false
       },
       "blocks": [],
-      "showHero": false
+      "showHero": false,
+      "coverImage": "images/c1777299024102.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776175762617,
@@ -511,7 +384,7 @@
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1776175776556.jpg",
+      "image": "images/b1777299143852.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 780,
@@ -523,8 +396,59 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
-      "showHero": false
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777299126528,
+          "src": "images/b1777299143852.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777299147344,
+          "src": "images/b1777299157693.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777299159827,
+          "src": "images/b1777299172017.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
+      "showHero": false,
+      "coverImage": "images/c1777299086374.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776175800699,
@@ -534,7 +458,7 @@
       "location": "",
       "status": "",
       "description": "",
-      "image": "images/p1776175811506.jpg",
+      "image": "images/b1777299194861.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 900,
@@ -546,8 +470,59 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
-      "showHero": false
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777299189461,
+          "src": "images/b1777299194861.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777299196448,
+          "src": "images/b1777299204174.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777299205977,
+          "src": "images/b1777299213117.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
+      "showHero": false,
+      "coverImage": "images/c1777299187855.jpg",
+      "coverVideo": ""
     }
   ],
   "nav": {
