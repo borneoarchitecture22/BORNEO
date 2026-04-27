@@ -93,7 +93,7 @@ async function load(){
     // Contacts
     if(ct.email||ct.phone||ct.address){
       const list=document.getElementById('contacts-list');
-      [['Email',ct.email,'mailto:'+(ct.email||'')],['Tel',ct.phone,''],['Indirizzo',ct.address,'']].forEach(([lbl,val,href])=>{
+      [['Email',ct.email,'mailto:'+(ct.email||'')],['Tel',ct.phone,''],['Indirizzo',ct.address,''],['Instagram',ct.instagram,ct.instagram?'https://instagram.com/'+(ct.instagram||'').replace('@',''):'']].forEach(([lbl,val,href])=>{
         if(!val)return;
         const row=document.createElement('div');row.className='contact-row';
         const v=href&&ct.email?`<a href="${href}">${val}</a>`:val;
