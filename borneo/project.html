@@ -183,6 +183,7 @@ async function load(){
     } else if(src){
       media=document.createElement('img');
       media.src=src;media.alt=p.title||'';media.draggable=false;
+      media.loading='lazy';
       if(isPng&&shadow)media.style.filter='drop-shadow(0 8px 32px rgba(0,0,0,.1))';
     } else {
       // empty block — skip row

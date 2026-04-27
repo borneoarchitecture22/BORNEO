@@ -176,6 +176,7 @@ function buildSlides(){
       const im=document.createElement('img');
       im.src=img;im.alt=p.title||'';im.className='slide-img';im.draggable=false;
       im.loading=i===0?'eager':'lazy';
+      if(i===0)im.fetchPriority='high';
       slide.appendChild(im);
     } else {
       const ph=document.createElement('div');ph.className='slide-placeholder';
