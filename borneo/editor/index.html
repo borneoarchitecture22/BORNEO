@@ -189,6 +189,7 @@ body{font-family:'Inter',sans-serif;background:var(--w);color:var(--b);height:10
     <div class="tbr">
       <span id="ds"></span>
       <span class="pst" id="pst"></span>
+      <button class="bs" id="btnopt" title="Ricomprime tutte le immagini già pubblicate">⚡ Ottimizza immagini</button>
       <button class="bs" id="btnsite">↗ Sito</button>
       <button class="bs" id="btnabout">↗ About</button>
       <button class="bs" id="btncfg">Config</button>
@@ -889,6 +890,61 @@ document.getElementById('btnpub')?.addEventListener('click',async()=>{
     setTimeout(()=>st2.textContent='',8000);
   }catch(e){st2.className='pst err';st2.textContent='✗ '+e.message;toast(e.message,true);}
   btn.disabled=false;
+});
+
+// ── OPTIMIZE EXISTING IMAGES ──────────────────────
+document.getElementById('btnopt')?.addEventListener('click',async()=>{
+  if(!confirm('Ricomprime tutte le immagini già su GitHub (max 1200px, JPEG 78%).\nPuò richiedere alcuni minuti. Continuare?'))return;
+
+  const btn=document.getElementById('btnopt');
+  const st2=document.getElementById('pst');
+  btn.disabled=true;st2.className='pst';
+
+  // Collect all image paths from content.json
+  const paths=new Set();
+  C.projects.forEach(p=>{
+    if(p.coverImage)paths.add(p.coverImage);
+    (p.blocks||[]).forEach(b=>{if(b.type==='image'&&b.src)paths.add(b.src);});
+  });
+  if(C.logo)paths.add(C.logo);
+
+  const list=[...paths].filter(p=>p&&/\.(jpg|jpeg|png|webp)$/i.test(p));
+  let done=0,skipped=0,errors=0;
+
+  for(const imgPath of list){
+    st2.textContent=`${done+skipped+1}/${list.length} — ${imgPath.split('/').pop()}`;
+    try{
+      // Get file from GitHub
+      const f=await ghGet(rp(imgPath));
+      const originalB64=f.content.replace(/\n/g,'');
+      const originalBytes=atob(originalB64).length;
+
+      // Skip if already small (< 150KB)
+      if(originalBytes<150000){skipped++;continue;}
+
+      // Decode to dataURL and compress
+      const mimeType=imgPath.toLowerCase().endsWith('.png')?'image/png':'image/jpeg';
+      const dataUrl=`data:${mimeType};base64,${originalB64}`;
+      const compressed=await compress(dataUrl,1200,1200,0.78);
+      const compressedBytes=atob(compressed.split(',')[1]).length;
+
+      // Only upload if actually smaller
+      if(compressedBytes>=originalBytes*0.95){skipped++;continue;}
+
+      // Upload compressed version
+      await ghPut(rp(imgPath),compressed.split(',')[1],f.sha,`Optimize ${imgPath}`);
+      done++;
+
+      // Small delay to avoid rate limiting
+      await new Promise(r=>setTimeout(r,300));
+    }catch(e){errors++;console.warn(`Skip ${imgPath}:`,e.message);}
+  }
+
+  btn.disabled=false;
+  const msg=`✓ Ottimizzate: ${done}, già ok: ${skipped}${errors?', errori: '+errors:''}`;
+  st2.className='pst ok';st2.textContent=msg;
+  toast(`${done} immagini ottimizzate!`);
+  setTimeout(()=>st2.textContent='',12000);
 });
 
 // topbar
