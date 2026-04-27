@@ -9,6 +9,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{--w:#fafaf8;--b:#0d0d0b;--g:#9e9b96;--ease:cubic-bezier(0.76,0,0.24,1);}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(--b);font-family:'Inter',sans-serif;cursor:none;}
+/* Instant background from cache */
 
 /* ── CURSOR ── */
 #cursor{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);width:7px;height:7px;background:var(--b);border-radius:50%;transition:width .18s,height .18s,background .18s;}
@@ -22,7 +23,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
   position:fixed;top:36px;left:0;right:0;
   display:flex;justify-content:center;
   z-index:100;
-  animation:fadeUp .8s var(--ease) both;
+  animation:fadeUp .5s var(--ease) both;
 }
 #logo-wrap a{cursor:none;display:block;text-decoration:none;}
 #logo-img{height:28px;width:auto;display:block;mix-blend-mode:multiply;}
@@ -94,11 +95,29 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
 </style>
 
 <script>
-// Preload first cover immediately from cache — runs before content.json fetch
+// Runs immediately — show cached state before any fetch
 (function(){
   try{
-    var c=localStorage.getItem('borneo_first_cover');
-    if(c){var l=document.createElement('link');l.rel='preload';l.as='image';l.href=c;l.setAttribute('fetchpriority','high');document.head.appendChild(l);}
+    // Apply cached background instantly — no white flash
+    var bg=localStorage.getItem('borneo_bg')||'#fafaf8';
+    document.documentElement.style.background=bg;
+    document.documentElement.style.setProperty('--w',bg);
+
+    // Preload first cover image immediately
+    var cover=localStorage.getItem('borneo_first_cover');
+    if(cover){
+      var l=document.createElement('link');
+      l.rel='preload';l.as='image';l.href=cover;
+      l.setAttribute('fetchpriority','high');
+      document.head.appendChild(l);
+    }
+
+    // Show cached logo text immediately if no image yet
+    var logoSrc=localStorage.getItem('borneo_logo');
+    if(logoSrc){
+      // Will be applied after DOM ready
+      window._cachedLogo=logoSrc;
+    }
   }catch(e){}
 })();
 </script>
@@ -126,6 +145,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--w);color:var(-
 <script>
 let P=[],SS={},cur=0,anim=false;
 const curEl=document.getElementById('cursor');
+
+// Apply cached state immediately on DOM ready
+(function(){
+  try{
+    var bg=localStorage.getItem('borneo_bg')||'#fafaf8';
+    document.getElementById('bg').style.background=bg;
+    document.body.style.background=bg;
+    if(window._cachedLogo){
+      var li=document.getElementById('logo-img');
+      if(li){li.src=window._cachedLogo;li.style.display='block';}
+    }
+  }catch(e){}
+})();
 
 document.addEventListener('mousemove',e=>{
   curEl.style.left=e.clientX+'px';
