@@ -341,7 +341,6 @@ const rawS=p=>`https://raw.githubusercontent.com/${gR()}/main/borneo/${p}`;
 // ── DEFAULTS ──────────────────────────────────────
 const DC=()=>({
   logo:'',cursor:'',
-  cursor:'',
   site:{background:{value:'#fafaf8'},titleFont:'Inter',projectPagesEnabled:true,imageStyle:{maxWidth:640,borderRadius:0,borderWidth:0,borderColor:'#0d0d0b',shadow:false}},
   pages:{
     studio:{content:'',bodyFont:'Inter',bodySize:14,bodyWeight:300,bodyColor:'#0d0d0b',bodyLineHeight:1.9,bodyAlign:'justify'},
@@ -439,7 +438,7 @@ async function restoreStaged(){
   if(ld){staged.logo={dataUrl:ld,repoFn:rp(C.logo||'images/logo.jpg')};renderLogoPreview();}
   // Cursor
   const curd=await IDB.get('cursor');
-  if(curd&&C.cursor){staged.cursor={dataUrl:curd,repoFn:rp(C.cursor)};const ct=document.getElementById('cur-th');if(ct)ct.style.backgroundImage=`url('${curd}')`;}
+  if(curd){staged.cursor={dataUrl:curd,repoFn:rp(C.cursor||'images/cursor.jpg')};const ct=document.getElementById('cur-th');if(ct)ct.style.backgroundImage=`url('${curd}')`;}
   // Per project: cover + blocks
   for(let i=0;i<C.projects.length;i++){
     const p=C.projects[i];
@@ -829,6 +828,12 @@ function populateSettings(){
   sV('s-tf',C.site?.titleFont||'Inter');
   const pp=document.getElementById('s-proj-pages');
   if(pp)pp.checked=C.site?.projectPagesEnabled!==false;
+  // Restore cursor thumbnail
+  const ct=document.getElementById('cur-th');
+  if(ct){
+    if(staged.cursor){ct.style.backgroundImage=`url('${staged.cursor.dataUrl}')`;}
+    else if(C.cursor){ct.style.backgroundImage=`url('${rawS(C.cursor)}')`;}
+  }
 }
 
 document.getElementById('s-bg-c')?.addEventListener('input',e=>{if(!C.site.background)C.site.background={};C.site.background.value=e.target.value;});
