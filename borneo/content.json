@@ -304,7 +304,9 @@
           }
         }
       ],
-      "showHero": false
+      "showHero": false,
+      "coverImage": "images/c1777298635191.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1,
@@ -377,7 +379,9 @@
           }
         }
       ],
-      "showHero": false
+      "showHero": false,
+      "coverImage": "images/c1777298661596.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776099496040,
@@ -387,7 +391,7 @@
       "location": "Tallinn - EE",
       "status": "",
       "description": "",
-      "image": "images/p1776175507380.jpg",
+      "image": "images/b1777298709451.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 500,
@@ -399,8 +403,59 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
-      "showHero": false
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777298679213,
+          "src": "images/b1777298709451.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777298711596,
+          "src": "images/b1777298718996.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777298722279,
+          "src": "images/b1777298740820.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
+      "showHero": false,
+      "coverImage": "images/c1777298676965.jpg",
+      "coverVideo": ""
     },
     {
       "id": 1776156577770,
@@ -529,7 +584,7 @@
   "pages": {
     "studio": {
       "title": ".",
-      "content": "Borneo is a collective design studio working between Berlin and Rome.\n\nThe collective operates at the intersection of theoretical speculation and hands-on practice, in pursuing a design culture rooted in experimentation, research on climate adaptation, and active engagement with communities and territories. Through participatory processes, material workshps, and interdisciplinary exchange, Borneo explores new spatial possibilities approaching each project as both a built intervention and a critical inquiry.\n\nThe studio's members are actively engaged in research and teaching. Among its ongoing initiatives, Borneo leads Simeri Laboratorio Urbano, an experimental summer school dedicated to territorial regeneration, and Botanica Urbana, a platform examining the evolving relationship between nature and the contemporary city.\n\nFollowing its selection through a public competition, the studio is currently engaged in the redevelopment of the Livorno Market Area. This project embodies the commitment to sustainable urban transformation and context-sensitive design.\n\nIn 2024, Borneo's work was presented at the Tallinn Architecture Biennale (TAB), affirming the studio's place within international architectural discourse. \n\nIn 2025, the office participated in Concentrico 10, the annual festival held in Spain exploring themes of urban regeneration and climate responsiveness.",
+      "content": "\n\n\n\n\n\n\n\n\n\n\n\n\nBorneo is a collective design studio working between Berlin and Rome.The collective operates at the intersection of theoretical speculation and hands-on practice, in pursuing a design culture rooted in experimentation, research on climate adaptation, and active engagement with communities and territories. Through participatory processes, material workshps, and interdisciplinary exchange, Borneo explores new spatial possibilities approaching each project as both a built intervention and a critical inquiry. The studio's members are actively engaged in research and teaching. Among its ongoing initiatives, Borneo leads Simeri Laboratorio Urbano, an experimental summer school dedicated to territorial regeneration, and Botanica Urbana, a platform examining the evolving relationship between nature and the contemporary city. Following its selection through a public competition, the studio is currently engaged in the redevelopment of the Livorno Market Area. This project embodies the commitment to sustainable urban transformation and context-sensitive design. In 2024, Borneo's work was presented at the Tallinn Architecture Biennale (TAB), affirming the studio's place within international architectural discourse. In 2025, the office participated in Concentrico 10, the annual festival held in Spain exploring themes of urban regeneration and climate responsiveness.",
       "background": "#fafaf8",
       "image": "",
       "titleFont": "Inter",
