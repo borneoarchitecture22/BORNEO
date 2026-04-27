@@ -81,7 +81,6 @@ nav a.icon-link img{width:20px;height:20px;object-fit:contain;mix-blend-mode:mul
 <div id="cursor"></div>
 <header>
   <a href="index.html" style="cursor:none;display:block;"><img class="logo-img" src="" alt="Borneo" id="page-logo"></a>
-  <nav id="page-nav"></nav>
 </header>
 
 <div id="proj-hero-wrap"></div>
@@ -99,7 +98,6 @@ async function load(){
 
   document.body.style.background=(D.site?.background?.value)||'#fafaf8';
   document.getElementById('page-logo').src=D.logo||'';
-  applyNav(D.nav);
 
   const p=pid?D.projects.find(x=>String(x.id)===pid):D.projects[0];
   if(!p){document.getElementById('blocks').innerHTML='<p style="padding:120px 48px;color:#9e9b96">Progetto non trovato.</p>';return;}
@@ -217,23 +215,6 @@ async function load(){
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-function applyNav(nd){
-  const nav=document.getElementById('page-nav');nav.innerHTML='';
-  if(!nd)return;
-  const nFont='Inter',nSize=(nd.size||9)+'px',nWeight=nd.weight||300;
-  const nColor=nd.color||'#0d0d0b',nLS=(nd.letterSpacing??0.18)+'em',nUpper=nd.uppercase!==false;
-  (nd.items||[]).forEach(item=>{
-    if(item.visible===false)return;
-    const a=document.createElement('a');a.href=item.href||'#';
-    if(nd.layout==='icons'&&item.icon){
-      a.className='icon-link';const img=document.createElement('img');img.src=item.icon;img.alt=item.label;a.appendChild(img);
-    } else {
-      a.textContent=item.label;
-      Object.assign(a.style,{fontFamily:`'${nFont}',sans-serif`,fontSize:nSize,fontWeight:nWeight,color:nColor,letterSpacing:nLS,textTransform:nUpper?'uppercase':'none'});
-    }
-    nav.appendChild(a);
-  });
-}
 
 load();
 </script>

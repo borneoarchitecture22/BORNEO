@@ -21,7 +21,7 @@ header a{cursor:none;display:block;text-decoration:none;}
 
 .section{margin-bottom:72px;}
 .section-label{font-size:9px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:20px;}
-.body-text{font-size:14px;font-weight:300;line-height:1.9;color:var(--b);white-space:pre-wrap;}
+.body-text{white-space:pre-wrap;}
 
 .contacts{display:flex;flex-direction:column;gap:14px;}
 .contact-row{display:flex;gap:24px;align-items:baseline;}
@@ -44,12 +44,10 @@ header a{cursor:none;display:block;text-decoration:none;}
 
 <div class="page">
   <div class="section" id="about-section" style="display:none;">
-    <div class="section-label">Studio</div>
-    <div class="body-text" id="about-text"></div>
+<div class="body-text" id="about-text"></div>
   </div>
   <div class="section" id="contacts-section" style="display:none;">
-    <div class="section-label">Contatti</div>
-    <div class="contacts" id="contacts-list"></div>
+<div class="contacts" id="contacts-list"></div>
   </div>
 </div>
 
@@ -73,21 +71,32 @@ async function load(){
     if(D.logo){li.src=D.logo;li.style.display='block';}
     else{lt.style.display='block';}
 
-    // Studio/about text
-    const studio=D.pages?.studio;
-    if(studio?.content){
-      document.getElementById('about-text').textContent=studio.content;
+    const studio=D.pages?.studio||{};
+    const ct=D.pages?.contatti||{};
+
+    // About text with typography settings
+    if(studio.content){
+      const tb=document.getElementById('about-text');
+      tb.textContent=studio.content;
+      tb.style.fontFamily=`'${studio.bodyFont||'Inter'}',sans-serif`;
+      tb.style.fontSize=(studio.bodySize||14)+'px';
+      tb.style.fontWeight=studio.bodyWeight||300;
+      tb.style.color=studio.bodyColor||'#0d0d0b';
+      tb.style.lineHeight=studio.bodyLineHeight||1.9;
+      const al=studio.bodyAlign||'justify';
+      tb.style.textAlign=al==='justify-right'?'justify':al;
+      tb.style.textAlignLast=al==='justify-right'?'right':'';
       document.getElementById('about-section').style.display='block';
+      if(studio.background)document.body.style.background=studio.background;
     }
 
     // Contacts
-    const ct=D.pages?.contatti;
-    if(ct){
+    if(ct.email||ct.phone||ct.address){
       const list=document.getElementById('contacts-list');
-      [['Email',ct.email,'mailto:'+ct.email],['Tel',ct.phone,''],['Indirizzo',ct.address,'']].forEach(([lbl,val,href])=>{
+      [['Email',ct.email,'mailto:'+(ct.email||'')],['Tel',ct.phone,''],['Indirizzo',ct.address,'']].forEach(([lbl,val,href])=>{
         if(!val)return;
         const row=document.createElement('div');row.className='contact-row';
-        const v=href?`<a href="${href}">${val}</a>`:val;
+        const v=href&&ct.email?`<a href="${href}">${val}</a>`:val;
         row.innerHTML=`<span class="contact-label">${lbl}</span><span class="contact-value">${v}</span>`;
         list.appendChild(row);
       });

@@ -175,6 +175,7 @@ function buildSlides(){
     } else if(img){
       const im=document.createElement('img');
       im.src=img;im.alt=p.title||'';im.className='slide-img';im.draggable=false;
+      im.loading=i===0?'eager':'lazy';
       slide.appendChild(im);
     } else {
       const ph=document.createElement('div');ph.className='slide-placeholder';
@@ -183,6 +184,14 @@ function buildSlides(){
     }
     stage.appendChild(slide);
   });
+  // Preload first image immediately for fast display
+  const firstImg=stage.querySelector('.slide img');
+  if(firstImg)firstImg.loading='eager';
+  // Preload second image in background
+  if(P[1]){
+    const preImg=new Image();
+    preImg.src=P[1].coverImage||P[1].image||'';
+  }
 }
 
 function navigate(dir){
