@@ -426,14 +426,8 @@ async function loadContent(){
     p.blocks=p.blocks.filter(b=>b&&b.type); // remove null/invalid blocks
     p.blocks.forEach(b=>{if(!b.bid)b.bid=Date.now()+Math.random();});
   });
-  // check draft
-  const draft=loadDraftData();
-  if(draft&&draft.c&&Array.isArray(draft.c.projects)&&draft.c.projects.length>0){
-    if(confirm(`Trovata bozza (${draft.c.projects.length} progetti). Ripristinare?`)){C=draft.c;showDS('● Bozza ripristinata');}
-    else clearDraft();
-  } else if(draft){
-    clearDraft(); // discard invalid/empty draft silently
-  }
+  // Never restore draft - always use GitHub as source of truth
+  clearDraft();
   if(!Array.isArray(C.projects))C.projects=[];
   renderSidebar();populateSettings();populateAbout();
 }
