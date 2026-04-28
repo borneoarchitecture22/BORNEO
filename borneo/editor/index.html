@@ -412,7 +412,21 @@ async function initAll(){
 }
 
 async function loadContent(){
-  try{const f=await ghGet(rp('content.json'));C=JSON.parse(atob(f.content.replace(/\n/g,'')));}catch(e){C=DC();}
+  try{
+    const f=await ghGet(rp('content.json'));
+    const raw=atob(f.content.replace(/\n/g,''));
+    C=JSON.parse(raw);
+    if(!Array.isArray(C.projects)){
+      console.error('content.json loaded but projects is not an array:', typeof C.projects);
+      C.projects=[];
+    }
+    console.log('Loaded',C.projects.length,'projects from GitHub');
+  }catch(e){
+    console.error('loadContent error:',e.message);
+    const pst=document.getElementById('pst');
+    if(pst){pst.className='pst err';pst.textContent='✗ Errore caricamento: '+e.message;}
+    C=DC();
+  }
   // ensure structure
   if(!C.site)C.site=DC().site;
   if(!C.pages)C.pages=DC().pages;
