@@ -396,13 +396,13 @@ document.getElementById('btns').addEventListener('click',async()=>{
 // ── DRAFT ─────────────────────────────────────────
 const DK='borneo_draft_v4';
 let _dt=null;
-function saveDraft(){try{localStorage.setItem(DK,JSON.stringify({c:C,t:Date.now()}));showDS('● Bozza');}catch(e){}}
+function saveDraft(){} // disabled - GitHub is source of truth
 function loadDraftData(){try{const r=localStorage.getItem(DK);if(!r)return null;const d=JSON.parse(r);if(Date.now()-d.t>7*86400000){localStorage.removeItem(DK);return null;}return d;}catch(e){return null;}}
 function clearDraft(){localStorage.removeItem(DK);showDS('');}
 function showDS(m){const e=document.getElementById('ds');if(e)e.textContent=m;}
-function sched(){clearTimeout(_dt);_dt=setTimeout(saveDraft,3000);}
-document.addEventListener('input',e=>{if(e.target.closest('#se'))sched();});
-document.addEventListener('change',e=>{if(e.target.closest('#se'))sched();});
+function sched(){} // disabled
+// autosave disabled
+// autosave disabled
 
 // ── INIT ──────────────────────────────────────────
 async function initAll(){
