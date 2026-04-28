@@ -32,6 +32,24 @@ header a{cursor:none;display:block;text-decoration:none;}
 
 @media(max-width:600px){.page{padding:100px 24px 80px;}}
 </style>
+<script>
+// Apply custom cursor from cache immediately
+(function(){
+  try{
+    var src=localStorage.getItem('borneo_cursor');
+    if(!src)return;
+    var s=document.createElement('style');s.textContent='*{cursor:none!important;}';document.head.appendChild(s);
+    var div=document.createElement('div');
+    div.style.cssText='position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);top:-100px;left:-100px;';
+    div.id='cur-custom';
+    var img=document.createElement('img');
+    img.src=src;img.style.cssText='width:32px;height:32px;object-fit:contain;display:block;';
+    div.appendChild(img);
+    document.addEventListener('DOMContentLoaded',function(){document.body.appendChild(div);});
+    document.addEventListener('mousemove',function(e){div.style.left=e.clientX+'px';div.style.top=e.clientY+'px';});
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="cursor"></div>
