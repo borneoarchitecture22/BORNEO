@@ -423,6 +423,7 @@ async function loadContent(){
   if(C.site.projectPagesEnabled===undefined)C.site.projectPagesEnabled=true;
   C.projects.forEach(p=>{
     if(!p.blocks)p.blocks=[];
+    p.blocks=p.blocks.filter(b=>b&&b.type); // remove null/invalid blocks
     p.blocks.forEach(b=>{if(!b.bid)b.bid=Date.now()+Math.random();});
   });
   // check draft
@@ -673,6 +674,7 @@ function renderBlockTxtCtrl(bi,b){
 function wireBlockImg(bi){
   const body=document.getElementById('bb-'+bi);if(!body)return;
   const p=C.projects[selIdx];
+  if(!p.blocks[bi])return;
   if(!p.blocks[bi].bid)p.blocks[bi].bid=Date.now()+bi;
   body.querySelectorAll('[data-action="pick-img"],[data-action="pick-vid"]').forEach(btn=>{
     btn.addEventListener('click',()=>{ft=null;_blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:p.blocks[bi].bid,isVideo:btn.dataset.action==='pick-vid'};const fi=document.getElementById('fi');fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';fi.value='';fi.click();});
