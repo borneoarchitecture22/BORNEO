@@ -65,8 +65,54 @@
         "positionY": 42
       },
       "blocks": [
-        null,
-        null
+        {
+          "type": "image",
+          "bid": 1777360282147,
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777360304014,
+          "src": "images/b1777360307565.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777360321068,
+          "src": "images/b1777360331294.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
       ],
       "showHero": false,
       "coverImage": "images/c1777356576538.jpg",
@@ -140,9 +186,7 @@
             "borderColor": "#0d0d0b",
             "shadow": false
           }
-        },
-        null,
-        null
+        }
       ],
       "showHero": false,
       "coverImage": "images/cover_1777280087715.jpg",
@@ -168,10 +212,7 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [
-        null,
-        null
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/cover_1777280154293.jpg",
       "coverVideo": ""
@@ -196,14 +237,7 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/c1777298635191.jpg",
       "coverVideo": ""
@@ -294,7 +328,6 @@
             "shadow": false
           }
         },
-        null,
         {
           "type": "image",
           "bid": 1777356820224,
