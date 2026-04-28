@@ -65,57 +65,11 @@
         "positionY": 42
       },
       "blocks": [
-        {
-          "type": "image",
-          "bid": 1776942552713,
-          "src": "images/b1776942569611.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1776942571080,
-          "src": "images/b1776942576557.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1776942578314,
-          "src": "images/b1776942585616.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
+        null,
+        null
       ],
       "showHero": false,
-      "coverImage": "images/cover_1776937763232.jpg",
+      "coverImage": "images/c1777356576538.jpg",
       "coverVideo": ""
     },
     {
@@ -141,12 +95,12 @@
       "blocks": [
         {
           "type": "image",
-          "bid": 1777280104517,
-          "src": "images/b1777280120786.jpg",
+          "bid": 1777306099736,
+          "src": "images/b1777306116612.jpg",
           "video": "",
           "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
+            "frameWidth": 640,
+            "frameHeight": null,
             "positionX": 50,
             "positionY": 50,
             "borderRadius": 0,
@@ -173,54 +127,6 @@
         },
         {
           "type": "image",
-          "bid": 1777305712421,
-          "src": "images/b1777306056488.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777306059153,
-          "src": "images/b1777306096902.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777306099736,
-          "src": "images/b1777306116612.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
           "bid": 1777306122419,
           "src": "images/b1777306138316.jpg",
           "video": "",
@@ -234,7 +140,9 @@
             "borderColor": "#0d0d0b",
             "shadow": false
           }
-        }
+        },
+        null,
+        null
       ],
       "showHero": false,
       "coverImage": "images/cover_1777280087715.jpg",
@@ -261,54 +169,8 @@
         "shadow": false
       },
       "blocks": [
-        {
-          "type": "image",
-          "bid": 1777280154099,
-          "src": "images/b1777280174863.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777280176066,
-          "src": "images/b1777280191745.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777280193333,
-          "src": "images/b1777280202103.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
+        null,
+        null
       ],
       "showHero": false,
       "coverImage": "images/cover_1777280154293.jpg",
@@ -322,7 +184,7 @@
       "location": "Montegrotto Terme - IT",
       "status": "Competition",
       "description": "",
-      "image": "images/b1777297791598.jpg",
+      "image": "images/b1777356599737.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 420,
@@ -334,7 +196,14 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
+      "blocks": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
       "showHero": false,
       "coverImage": "images/c1777298635191.jpg",
       "coverVideo": ""
@@ -347,7 +216,7 @@
       "location": "Livorno - IT",
       "status": "Ongoing",
       "description": "Descrizione del progetto.",
-      "image": "images/b1777297817368.jpg",
+      "image": "images/b1777356758884.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -360,7 +229,105 @@
         "positionY": 46,
         "positionX": 50
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777356743140,
+          "src": "images/b1777356758884.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356760158,
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356779240,
+          "src": "images/b1777356788966.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356806907,
+          "src": "",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        null,
+        {
+          "type": "image",
+          "bid": 1777356820224,
+          "src": "images/b1777356823333.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356830324,
+          "src": "images/b1777356846369.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/c1777298661596.jpg",
       "coverVideo": ""
@@ -373,7 +340,7 @@
       "location": "Tallinn - EE",
       "status": "",
       "description": "",
-      "image": "images/b1777298709451.jpg",
+      "image": "images/b1777356924181.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 500,
@@ -385,7 +352,120 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777356908507,
+          "src": "images/b1777356924181.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356925607,
+          "src": "images/b1777356945888.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356947357,
+          "src": "images/b1777356955598.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356955603,
+          "src": "images/b1777356976377.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356985290,
+          "src": "images/b1777357013161.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777357266789,
+          "src": "images/b1777357274306.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777356977973,
+          "src": "images/b1777356984418.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/c1777298676965.jpg",
       "coverVideo": ""
@@ -398,7 +478,7 @@
       "location": "Asti - IT",
       "status": "Competition",
       "description": "",
-      "image": "images/p1776175718148.jpg",
+      "image": "images/b1777357335183.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 800,
@@ -410,7 +490,40 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777357306939,
+          "src": "images/b1777357335183.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777357336723,
+          "src": "images/b1777357350183.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/c1777298997870.jpg",
       "coverVideo": ""
@@ -442,7 +555,7 @@
     },
     {
       "id": 1776175762617,
-      "title": "Villa 01",
+      "title": "VILLA 01",
       "type": "",
       "year": "2026",
       "location": "",
@@ -516,7 +629,7 @@
     },
     {
       "id": 1776175800699,
-      "title": "Villa 02",
+      "title": "VILLA 02",
       "type": "",
       "year": "2026",
       "location": "",
