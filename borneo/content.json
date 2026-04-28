@@ -64,56 +64,7 @@
         "frameWidth": 480,
         "positionY": 42
       },
-      "blocks": [
-        {
-          "type": "image",
-          "bid": 1777360349296,
-          "src": "images/b1777360537394.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777360538747,
-          "src": "images/b1777360548262.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        },
-        {
-          "type": "image",
-          "bid": 1777360549430,
-          "src": "images/b1777360557294.jpg",
-          "video": "",
-          "imageStyle": {
-            "frameWidth": 640,
-            "frameHeight": null,
-            "positionX": 50,
-            "positionY": 50,
-            "borderRadius": 0,
-            "borderWidth": 0,
-            "borderColor": "#0d0d0b",
-            "shadow": false
-          }
-        }
-      ],
+      "blocks": [],
       "showHero": false,
       "coverImage": "images/c1777356576538.jpg",
       "coverVideo": ""
@@ -126,7 +77,7 @@
       "location": "Logrono - Es",
       "status": "Ongoing",
       "description": "",
-      "image": "images/b1777280120786.jpg",
+      "image": "images/b1777360586266.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 480,
@@ -141,8 +92,8 @@
       "blocks": [
         {
           "type": "image",
-          "bid": 1777306099736,
-          "src": "images/b1777306116612.jpg",
+          "bid": 1777360575714,
+          "src": "images/b1777360586266.jpg",
           "video": "",
           "imageStyle": {
             "frameWidth": 640,
@@ -157,12 +108,12 @@
         },
         {
           "type": "image",
-          "bid": 1777280122266,
-          "src": "images/b1777280138514.jpg",
+          "bid": 1777360587114,
+          "src": "images/b1777360593045.jpg",
           "video": "",
           "imageStyle": {
-            "frameWidth": 1440,
-            "frameHeight": 630,
+            "frameWidth": 640,
+            "frameHeight": null,
             "positionX": 50,
             "positionY": 50,
             "borderRadius": 0,
@@ -173,8 +124,56 @@
         },
         {
           "type": "image",
-          "bid": 1777306122419,
-          "src": "images/b1777306138316.jpg",
+          "bid": 1777360594297,
+          "src": "images/b1777360654268.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777360655863,
+          "src": "images/b1777360664114.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777360665097,
+          "src": "images/b1777360675462.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777360676913,
+          "src": "",
           "video": "",
           "imageStyle": {
             "frameWidth": 640,
