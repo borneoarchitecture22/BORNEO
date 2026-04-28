@@ -428,8 +428,13 @@ async function loadContent(){
   });
   // check draft
   const draft=loadDraftData();
-  if(draft&&confirm(`Trovata bozza. Ripristinare?`)){C=draft.c;showDS('● Bozza ripristinata');}
-  else if(draft)clearDraft();
+  if(draft&&draft.c&&Array.isArray(draft.c.projects)&&draft.c.projects.length>0){
+    if(confirm(`Trovata bozza (${draft.c.projects.length} progetti). Ripristinare?`)){C=draft.c;showDS('● Bozza ripristinata');}
+    else clearDraft();
+  } else if(draft){
+    clearDraft(); // discard invalid/empty draft silently
+  }
+  if(!Array.isArray(C.projects))C.projects=[];
   renderSidebar();populateSettings();populateAbout();
 }
 
@@ -729,18 +734,20 @@ let _blDragFrom=null;
   });
   // Pick image/video buttons
   list.addEventListener('click',e=>{
+    // Only handle clicks on pick-img/pick-vid buttons inside blocks-list
     const btn=e.target.closest('[data-action="pick-img"],[data-action="pick-vid"]');
-    if(!btn)return;
+    if(!btn||!list.contains(btn))return;
     if(selIdx===null)return;
     const p=C.projects[selIdx];
     const bi=parseInt(btn.dataset.bi);
-    if(!p.blocks[bi])return;
+    if(isNaN(bi)||!p||!p.blocks||!p.blocks[bi])return;
     if(!p.blocks[bi].bid)p.blocks[bi].bid=Date.now()+bi;
     ft=null;
     _blockFileTarget={projIdx:selIdx,blockIdx:bi,bid:p.blocks[bi].bid,isVideo:btn.dataset.action==='pick-vid'};
     const fi=document.getElementById('fi');
     fi.accept=btn.dataset.action==='pick-vid'?'video/mp4,video/webm':'image/*';
     fi.value='';fi.click();
+    e.stopPropagation();
   },true); // capture phase so it fires before other click handlers
 })();
 
