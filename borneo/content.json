@@ -51,7 +51,7 @@
       "location": "Kassel - DE",
       "status": "Built",
       "description": "",
-      "image": "images/b1777360537394.jpg",
+      "image": "images/b1777372737547.jpg",
       "video": "",
       "imageStyle": {
         "borderRadius": 0,
@@ -64,7 +64,120 @@
         "frameWidth": 480,
         "positionY": 42
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777372727389,
+          "src": "images/b1777372737547.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372739422,
+          "src": "images/b1777372754883.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372756238,
+          "src": "images/b1777372761759.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372763522,
+          "src": "images/b1777372784593.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372785905,
+          "src": "images/b1777372807899.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372808470,
+          "src": "images/b1777372821890.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372822187,
+          "src": "images/b1777372838538.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/c1777356576538.jpg",
       "coverVideo": ""
