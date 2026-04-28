@@ -312,7 +312,7 @@
       "location": "Allgau - De",
       "status": "Ongoing",
       "description": "",
-      "image": "images/b1777280174863.jpg",
+      "image": "images/b1777372883033.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 400,
@@ -324,7 +324,56 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777372873288,
+          "src": "images/b1777372883033.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372884354,
+          "src": "images/b1777372891008.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372892653,
+          "src": "images/b1777372902525.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/cover_1777280154293.jpg",
       "coverVideo": ""
@@ -337,7 +386,7 @@
       "location": "Montegrotto Terme - IT",
       "status": "Competition",
       "description": "",
-      "image": "images/b1777356599737.jpg",
+      "image": "images/b1777372918774.jpg",
       "video": "",
       "imageStyle": {
         "frameWidth": 420,
@@ -349,7 +398,40 @@
         "borderColor": "#0d0d0b",
         "shadow": false
       },
-      "blocks": [],
+      "blocks": [
+        {
+          "type": "image",
+          "bid": 1777372906354,
+          "src": "images/b1777372918774.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        },
+        {
+          "type": "image",
+          "bid": 1777372917887,
+          "src": "images/b1777372930873.jpg",
+          "video": "",
+          "imageStyle": {
+            "frameWidth": 640,
+            "frameHeight": null,
+            "positionX": 50,
+            "positionY": 50,
+            "borderRadius": 0,
+            "borderWidth": 0,
+            "borderColor": "#0d0d0b",
+            "shadow": false
+          }
+        }
+      ],
       "showHero": false,
       "coverImage": "images/c1777298635191.jpg",
       "coverVideo": ""
